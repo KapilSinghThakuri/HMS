@@ -113,19 +113,10 @@
                         <a class="dropdown-item" href="profile.html">My Profile</a>
                         <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
                         <a class="dropdown-item" href="settings.html">Settings</a>
-                        <a class="dropdown-item" href="login.html">Logout</a>
+                        <a class="dropdown-item" href="{{ route('logout')}}">Logout</a>
                     </div>
                 </li>
             </ul>
-            <div class="dropdown mobile-user-menu float-right">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <a class="dropdown-item" href="profile.html">My Profile</a>
-                    <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
-                    <a class="dropdown-item" href="settings.html">Settings</a>
-                    <a class="dropdown-item" href="login.html">Logout</a>
-                </div>
-            </div>
         </div>
         <div class="sidebar" id="sidebar">
             <div class="sidebar-inner slimscroll">
