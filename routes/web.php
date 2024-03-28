@@ -18,6 +18,7 @@ Route::prefix('Healwave/admin')->group(function(){
         Route::post('/login/authenticate',[LoginController::class,'authenticateUser'])->name('login.authenticate');
 
         Route::get('register',[RegisterController::class,'index'])->name('register.index');
+        Route::get('register/store',[RegisterController::class,'countries']);
     });
 
     Route::middleware('auth')->group(function () {

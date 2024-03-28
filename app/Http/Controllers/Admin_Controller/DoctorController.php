@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin_Controller;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DoctorController extends Controller
 {
@@ -24,7 +25,10 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        return view('admin_Panel.doctor.add-doctor');
+        $countries = DB::table('countries')->get();
+        $provinces = DB::table('provinces')->get();
+        $districts = DB::table('districts')->get();
+        return view('admin_Panel.doctor.add-doctor',compact('countries','districts','provinces'));
     }
 
     /**
