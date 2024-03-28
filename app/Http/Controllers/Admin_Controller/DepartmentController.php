@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin_Controller;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\DepartmentRequest;
+use App\Models\Department;
 
 class DepartmentController extends Controller
 {
@@ -14,7 +16,8 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        return view('admin_Panel.department.departments');
+        $departments = Department::all();
+        return view('admin_Panel.department.departments',compact('departments'));
     }
 
     /**
@@ -33,9 +36,15 @@ class DepartmentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DepartmentRequest $request)
     {
-        //
+        $validated = $request->validated();
+        Department::create([
+            'department_code' => $validated['dept_code'],
+            'department_name' => $validated['dept_name'],
+            'department_desc' => $validated['dept_desc'],
+        ]);
+        return redirect()->route('department.index');
     }
 
     /**
@@ -57,7 +66,8 @@ class DepartmentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $departments = Department::where('id',$id)->first();
+        return view('admin_Panel.department.edit-department',compact('departments'));
     }
 
     /**
@@ -69,7 +79,14 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $department = Department::findOrFail($id);
+
+        $department->update([
+            'department_code' => $request->dept_code,
+            'department_name' => $request->dept_name,
+            'department_desc' => $request->dept_desc,
+            ]);
+        return redirect()->route('department.index');
     }
 
     /**
@@ -80,6 +97,8 @@ class DepartmentController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $department = Department::where('id', $id)->first();
+        $department->delete();
+        return redirect()->route('department.index');
     }
 }
