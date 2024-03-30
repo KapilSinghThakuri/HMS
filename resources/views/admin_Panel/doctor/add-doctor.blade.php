@@ -11,7 +11,8 @@
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">
 
-                    <form id="wizardForm">
+                    <form method="POST" action="{{ route('doctor.store')}}" id="wizardForm" enctype="multipart/form-data">
+                        @csrf
                         <div id="step1" class="step">
                             <div class="row">
                                 <div class="col-lg-8 offset-lg-2">
@@ -19,54 +20,73 @@
                                 </div>
                             </div>
                             <div class="row">
+                                @if ($errors->any())
+                                <div class="col-sm-12">
+                                    <div class="form-group alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li class="">{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                                @endif
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>First Name <span class="text-danger">*</span></label>
-                                        <input name="first_name" class="form-control" type="text">
+                                        <input name="first_name" id="first_name" value="{{ old('first_name')}}" class="form-control" type="text" autofocus>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Middle Name </label>
-                                        <input name="first_name" class="form-control" type="text">
+                                        <input name="middle_name" id="middle_name" value="{{ old('last_name')}}" class="form-control" type="text" autofocus>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Last Name <span class="text-danger">*</span></label>
-                                        <input name="last_name" class="form-control" type="text">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Email <span class="text-danger">*</span></label>
-                                        <input name="email" class="form-control" type="email">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Phone <span class="text-danger">*</span></label>
-                                        <input class="form-control" type="text">
+                                        <input name="last_name" id="last_name" value="{{ old('last_name')}}" class="form-control" type="text" autofocus>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Profile</label>
                                         <div class="profile-upload">
-                                            <div class="upload-img">
-                                                <img alt="" src="assets/img/user.jpg">
-                                            </div>
                                             <div class="upload-input">
-                                                <input type="file" class="form-control">
+                                                <input type="file" name="profile" value="{{ old('profile')}}" class="form-control">
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Phone <span class="text-danger">*</span></label>
+                                        <input name="phone" value="{{ old('phone')}}" class="form-control" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>Department<span class="text-danger">*</span></label>
+                                        <select class="form-control select" name="department_id">
+                                            <option disabled selected> Chose departments </option>
+                                            @foreach($departments as $department)
+                                            <option value="{{ $department->id  }}">{{ $department->department_name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <label>License Number <span class="text-danger">*</span></label>
+                                        <input name="license_no" value="{{ old('license_no')}}" type="text" class="form-control ">
                                     </div>
                                 </div>
     							<div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Date of Birth[BS] <span class="text-danger">*</span></label>
                                         <div class="cal-icon">
-                                            <input type="dob" id="nepaliDate" placeholder="Select your DOB" class="form-control datetimepicker">
+                                            <input type="dob" id="dobBS" name="dobBS" value="{{ old('dobBS')}}" placeholder="Select your DOB" class="form-control datetimepicker">
                                         </div>
                                     </div>
                                 </div>
@@ -74,7 +94,7 @@
                                     <div class="form-group">
                                         <label>Date of Birth[AD] <span class="text-danger">*</span></label>
                                         <div class="cal-icon">
-                                            <input type="date" id="englishDate" class="form-control datetimepicker">
+                                            <input type="date" readonly id="dobAD" name="dobAD" value="{{ old('dobAD')}}" class="form-control datetimepicker">
                                         </div>
                                     </div>
                                 </div>
@@ -83,12 +103,12 @@
     									<label class="gen-label">Gender <span class="text-danger">*</span></label>
     									<div class="form-check-inline">
     										<label class="form-check-label">
-    											<input type="radio" name="gender" class="form-check-input">Male
+    											<input type="radio" name="gender" class="form-check-input" value="Male" {{ old('gender') == 'male' ? 'checked' : '' }}>Male
     										</label>
     									</div>
     									<div class="form-check-inline">
     										<label class="form-check-label">
-    											<input type="radio" name="gender" class="form-check-input">Female
+    											<input type="radio" name="gender" class="form-check-input" value="Female" {{ old('gender') == 'female' ? 'checked' : '' }}>Female
     										</label>
     									</div>
     								</div>
@@ -96,10 +116,10 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Country<span class="text-danger">*</span></label>
-                                        <select class="form-control select">
+                                        <select class="form-control select" name="country">
                                             <option selected> Select your country </option>
                                             @foreach($countries as $country)
-                                            <option>{{ $country ->english_name }}</option>
+                                            <option value="{{ $country ->english_name }}" {{ $country->english_name == 'Nepal' ? 'selected' : '' }}>{{ $country ->english_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -107,10 +127,10 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>District<span class="text-danger">*</span></label>
-                                        <select class="form-control select">
+                                        <select class="form-control select" name="district">
                                             <option selected> Select your district </option>
                                             @foreach($districts as $district)
-                                            <option>{{ $district ->district_name }}</option>
+                                            <option value="{{ $district ->district_name }}" {{ old('district') == 'district_name' ? 'selected' : '' }}>{{ $district ->district_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -118,10 +138,10 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Province<span class="text-danger">*</span></label>
-                                        <select class="form-control select">
+                                        <select class="form-control select" name="province">
                                             <option selected> Select your Province </option>
                                             @foreach($provinces as $province)
-                                            <option>{{ $province -> province_name }}</option>
+                                            <option value="{{ $province -> province_name }}">{{ $province -> province_name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -129,10 +149,11 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Municipality<span class="text-danger">*</span></label>
-                                        <select class="form-control select">
-                                            <option selected> Select your Municipality </option>
-                                            <option>Nepal</option>
-                                            <option>India</option>
+                                        <select class="form-control select" name="municipality">
+                                            <option disabled selected> Select your Municipality </option>
+                                            @foreach($municipalities as $municipality)
+                                            <option value="{{ $municipality->municipality_name }}">{{ $municipality->municipality_name }}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -141,7 +162,7 @@
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label>Street</label>
-                                                <input type="text" class="form-control ">
+                                                <input name="street" type="text" value="{{ old('street')}}" class="form-control ">
                                             </div>
                                         </div>
                                     </div>
@@ -163,20 +184,20 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Institute Name <span class="text-danger">*</span></label>
-                                        <input name="institute_name" class="form-control" type="text">
+                                        <input name="institute_name" value="{{ old('institute_name')}}" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Medical Degree <span class="text-danger">*</span></label>
-                                        <input name="medical_degree" class="form-control" type="email">
+                                        <input name="medical_degree" value="{{ old('medical_degree')}}" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Graduation Year[BS] <span class="text-danger">*</span></label>
                                         <div class="cal-icon">
-                                            <input type="dob" id="grad_yearBS" placeholder="Select Your Graduation Year" name="grad_year" class="form-control datetimepicker">
+                                            <input type="dob" id="grad_yearBS" value="{{ old('grad_yearBS')}}" name="grad_yearBS" placeholder="Select Your Graduation Year" name="grad_year" class="form-control datetimepicker">
                                         </div>
                                     </div>
                                 </div>
@@ -184,14 +205,14 @@
                                     <div class="form-group">
                                         <label>Graduation Year[AD] <span class="text-danger">*</span></label>
                                         <div class="cal-icon">
-                                            <input type="date" id="grad_yearAD" name="grad_year" class="form-control datetimepicker">
+                                            <input readonly type="date" id="grad_yearAD" name="grad_yearAD" value="{{ old('grad_yearAD')}}" class="form-control datetimepicker">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Specialization <span class="text-danger">*</span></label>
-                                        <input name="specialization" type="text" class="form-control ">
+                                        <input name="specialization" value="{{ old('specialization')}}" type="text" class="form-control ">
                                     </div>
                                 </div>
                             </div>
@@ -212,37 +233,37 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Organization Name <span class="text-danger">*</span></label>
-                                        <input name="org_name" type="text" class="form-control ">
+                                        <input name="org_name" value="{{ old('org_name')}}" type="text" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Start Date[BS] <span class="text-danger">*</span></label>
-                                        <input name="start_date" type="dob" id="start_dateBS" placeholder="Select your start date" class="form-control ">
+                                        <input name="start_dateBS" type="dob" value="{{ old('start_dateBS')}}" id="start_dateBS" placeholder="Select your start date" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Start Date[AD] <span class="text-danger">*</span></label>
-                                        <input type="date" name="start_date" id="start_dateAD" class="form-control ">
+                                        <input readonly type="date" name="start_dateAD" id="start_dateAD" value="{{ old('start_dateAD')}}" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>End Date[BS] <span class="text-danger">*</span></label>
-                                        <input name="end_date" type="dob" id="end_dateBS" placeholder="Select your end date" class="form-control ">
+                                        <input name="end_dateBS" type="dob" id="end_dateBS" value="{{ old('end_dateBS')}}" placeholder="Select your end date" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>End Date[AD] <span class="text-danger">*</span></label>
-                                        <input type="date" id="end_dateBS" name="end_date" class="form-control ">
+                                        <input readonly type="date" id="end_dateAD" name="end_dateAD" value="{{ old('end_dateAD')}}" class="form-control ">
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Job Description</label>
-                                        <textarea class="form-control" rows="3" cols="30"></textarea>
+                                        <textarea name="jobDescription" class="form-control" rows="3" cols="30">{{ old('jobDescription')}}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -263,7 +284,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Email <span class="text-danger">*</span></label>
-                                        <input name="email" class="form-control" type="email">
+                                        <input name="email" class="form-control" value="{{ old('email')}}" type="email">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -275,14 +296,14 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Confirm Password <span class="text-danger">*</span></label>
-                                        <input name="re-password" class="form-control" type="password">
+                                        <input name="password_confirmation" class="form-control" type="password">
                                     </div>
                                 </div>
                             </div>
 
                             <div class="m-t-20 text-center">
                                 <button type="button" class="btn btn-secondary prevBtn">Previous</button>
-                                <button type="submit" class="btn btn-primary">Submit</button>
+                                <button type="submit" class="btn btn-primary">Create Doctor</button>
                                 <!-- <button class="btn btn-primary submit-btn">Create Doctor</button> -->
                             </div>
                         </div>
@@ -296,12 +317,84 @@
     $(document).ready(function () {
         var currentStep = 1;
 
+        // function checkFields() {
+        //     var $currentStep = $("#step" + currentStep);
+        //     var currentPageInput = $currentStep.find('input');
+        //     var isAnyFieldFilled = false;
+
+        //     currentPageInput.each(function() {
+        //         var inputValue = $(this).val();
+        //         console.log(inputValue);
+        //         if (inputValue.trim() != '') {
+        //             isAnyFieldFilled = true;
+        //             return false;
+        //         }
+        //     });
+
+        //     if (isAnyFieldFilled) {
+        //         $('.nextBtn').prop("disabled", false);
+        //     }
+        //     else {
+        //         $('.nextBtn').prop("disabled", true);
+        //     }
+        // }
+
+        // checkFields();
+
+        // $(".nextBtn").click(function () {
+        //     checkFields();
+        //     var $currentStep = $("#step" + currentStep);
+
+        //     $currentStep.hide();
+        //     $("#step" + (currentStep + 1)).show();
+        //     currentStep++;
+        // });
+
+        // $('.nextBtn').click(function() {
+        //     var $currentStep = $("#step" + currentStep);
+        //     var currentPageInput = $currentStep.find('input, select');
+
+        //     // Validation logic goes here if needed
+
+        //     // Proceed to the next step
+        //     $currentStep.hide();
+        //     $("#step" + (currentStep + 1)).show();
+        //     currentStep++;
+
+        //     checkFields(); // Check fields on next step
+        // });
+
+        // var $currentStep = $("#step" + currentStep);
+        // var currentPageInput = $currentStep.find('input');
+        //     var isAnyFieldFilled = false;
+
+        //     currentPageInput.each(function() {
+        //         var inputValue = $(this).val();
+        //         console.log(inputValue);
+        //         if (inputValue.trim() !=== '') {
+        //             isAnyFieldFilled = true;
+        //             return false;
+        //         }
+        //     });
+
+        //     if (isAnyFieldFilled) {
+        //         $(".nextBtn").click(function () {
+
+        //             $currentStep.hide();
+        //             $("#step" + (currentStep + 1)).show();
+        //             currentStep++;
+        //         });
+
+        //         $('.nextBtn').prop("disabled", false);
+        //     }
+        //     else {
+        //         $('.nextBtn').prop("disabled", true);
+        //         console.log('all fields are required!!!');
+        //     }
+
         $(".nextBtn").click(function () {
             var $currentStep = $("#step" + currentStep);
-            if ($currentStep.find("input:invalid").length > 0) {
-                // If there are invalid fields, do not proceed to the next step
-                return;
-            }
+
             $currentStep.hide();
             $("#step" + (currentStep + 1)).show();
             currentStep++;
@@ -314,23 +407,52 @@
             currentStep--;
         });
 
-        $("#wizardForm").submit(function (e) {
-            e.preventDefault();
-        });
+        // If there are invalid fields, do not proceed to the next step
+            // if ($currentStep.find("input:invalid").length > 0) {
+            //     $currentStep.find("input:invalid").each(function () {
+            //         $(this).addClass("is-invalid");
+            //         $(this).next('.invalid-feedback').text($(this).prop('validationMessage'));
+            //     });
+            //     return;
+            // }
+        // $("#wizardForm").submit(function (e) {
+        //     e.preventDefault();
+        //  });
+
 
         // Nepali Date
-        $('#nepaliDate').nepaliDatePicker();
-        $('#grad_year').nepaliDatePicker();
-        $('#start_date').nepaliDatePicker();
-        $('#end_date').nepaliDatePicker();
-
-        $('#nepaliDate').change(function () {
-        var nepaliDate = $(this).val();
-        var englishDate = NepaliFunctions.BS2AD(nepaliDate);
-        console.log(englishDate);
-        $('#englishDate').val(englishDate);
-    });
-
+        $('#dobBS').nepaliDatePicker({
+            onChange: function() {
+                var nepaliDate = $('#dobBS').val();
+                console.log(nepaliDate);
+                var englishDate = NepaliFunctions.BS2AD(nepaliDate);
+                $('#dobAD').val(englishDate);
+            }
+        });
+        $('#grad_yearBS').nepaliDatePicker({
+            onChange: function() {
+                var nepaliDate = $('#grad_yearBS').val();
+                console.log(nepaliDate);
+                var englishDate = NepaliFunctions.BS2AD(nepaliDate);
+                $('#grad_yearAD').val(englishDate);
+            }
+        });
+        $('#start_dateBS').nepaliDatePicker({
+            onChange: function() {
+                var nepaliDate = $('#start_dateBS').val();
+                console.log(nepaliDate);
+                var englishDate = NepaliFunctions.BS2AD(nepaliDate);
+                $('#start_dateAD').val(englishDate);
+            }
+        });
+        $('#end_dateBS').nepaliDatePicker({
+            onChange: function() {
+                var nepaliDate = $('#end_dateBS').val();
+                console.log(nepaliDate);
+                var englishDate = NepaliFunctions.BS2AD(nepaliDate);
+                $('#end_dateAD').val(englishDate);
+            }
+        });
     });
 </script>
 @endsection

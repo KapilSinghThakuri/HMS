@@ -24,7 +24,6 @@ class CreateDoctorsTable extends Migration
             $table->date('date_of_birth_BS');
             $table->date('date_of_birth_AD');
             $table->string('email')->unique();
-            $table->string('address');
             $table->integer('phone');
             $table->timestamps();
         });

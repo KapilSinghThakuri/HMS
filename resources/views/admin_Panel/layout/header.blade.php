@@ -18,6 +18,8 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- Nepali Date Picker -->
     <link href="https://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/css/nepali.datepicker.v4.0.1.min.css" rel="stylesheet" type="text/css"/>
+    <!-- Current Page Validation -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin_Assets/js/currentPageValidation.js')}}">
 </head>
 
 <body>

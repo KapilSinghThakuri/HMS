@@ -1,13 +1,13 @@
 @extends('admin_Panel.layout.main')
 @section('Main-container')
-
-    <div class="page-wrapper">
+        <div class="page-wrapper">
         <div class="content">
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">
                     <h4 class="page-title">Edit Doctor</h4>
                 </div>
             </div>
+            @dd($doctor_basic);
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">
                     <form>
