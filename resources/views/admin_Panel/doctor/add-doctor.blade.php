@@ -3,11 +3,6 @@
 
     <div class="page-wrapper">
         <div class="content">
-            <!-- <div class="row">
-                <div class="col-lg-8 offset-lg-2">
-                    <h4 class="page-title">Add Doctor</h4>
-                </div>
-            </div> -->
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">
 
@@ -116,8 +111,8 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Country<span class="text-danger">*</span></label>
-                                        <select class="form-control select" name="country">
-                                            <option selected> Select your country </option>
+                                        <select id="country" class="form-control select" name="country">
+                                            <option disabled selected> Select your country </option>
                                             @foreach($countries as $country)
                                             <option value="{{ $country ->english_name }}" {{ $country->english_name == 'Nepal' ? 'selected' : '' }}>{{ $country ->english_name }}</option>
                                             @endforeach
@@ -126,34 +121,28 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>District<span class="text-danger">*</span></label>
-                                        <select class="form-control select" name="district">
-                                            <option selected> Select your district </option>
-                                            @foreach($districts as $district)
-                                            <option value="{{ $district ->district_name }}" {{ old('district') == 'district_name' ? 'selected' : '' }}>{{ $district ->district_name }}</option>
+                                        <label>Province<span class="text-danger">*</span></label>
+                                        <select id="province" class="form-control select" name="province">
+                                            <option disabled selected> Select your Province </option>
+                                            @foreach($provinces as $province)
+                                            <option value="{{ $province->id }}">{{ $province->province_name_nep }}</option>
                                             @endforeach
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Province<span class="text-danger">*</span></label>
-                                        <select class="form-control select" name="province">
-                                            <option selected> Select your Province </option>
-                                            @foreach($provinces as $province)
-                                            <option value="{{ $province -> province_name }}">{{ $province -> province_name }}</option>
-                                            @endforeach
+                                        <label>District<span class="text-danger">*</span></label>
+                                        <select id="district" class="form-control select" name="district">
+                                            <option selected disabled> Select your district </option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Municipality<span class="text-danger">*</span></label>
-                                        <select class="form-control select" name="municipality">
+                                        <select id="municipality" class="form-control select" name="municipality">
                                             <option disabled selected> Select your Municipality </option>
-                                            @foreach($municipalities as $municipality)
-                                            <option value="{{ $municipality->municipality_name }}">{{ $municipality->municipality_name }}</option>
-                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -315,6 +304,61 @@
 </div>
 <script type="text/javascript">
     $(document).ready(function () {
+
+        $('#province').change(function () {
+            var provinceId = $(this).val();
+            console.log(provinceId);
+            if (provinceId) {
+                $.ajax({
+                    url: '/Healwave/admin/doctor/create/district/' + provinceId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function (response) {
+                        // console.log(response);
+                        var districtSelect = $('#district');
+                        districtSelect.empty().append('<option selected> Select your district </option>');
+
+                        response.forEach(function(district) {
+                            // console.log(district);
+                            districtSelect.append('<option value="' + district.district_code + '">' + district['district_name[nep]'] + '</option>');
+                        });
+                    },
+                    error: function(){
+                        alert('Error Fetching District !!!');
+                    }
+                });
+            }else {
+                $('#district').empty().append('<option value="">Select Your District</option>');
+            }
+        });
+
+        $('#district').change(function() {
+            var districtId = $(this).val();
+            console.log(districtId);
+            if(districtId){
+                $.ajax({
+                    url: '/Healwave/admin/doctor/create/municipality/' + districtId,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(response){
+                        // console.log(response);
+                        var municipalitySelect = $('#municipality');
+                        municipalitySelect.empty().append('<option selected> Select your municipality </option>');
+                        response.forEach(function (municipality) {
+                            // console.log(municipality);
+                            municipalitySelect.append('<option value="' + municipality.municipality_code + '">' + municipality['municipality_name[nep]'] + '</option>');
+                        });
+                    },
+                    error: function(){
+                        alert('Error Fetching Municipality !!!');
+                    }
+                });
+            }else {
+                $('#municipality').empty().append('<option value="">Select Your Municipality</option>');
+            }
+        });
+
+    // Add Doctor Form Wizards
         var currentStep = 1;
 
         // function checkFields() {
@@ -406,19 +450,6 @@
             $("#step" + (currentStep - 1)).show();
             currentStep--;
         });
-
-        // If there are invalid fields, do not proceed to the next step
-            // if ($currentStep.find("input:invalid").length > 0) {
-            //     $currentStep.find("input:invalid").each(function () {
-            //         $(this).addClass("is-invalid");
-            //         $(this).next('.invalid-feedback').text($(this).prop('validationMessage'));
-            //     });
-            //     return;
-            // }
-        // $("#wizardForm").submit(function (e) {
-        //     e.preventDefault();
-        //  });
-
 
         // Nepali Date
         $('#dobBS').nepaliDatePicker({

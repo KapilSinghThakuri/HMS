@@ -44,7 +44,7 @@ class DepartmentController extends Controller
             'department_name' => $validated['dept_name'],
             'department_desc' => $validated['dept_desc'],
         ]);
-        return redirect()->route('department.index');
+        return redirect()->route('department.index')->with('success_message', 'Department added successfully!!!');
     }
 
     /**
@@ -86,7 +86,7 @@ class DepartmentController extends Controller
             'department_name' => $request->dept_name,
             'department_desc' => $request->dept_desc,
             ]);
-        return redirect()->route('department.index');
+        return redirect()->route('department.index')->with('success_message', 'Department updated successfully!!!');
     }
 
     /**
@@ -99,6 +99,6 @@ class DepartmentController extends Controller
     {
         $department = Department::where('id', $id)->first();
         $department->delete();
-        return redirect()->route('department.index');
+        return redirect()->route('department.index')->with('success_message', 'Department deleted successfully!!!');
     }
 }

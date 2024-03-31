@@ -3,13 +3,13 @@
     <div class="main-wrapper account-wrapper">
         <div class="account-page">
 			<div class="account-center">
-                @if ($errors->has('email'))
+                <!-- @if ($errors->has('email'))
                 <div class="d-flex justify-content-center">
                     <div class="account-center alert alert-danger">
                         {{ $errors->first('email') }}
                     </div>
                 </div>
-                @endif
+                @endif -->
 				<div class="account-box">
                     <form action="{{ route('login.authenticate')}}" method="POST" class="form-signin">
                         @csrf
@@ -19,10 +19,12 @@
                         <div class="form-group">
                             <label>Username or Email</label>
                             <input type="text" name="email" autofocus="" class="form-control">
+                            @error('email')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                         <div class="form-group">
                             <label>Password</label>
                             <input type="password" name="password" class="form-control">
+                            @error('password')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                         <div class="form-group text-right">
                             <a href="#">Forgot your password?</a>

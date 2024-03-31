@@ -11,13 +11,19 @@
                     <a href="{{ route('department.create') }}" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Add Department</a>
                 </div>
             </div>
+            @if(session('success_message'))
+                <div class="alert alert-success">{{ session('success_message')}}</div>
+            @endif
+            @if(session('fail_message'))
+                <div class="alert alert-success">{{ session('fail_message')}}</div>
+            @endif
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
                         <table class="table table-striped custom-table mb-0 datatable">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>S no.</th>
                                     <th>Department Name</th>
                                     <th>Department Code</th>
                                     <th class="text-right">Action</th>

@@ -11,9 +11,15 @@
                     <a href="{{ route('doctor.create')}}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Doctor</a>
                 </div>
             </div>
+            @if(session('success_message'))
+                <div class="alert alert-success">{{ session('success_message')}}</div>
+            @endif
+            @if(session('fail_message'))
+                <div class="alert alert-success">{{ session('fail_message')}}</div>
+            @endif
 			<div class="row doctor-grid">
+                @foreach( $doctors as $doctor)
                 <div class="col-md-4 col-sm-4  col-lg-3">
-                    @foreach( $doctors as $doctor)
                     <div class="profile-widget">
                         <div class="doctor-img">
                             <a class="avatar" href="{{ route('doctor.show', ['doctor' => $doctor->id]) }}"><img alt="" src="{{ asset($doctor->profile) }}"></a>
@@ -25,14 +31,27 @@
                                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_doctor"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
                             </div>
                         </div>
-                        <h4 class="doctor-name text-ellipsis"><a href="profile.html">{{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}</a></h4>
-                        <div class="doc-prof">{{ $specialization}}</div>
-                        <div class="user-country">
-                            <i class="fa fa-map-marker"></i> United States, San Francisco
-                        </div>
+                        <h4 class="doctor-name text-ellipsis">
+                            <a href="{{ route('doctor.show', ['doctor' => $doctor->id]) }}">
+                                {{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}
+                            </a>
+                        </h4>
+                        @foreach($educations as $education)
+                            @if($education ->doctor_id == $doctor->id )
+                                <div class="doc-prof">{{ $education -> specialization }}</div>
+                            @endif
+                        @endforeach
+
+                        @foreach($addresses as $address)
+                            @if($address->doctor_id == $doctor->id)
+                            <div class="user-country">
+                                <i class="fa fa-map-marker"></i> {{ $address->municipality}}, {{ $address->district }} {{ $address->country}}
+                            </div>
+                            @endif
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
+                @endforeach
             </div>
 			<div class="row">
                 <div class="col-sm-12">
@@ -50,7 +69,11 @@
 					<img src="assets/img/sent.png" alt="" width="50" height="46">
 					<h3>Are you sure want to delete this Doctor?</h3>
 					<div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
-						<button type="submit" class="btn btn-danger">Delete</button>
+                        <form action="{{ route('doctor.destroy', ['doctor' => $doctor->id]) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger mt-2">Delete</button>
+                        </form>
 					</div>
 				</div>
 			</div>

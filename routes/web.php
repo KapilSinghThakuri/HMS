@@ -32,6 +32,8 @@ Route::prefix('Healwave/admin')->group(function(){
                 'doctor' => DoctorController::class,
                 'department' => DepartmentController::class,
             ]);
+        Route::get('doctor/create/district/{provinceId}',[DoctorController::class,'getDistrictByProvince'])->name('province');
+        Route::get('doctor/create/municipality/{districtId}',[DoctorController::class,'getMunicipalityByDistrict'])->name('district');
 
         Route::view('patient','admin_Panel.patient.patients')->name('patient.index');
         Route::view('patient/create','admin_Panel.patient.add-patient')->name('patient.create');

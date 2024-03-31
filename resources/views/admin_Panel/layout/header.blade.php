@@ -33,7 +33,7 @@
             <a id="toggle_btn" href="javascript:void(0);"><i class="fa fa-bars"></i></a>
             <a id="mobile_btn" class="mobile_btn float-left" href="#sidebar"><i class="fa fa-bars"></i></a>
             <ul class="nav user-menu float-right">
-                <li class="nav-item dropdown d-none d-sm-block">
+                <!-- <li class="nav-item dropdown d-none d-sm-block">
                     <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right">3</span></a>
                     <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
@@ -104,11 +104,11 @@
                             <a href="activities.html">View all Notifications</a>
                         </div>
                     </div>
-                </li>
-                <li class="nav-item dropdown d-none d-sm-block">
+                </li> -->
+                <!-- <li class="nav-item dropdown d-none d-sm-block">
                     <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right">8</span></a>
                 </li>
-                <li class="nav-item dropdown has-arrow">
+ -->                <li class="nav-item dropdown has-arrow">
                     <a href="#" class="dropdown-toggle nav-link user-link" data-toggle="dropdown">
                         <span class="user-img">
                             <img class="rounded-circle" src="{{ asset('admin_Assets/img/user.jpg') }}" width="24" alt="Admin">
@@ -133,7 +133,7 @@
                         <li class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" >
                             <a href="{{ route('admin.dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
-                        <li class="{{ request()->routeIs('doctor.index') ||  request()->routeIs('doctor.create') ? 'active' : '' }}">
+                        <li class="{{ request()->routeIs('doctor.index') ||  request()->routeIs('doctor.create') || request()->routeIs('doctor.edit') || request()->routeIs('doctor.show') ? 'active' : '' }}">
                             <a href="{{ route('doctor.index') }}"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
                         </li>
                         <li class=" {{ request()->routeIs('patient.index') || request()->routeIs('patient.create') || request()->routeIs('patient.edit') ? 'active' : '' }} ">

@@ -11,4 +11,9 @@ class Doctor extends Model
 
     protected $table = 'doctors';
     protected $guarded = [];
+
+    public function departments()
+    {
+        return $this->belongsTo(Department::class,'department_id','id');
+    }
 }
