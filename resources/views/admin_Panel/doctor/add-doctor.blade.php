@@ -5,7 +5,6 @@
         <div class="content">
             <div class="row">
                 <div class="col-lg-8 offset-lg-2">
-
                     <form method="POST" action="{{ route('doctor.store')}}" id="wizardForm" enctype="multipart/form-data">
                         @csrf
                         <div id="step1" class="step">
@@ -15,7 +14,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                @if ($errors->any())
+                                <!-- @if ($errors->any())
                                 <div class="col-sm-12">
                                     <div class="form-group alert alert-danger">
                                         <ul>
@@ -25,23 +24,31 @@
                                         </ul>
                                     </div>
                                 </div>
-                                @endif
+                                @endif -->
+                            <!-- Form field validations -->
+                                <div class="col-sm-12">
+                                    <div id="inputErrors" class="form-group"></div>
+                                </div>
+
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>First Name <span class="text-danger">*</span></label>
-                                        <input name="first_name" id="first_name" value="{{ old('first_name')}}" class="form-control" type="text" autofocus>
+                                        <input name="first_name" id="first_name" value="{{ old('first_name')}}" class="form-control" type="text" autofocus required>
+                                        @error('first_name')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Middle Name </label>
                                         <input name="middle_name" id="middle_name" value="{{ old('last_name')}}" class="form-control" type="text" autofocus>
+                                        @error('middle_name')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Last Name <span class="text-danger">*</span></label>
                                         <input name="last_name" id="last_name" value="{{ old('last_name')}}" class="form-control" type="text" autofocus>
+                                        @error('last_name')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -49,7 +56,8 @@
                                         <label>Profile</label>
                                         <div class="profile-upload">
                                             <div class="upload-input">
-                                                <input type="file" name="profile" value="{{ old('profile')}}" class="form-control">
+                                                <input type="file" id="profile" name="profile" value="{{ old('profile')}}" class="form-control">
+                                                @error('profile')<span class="text-danger">{{ $message }}</span>@enderror
                                             </div>
                                         </div>
                                     </div>
@@ -57,24 +65,27 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Phone <span class="text-danger">*</span></label>
-                                        <input name="phone" value="{{ old('phone')}}" class="form-control" type="text">
+                                        <input id="phone" name="phone" value="{{ old('phone')}}" class="form-control" type="text">
+                                        @error('phone')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Department<span class="text-danger">*</span></label>
-                                        <select class="form-control select" name="department_id">
+                                        <select class="form-control select" name="department_id" id="department_id">
                                             <option disabled selected> Chose departments </option>
                                             @foreach($departments as $department)
                                             <option value="{{ $department->id  }}">{{ $department->department_name }}</option>
                                             @endforeach
                                         </select>
+                                        @error('department_id')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>License Number <span class="text-danger">*</span></label>
-                                        <input name="license_no" value="{{ old('license_no')}}" type="text" class="form-control ">
+                                        <input id="license_no" name="license_no" value="{{ old('license_no')}}" type="text" class="form-control ">
+                                        @error('license_no')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
     							<div class="col-sm-6">
@@ -82,6 +93,7 @@
                                         <label>Date of Birth[BS] <span class="text-danger">*</span></label>
                                         <div class="cal-icon">
                                             <input type="dob" id="dobBS" name="dobBS" value="{{ old('dobBS')}}" placeholder="Select your DOB" class="form-control datetimepicker">
+                                            @error('dobBS')<span class="text-danger">{{ $message }}</span>@enderror
                                         </div>
                                     </div>
                                 </div>
@@ -90,6 +102,7 @@
                                         <label>Date of Birth[AD] <span class="text-danger">*</span></label>
                                         <div class="cal-icon">
                                             <input type="date" readonly id="dobAD" name="dobAD" value="{{ old('dobAD')}}" class="form-control datetimepicker">
+                                            @error('dobAD')<span class="text-danger">{{ $message }}</span>@enderror
                                         </div>
                                     </div>
                                 </div>
@@ -98,12 +111,14 @@
     									<label class="gen-label">Gender <span class="text-danger">*</span></label>
     									<div class="form-check-inline">
     										<label class="form-check-label">
-    											<input type="radio" name="gender" class="form-check-input" value="Male" {{ old('gender') == 'male' ? 'checked' : '' }}>Male
+    											<input id="male" type="radio" name="gender" class="form-check-input" value="Male" {{ old('gender') == 'male' ? 'checked' : '' }}>Male
+                                                @error('male')<span class="text-danger">{{ $message }}</span>@enderror
     										</label>
     									</div>
     									<div class="form-check-inline">
     										<label class="form-check-label">
-    											<input type="radio" name="gender" class="form-check-input" value="Female" {{ old('gender') == 'female' ? 'checked' : '' }}>Female
+    											<input id="female" type="radio" name="gender" class="form-check-input" value="Female" {{ old('gender') == 'female' ? 'checked' : '' }}>Female
+                                                @error('female')<span class="text-danger">{{ $message }}</span>@enderror
     										</label>
     									</div>
     								</div>
@@ -115,8 +130,10 @@
                                             <option disabled selected> Select your country </option>
                                             @foreach($countries as $country)
                                             <option value="{{ $country ->english_name }}" {{ $country->english_name == 'Nepal' ? 'selected' : '' }}>{{ $country ->english_name }}</option>
+
                                             @endforeach
                                         </select>
+                                        @error('country')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -128,6 +145,8 @@
                                             <option value="{{ $province->id }}">{{ $province->province_name_nep }}</option>
                                             @endforeach
                                         </select>
+                                        @error('province')<span class="text-danger">{{ $message }}</span>@enderror
+
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -136,6 +155,7 @@
                                         <select id="district" class="form-control select" name="district">
                                             <option selected disabled> Select your district </option>
                                         </select>
+                                        @error('district')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -144,6 +164,7 @@
                                         <select id="municipality" class="form-control select" name="municipality">
                                             <option disabled selected> Select your Municipality </option>
                                         </select>
+                                        @error('municipality')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -151,18 +172,19 @@
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label>Street</label>
-                                                <input name="street" type="text" value="{{ old('street')}}" class="form-control ">
+                                                <input name="street" id="street" type="text" value="{{ old('street')}}" class="form-control ">
+                                                @error('street')<span class="text-danger">{{ $message }}</span>@enderror
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="m-t-20 text-center">
-                                <button type="button" class="btn btn-primary nextBtn">Next</button>
+                                <button type="button" class="btn btn-primary nextBtn1">Next</button>
                             </div>
                         </div>
 
-                    <!-- Educational Details -->
+                        <!-- Educational Details -->
                         <div id="step2" class="step" style="display:none;">
                             <div class="row">
                                 <div class="col-lg-8 offset-lg-2">
@@ -170,16 +192,23 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <!-- Form field validations -->
+                                <div class="col-sm-12">
+                                    <div id="inputErrors2" class="form-group"></div>
+                                </div>
+
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Institute Name <span class="text-danger">*</span></label>
-                                        <input name="institute_name" value="{{ old('institute_name')}}" class="form-control" type="text">
+                                        <input id="institute_name" name="institute_name" value="{{ old('institute_name')}}" class="form-control" type="text">
+                                        @error('institute_name')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Medical Degree <span class="text-danger">*</span></label>
-                                        <input name="medical_degree" value="{{ old('medical_degree')}}" class="form-control" type="text">
+                                        <input id="medical_degree" name="medical_degree" value="{{ old('medical_degree')}}" class="form-control" type="text">
+                                        @error('medical_degree')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
@@ -187,6 +216,7 @@
                                         <label>Graduation Year[BS] <span class="text-danger">*</span></label>
                                         <div class="cal-icon">
                                             <input type="dob" id="grad_yearBS" value="{{ old('grad_yearBS')}}" name="grad_yearBS" placeholder="Select Your Graduation Year" name="grad_year" class="form-control datetimepicker">
+                                            @error('grad_yearBS')<span class="text-danger">{{ $message }}</span>@enderror
                                         </div>
                                     </div>
                                 </div>
@@ -195,19 +225,21 @@
                                         <label>Graduation Year[AD] <span class="text-danger">*</span></label>
                                         <div class="cal-icon">
                                             <input readonly type="date" id="grad_yearAD" name="grad_yearAD" value="{{ old('grad_yearAD')}}" class="form-control datetimepicker">
+                                            @error('grad_yearAD')<span class="text-danger">{{ $message }}</span>@enderror
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Specialization <span class="text-danger">*</span></label>
-                                        <input name="specialization" value="{{ old('specialization')}}" type="text" class="form-control ">
+                                        <input id="specialization" name="specialization" value="{{ old('specialization')}}" type="text" class="form-control ">
+                                        @error('specialization')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="m-t-20 text-center">
                                 <button type="button" class="btn btn-secondary prevBtn">Previous</button>
-                                <button type="button" class="btn btn-primary nextBtn">Next</button>
+                                <button type="button" class="btn btn-primary nextBtn2">Next</button>
                             </div>
                         </div>
 
@@ -219,50 +251,61 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <!-- Form field validations -->
+                                <div class="col-sm-12">
+                                    <div id="inputErrors3" class="form-group"></div>
+                                </div>
+
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Organization Name <span class="text-danger">*</span></label>
-                                        <input name="org_name" value="{{ old('org_name')}}" type="text" class="form-control ">
+                                        <input id="org_name" name="org_name" value="{{ old('org_name')}}" type="text" class="form-control ">
+                                        @error('org_name')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Start Date[BS] <span class="text-danger">*</span></label>
                                         <input name="start_dateBS" type="dob" value="{{ old('start_dateBS')}}" id="start_dateBS" placeholder="Select your start date" class="form-control ">
+                                        @error('start_dateBS')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Start Date[AD] <span class="text-danger">*</span></label>
                                         <input readonly type="date" name="start_dateAD" id="start_dateAD" value="{{ old('start_dateAD')}}" class="form-control ">
+                                        @error('start_dateAD')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>End Date[BS] <span class="text-danger">*</span></label>
                                         <input name="end_dateBS" type="dob" id="end_dateBS" value="{{ old('end_dateBS')}}" placeholder="Select your end date" class="form-control ">
+                                        @error('end_dateBS')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>End Date[AD] <span class="text-danger">*</span></label>
                                         <input readonly type="date" id="end_dateAD" name="end_dateAD" value="{{ old('end_dateAD')}}" class="form-control ">
+                                        @error('end_dateAD')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Job Description</label>
-                                        <textarea name="jobDescription" class="form-control" rows="3" cols="30">{{ old('jobDescription')}}</textarea>
+                                        <textarea id="jobDescription" name="jobDescription" class="form-control" rows="3" cols="30">{{ old('jobDescription')}}</textarea>
+                                        @error('jobDescription')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                             </div>
                             <div class="m-t-20 text-center">
                                 <button type="button" class="btn btn-secondary prevBtn">Previous</button>
-                                <button type="button" class="btn btn-primary nextBtn">Next</button>
+                                <button type="button" class="btn btn-primary nextBtn3">Next</button>
                             </div>
                         </div>
 
-                    <!-- User & password details -->
+                        <!-- User & password details -->
                         <div id="step4" class="step" style="display:none;">
                             <div class="row">
                                 <div class="col-lg-8 offset-lg-2">
@@ -270,29 +313,37 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <!-- Form field validations -->
+                                <div class="col-sm-12">
+                                    <div id="inputErrors4" class="form-group"></div>
+                                </div>
+
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Email <span class="text-danger">*</span></label>
-                                        <input name="email" class="form-control" value="{{ old('email')}}" type="email">
+                                        <input id="email" name="email" class="form-control" value="{{ old('email')}}" type="email">
+                                        @error('email')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Password <span class="text-danger">*</span></label>
-                                        <input name="password" class="form-control" type="password">
+                                        <input id="password" name="password" class="form-control" type="password">
+                                        @error('password')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Confirm Password <span class="text-danger">*</span></label>
-                                        <input name="password_confirmation" class="form-control" type="password">
+                                        <input id="password_confirmation" name="password_confirmation" class="form-control" type="password">
+                                        @error('password_confirmation')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
                             </div>
 
                             <div class="m-t-20 text-center">
                                 <button type="button" class="btn btn-secondary prevBtn">Previous</button>
-                                <button type="submit" class="btn btn-primary">Create Doctor</button>
+                                <button type="submit" class="createDoctor btn btn-primary">Create Doctor</button>
                                 <!-- <button class="btn btn-primary submit-btn">Create Doctor</button> -->
                             </div>
                         </div>
@@ -358,90 +409,230 @@
             }
         });
 
-    // Add Doctor Form Wizards
+
+        function checkEmptyFieldStep1() {
+            var emptyFieldErrors = [];
+
+            if ($('#first_name').val().trim() === '') {
+                emptyFieldErrors.push('First Name is required');
+            }
+            if ($('#last_name').val().trim() === '') {
+                emptyFieldErrors.push('Last Name is required');
+            }
+            if ($('#profile').val().trim() === '') {
+                emptyFieldErrors.push('Profile is required');
+            }
+            if ($('#phone').val().trim() === '') {
+                emptyFieldErrors.push('Phone is required');
+            }
+            var departmentIdValue = $('#department_id').val();
+                if (departmentIdValue !== null && departmentIdValue.toString().trim() === '') {
+                    emptyFieldErrors.push('Department is required');
+                }
+            if ($('#license_no').val().trim() === '') {
+                emptyFieldErrors.push('License Number is required');
+            }
+            if ($('#dobBS').val().trim() === '') {
+                emptyFieldErrors.push('Date of Birth[BS] is required');
+            }
+            if ($('#dobAD').val().trim() === '') {
+                emptyFieldErrors.push('Date of Birth[AD] is required');
+            }
+            if (!$('#male').is(':checked') && !$('#female').is(':checked')) {
+                emptyFieldErrors.push('Gender is required');
+            }
+            if ($('#country').val().trim() === '') {
+                emptyFieldErrors.push('Country is required');
+            }
+            var provinceValue = $('#province').val();
+            if (provinceValue !== null && provinceValue.toString().trim() === '') {
+                emptyFieldErrors.push('Province is required');
+            }
+            var districtValue = $('#district').val();
+            if (districtValue !== null && districtValue.toString().trim() === '') {
+                emptyFieldErrors.push('District is required');
+            }
+            var municipalityValue = $('#municipality').val();
+            if (municipalityValue !== null && municipalityValue.toString().trim() === '') {
+                emptyFieldErrors.push('Municipality is required');
+            }
+            if ($('#street').val().trim() === '') {
+                emptyFieldErrors.push('Street is required');
+            }
+
+            console.log(emptyFieldErrors);
+
+            if (emptyFieldErrors.length > 0) {
+                emptyFieldErrors.forEach(function (error) {
+                    var errorMessage = emptyFieldErrors.join(' <br> - ');
+                    $('#inputErrors').html('<div class="alert alert-danger">' + '- ' + errorMessage + '</div>');
+                    // $('.nextBtn1').prop('disabled', true);
+                    return false;
+                });
+            }
+            else {
+                $('#inputErrors').empty();
+                // $('.nextBtn1').prop('disabled', false);
+                return true;
+            }
+        };
+
+        function checkEmptyFieldStep2() {
+            var emptyFieldErrors = [];
+
+            if ($('#institute_name').val().trim() === '') {
+                emptyFieldErrors.push('Institute Name is required');
+            }
+            if ($('#medical_degree').val().trim() === '') {
+                emptyFieldErrors.push('Medical Degree is required');
+            }
+            if ($('#grad_yearBS').val().trim() === '') {
+                emptyFieldErrors.push('Graduation Year[BS] is required');
+            }
+            if ($('#grad_yearAD').val().trim() === '') {
+                emptyFieldErrors.push('Graduation Year[AD] is required');
+            }
+            if ($('#specialization').val().trim() === '') {
+                emptyFieldErrors.push('Specialization is required');
+            }
+
+            console.log(emptyFieldErrors);
+
+            if (emptyFieldErrors.length > 0) {
+                emptyFieldErrors.forEach(function (error) {
+                    var errorMessage = emptyFieldErrors.join(' <br> - ');
+                    $('#inputErrors2').html('<div class="alert alert-danger">' + '- ' + errorMessage + '</div>');
+                    return false;
+                });
+            }
+            else {
+                $('#inputErrors2').empty();
+                return true;
+            }
+        };
+
+        function checkEmptyFieldStep3() {
+            var emptyFieldErrors = [];
+
+            if ($('#org_name').val().trim() === '') {
+                emptyFieldErrors.push('Organization Name is required');
+            }
+            if ($('#start_dateBS').val().trim() === '') {
+                emptyFieldErrors.push('Start Date[BS] is required');
+            }
+            if ($('#start_dateAD').val().trim() === '') {
+                emptyFieldErrors.push('Start Date[AD] is required');
+            }
+            if ($('#end_dateBS').val().trim() === '') {
+                emptyFieldErrors.push('End Date[BS] is required');
+            }
+            if ($('#end_dateAD').val().trim() === '') {
+                emptyFieldErrors.push('End Date[AD] is required');
+            }
+            if ($('#jobDescription').val().trim() === '') {
+                emptyFieldErrors.push('Job Description is required');
+            }
+
+            console.log(emptyFieldErrors);
+
+            if (emptyFieldErrors.length > 0) {
+                emptyFieldErrors.forEach(function (error) {
+                    var errorMessage = emptyFieldErrors.join(' <br> - ');
+                    $('#inputErrors3').html('<div class="alert alert-danger">' + '- ' + errorMessage + '</div>');
+                    return false;
+                });
+            }
+            else {
+                $('#inputErrors3').empty();
+                return true;
+            }
+        };
+
+        function checkEmptyFieldStep4(){
+            var emptyFieldErrors = [];
+
+            if ($('#email').val().trim() === '') {
+                emptyFieldErrors.push('Email is required');
+            }
+            if ($('#password').val().trim() === '') {
+                emptyFieldErrors.push('Password is required');
+            }
+            if ($('#password_confirmation').val().trim() === '') {
+                emptyFieldErrors.push('Confirm Password is required');
+            }
+
+            console.log(emptyFieldErrors);
+
+            if (emptyFieldErrors.length > 0) {
+                emptyFieldErrors.forEach(function (error) {
+                    var errorMessage = emptyFieldErrors.join(' <br> - ');
+                    $('#inputErrors4').html('<div class="alert alert-danger">' + '- ' + errorMessage + '</div>');
+                    return false;
+                });
+            }
+            else {
+                $('#inputErrors4').empty();
+                return true;
+            }
+        };
+
         var currentStep = 1;
 
-        // function checkFields() {
-        //     var $currentStep = $("#step" + currentStep);
-        //     var currentPageInput = $currentStep.find('input');
-        //     var isAnyFieldFilled = false;
+        $(".nextBtn1").click(function (event) {
+            if (!checkEmptyFieldStep1()) {
+                event.preventDefault();
+                console.log('Failed Error!');
+            } else {
+                var $currentStep = $("#step" + currentStep);
+                $currentStep.hide();
+                $("#step" + (currentStep + 1)).show();
+                currentStep++;
+            }
+        });
 
-        //     currentPageInput.each(function() {
-        //         var inputValue = $(this).val();
-        //         console.log(inputValue);
-        //         if (inputValue.trim() != '') {
-        //             isAnyFieldFilled = true;
-        //             return false;
-        //         }
-        //     });
-
-        //     if (isAnyFieldFilled) {
-        //         $('.nextBtn').prop("disabled", false);
-        //     }
-        //     else {
-        //         $('.nextBtn').prop("disabled", true);
-        //     }
-        // }
-
-        // checkFields();
-
-        // $(".nextBtn").click(function () {
-        //     checkFields();
-        //     var $currentStep = $("#step" + currentStep);
-
-        //     $currentStep.hide();
-        //     $("#step" + (currentStep + 1)).show();
-        //     currentStep++;
-        // });
-
-        // $('.nextBtn').click(function() {
-        //     var $currentStep = $("#step" + currentStep);
-        //     var currentPageInput = $currentStep.find('input, select');
-
-        //     // Validation logic goes here if needed
-
-        //     // Proceed to the next step
-        //     $currentStep.hide();
-        //     $("#step" + (currentStep + 1)).show();
-        //     currentStep++;
-
-        //     checkFields(); // Check fields on next step
-        // });
-
-        // var $currentStep = $("#step" + currentStep);
-        // var currentPageInput = $currentStep.find('input');
-        //     var isAnyFieldFilled = false;
-
-        //     currentPageInput.each(function() {
-        //         var inputValue = $(this).val();
-        //         console.log(inputValue);
-        //         if (inputValue.trim() !=== '') {
-        //             isAnyFieldFilled = true;
-        //             return false;
-        //         }
-        //     });
-
-        //     if (isAnyFieldFilled) {
-        //         $(".nextBtn").click(function () {
-
+        // var currentStep = 1;
+        //     $(".nextBtn1").click(function () {
+        //         if (!checkEmptyFieldStep1()) {
+        //             var $currentStep = $("#step" + currentStep);
         //             $currentStep.hide();
         //             $("#step" + (currentStep + 1)).show();
         //             currentStep++;
-        //         });
+        //         }else{
+        //             event.preventDefault();
+        //             console.log('Failed Error !');
+        //             // return;
+        //         }
+        //     });
 
-        //         $('.nextBtn').prop("disabled", false);
-        //     }
-        //     else {
-        //         $('.nextBtn').prop("disabled", true);
-        //         console.log('all fields are required!!!');
-        //     }
+        $(".nextBtn2").click(function () {
+            if (!checkEmptyFieldStep2()) {
+                event.preventDefault();
+                console.log('Failed Error!');
+            }else{
+                var $currentStep = $("#step" + currentStep);
+                $currentStep.hide();
+                $("#step" + (currentStep + 1)).show();
+                currentStep++;
+            }
+        });
 
-        $(".nextBtn").click(function () {
-            var $currentStep = $("#step" + currentStep);
+        $(".nextBtn3").click(function () {
+            if (!checkEmptyFieldStep3()) {
+                event.preventDefault();
+                console.log('Failed Error!');
+            }else{
+                var $currentStep = $("#step" + currentStep);
+                $currentStep.hide();
+                $("#step" + (currentStep + 1)).show();
+                currentStep++;
+            }
+        });
 
-            $currentStep.hide();
-            $("#step" + (currentStep + 1)).show();
-            currentStep++;
+        $(".createDoctor").click(function () {
+            if (!checkEmptyFieldStep4()) {
+                event.preventDefault();
+                console.log('Failed Error!');
+            }
         });
 
         $(".prevBtn").click(function () {

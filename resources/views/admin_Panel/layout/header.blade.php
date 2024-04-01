@@ -18,8 +18,6 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- Nepali Date Picker -->
     <link href="https://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/css/nepali.datepicker.v4.0.1.min.css" rel="stylesheet" type="text/css"/>
-    <!-- Current Page Validation -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('admin_Assets/js/currentPageValidation.js')}}">
 </head>
 
 <body>
@@ -133,6 +131,9 @@
                         <li class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" >
                             <a href="{{ route('admin.dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
+                        <li class="{{ request()->routeIs('department.index') ||  request()->routeIs('department.create') || request()->routeIs('department.edit') ? 'active' : '' }}">
+                            <a href="{{ route('department.index') }}"><i class="fa fa-hospital-o"></i> <span>Departments</span></a>
+                        </li>
                         <li class="{{ request()->routeIs('doctor.index') ||  request()->routeIs('doctor.create') || request()->routeIs('doctor.edit') || request()->routeIs('doctor.show') ? 'active' : '' }}">
                             <a href="{{ route('doctor.index') }}"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
                         </li>
@@ -144,9 +145,6 @@
                         </li>
                         <li>
                             <a href="#"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
-                        </li>
-                        <li class="{{ request()->routeIs('department.index') ||  request()->routeIs('department.create') || request()->routeIs('department.edit') ? 'active' : '' }}">
-                            <a href="{{ route('department.index') }}"><i class="fa fa-hospital-o"></i> <span>Departments</span></a>
                         </li>
                     </ul>
                 </div>

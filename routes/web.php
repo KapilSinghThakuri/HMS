@@ -13,7 +13,7 @@ Route::get('/', function () {
 
 Route::prefix('Healwave/admin')->group(function(){
 
-    Route::middleware('guest')->group(function () {
+    Route::middleware(['guest','throttle:3,1'])->group(function () {
         Route::get('login',[LoginController::class,'index'])->name('login.index');
         Route::post('/login/authenticate',[LoginController::class,'authenticateUser'])->name('login.authenticate');
 

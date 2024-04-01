@@ -148,6 +148,14 @@ class DoctorController extends Controller
         $doctor_edu = Education::where('doctor_id',$id)->first();
         $doctor_exp = Experience::where('doctor_id',$id)->first();
         $doctor_addr = Address::where('doctor_id',$id)->first();
+        $districtId = $doctor_addr->district;
+        $districtName = District::where('district_code', $districtId)->first()->district_name[eng];
+        $provinceId = $doctor_addr->province;
+        $provinceName = Province::where('id',$provinceId)->first();
+        $MunicipalityId = $doctor_addr->municipality;
+        $municipalityName = Municipality::where('municipality_code', $MunicipalityId)->first();
+        dd($districtName,$provinceName, $municipalityName);
+
         return view('admin_Panel.doctor.profile',
             compact('doctor_basic','doctor_exp','doctor_addr','doctor_edu'));
     }

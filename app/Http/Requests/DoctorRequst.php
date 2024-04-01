@@ -78,4 +78,10 @@ class DoctorRequst extends FormRequest
                 ]
             ];
     }
+    public function messages()
+    {
+        return [
+            '*.required' => 'This field is required!',
+        ];
+    }
 }

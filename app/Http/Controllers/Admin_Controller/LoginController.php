@@ -21,8 +21,12 @@ class LoginController extends Controller
             'password' => ['required'],
         ]);
 
-        $user = User::where('email', $request->email)->first();
-        $roleId = $user->role_id;
+        if ($user = User::where('email', $request->email)->first()) {
+            $roleId = $user->role_id;
+        }else{
+            return back()->withErrors([
+            'email' => 'The provided credentials do not match our records!',]);
+        }
 
         if (Auth::attempt($credentials)) {
             if ($roleId  === 1) {
