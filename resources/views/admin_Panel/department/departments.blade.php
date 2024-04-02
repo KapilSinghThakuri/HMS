@@ -20,13 +20,13 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-striped custom-table mb-0 datatable">
+                        <table class="table table-hover custom-table mb-0 datatable">
                             <thead>
                                 <tr>
-                                    <th>S no.</th>
+                                    <th>S No</th>
                                     <th>Department Name</th>
                                     <th>Department Code</th>
-                                    <th class="text-right">Action</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -35,15 +35,9 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $department->department_name }}</td>
 									<td>{{ $department->department_code }}</td>
-                                    <td class="text-right">
-                                        <div class="dropdown dropdown-action">
-                                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                                            <div class="dropdown-menu dropdown-menu-right">
-                                                <a class="dropdown-item" href="{{ route('department.edit', ['department' => $department->id]) }}"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-
-                                                <a class="dropdown-item" href="#" data-id="{{ $department->id }}" data-toggle="modal" data-target="#delete_department"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                                            </div>
-                                        </div>
+                                    <td>
+                                        <a href="{{ route('department.edit', ['department' => $department->id]) }}" style="font-size: 20px;"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i></a>
+                                        <a href="#" data-id="{{ $department->id }}" data-toggle="modal" data-target="#delete_department" style="font-size: 25px; color: red;"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach

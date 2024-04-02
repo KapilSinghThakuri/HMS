@@ -4,13 +4,16 @@
     <div class="page-wrapper">
         <div class="content">
             <div class="row">
-                <div class="col-lg-8 offset-lg-2">
+                <div class="col-lg-12">
                     <form method="POST" action="{{ route('doctor.store')}}" id="wizardForm" enctype="multipart/form-data">
                         @csrf
                         <div id="step1" class="step">
                             <div class="row">
-                                <div class="col-lg-8 offset-lg-2">
-                                    <h4 class="page-title text-center border-bottom">Basic Details</h4>
+                                <div class="col-lg-6">
+                                    <h4 class="page-title">Basic Details</h4>
+                                </div>
+                                <div class="col-lg-6 text-right">
+                                    <a class="btn btn-primary btn-rounded" href="{{ route('doctor.index')}}"><i class="fa fa-eye" aria-hidden="true"></i>View List</a>
                                 </div>
                             </div>
                             <div class="row">
@@ -30,46 +33,101 @@
                                     <div id="inputErrors" class="form-group"></div>
                                 </div>
 
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>First Name <span class="text-danger">*</span></label>
-                                        <input name="first_name" id="first_name" value="{{ old('first_name')}}" class="form-control" type="text" autofocus required>
-                                        @error('first_name')<span class="text-danger">{{ $message }}</span>@enderror
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Middle Name </label>
-                                        <input name="middle_name" id="middle_name" value="{{ old('last_name')}}" class="form-control" type="text" autofocus>
-                                        @error('middle_name')<span class="text-danger">{{ $message }}</span>@enderror
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Last Name <span class="text-danger">*</span></label>
-                                        <input name="last_name" id="last_name" value="{{ old('last_name')}}" class="form-control" type="text" autofocus>
-                                        @error('last_name')<span class="text-danger">{{ $message }}</span>@enderror
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Profile</label>
-                                        <div class="profile-upload">
-                                            <div class="upload-input">
-                                                <input type="file" id="profile" name="profile" value="{{ old('profile')}}" class="form-control">
-                                                @error('profile')<span class="text-danger">{{ $message }}</span>@enderror
+                                <div class="col-lg-8">
+                                    <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>First Name <span class="text-danger">*</span></label>
+                                                <input name="first_name" id="first_name" value="{{ old('first_name')}}" class="form-control" type="text" autofocus required>
+                                                @error('first_name')<span class="text-danger">{{ $message }}</span>@enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Middle Name </label>
+                                                <input name="middle_name" id="middle_name" value="{{ old('last_name')}}" class="form-control" type="text" autofocus>
+                                                @error('middle_name')<span class="text-danger">{{ $message }}</span>@enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Last Name <span class="text-danger">*</span></label>
+                                                <input name="last_name" id="last_name" value="{{ old('last_name')}}" class="form-control" type="text" autofocus>
+                                                @error('last_name')<span class="text-danger">{{ $message }}</span>@enderror
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group gender-select">
+                                                <label class="gen-label">Gender <span class="text-danger">*</span></label>
+                                                <div class="form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input id="male" type="radio" name="gender" class="form-check-input" value="Male" {{ old('gender') == 'male' ? 'checked' : '' }}>Male
+                                                        @error('male')<span class="text-danger">{{ $message }}</span>@enderror
+                                                    </label>
+                                                </div>
+                                                <div class="form-check-inline">
+                                                    <label class="form-check-label">
+                                                        <input id="female" type="radio" name="gender" class="form-check-input" value="Female" {{ old('gender') == 'female' ? 'checked' : '' }}>Female
+                                                        @error('female')<span class="text-danger">{{ $message }}</span>@enderror
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Date of Birth[BS] <span class="text-danger">*</span></label>
+                                                <div class="cal-icon">
+                                                    <input type="dob" id="dobBS" name="dobBS" value="{{ old('dobBS')}}" placeholder="Select your DOB" class="form-control datetimepicker">
+                                                    @error('dobBS')<span class="text-danger">{{ $message }}</span>@enderror
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                                <label>Date of Birth[AD] <span class="text-danger">*</span></label>
+                                                <div class="cal-icon">
+                                                    <input type="date" readonly id="dobAD" name="dobAD" value="{{ old('dobAD')}}" class="form-control datetimepicker">
+                                                    @error('dobAD')<span class="text-danger">{{ $message }}</span>@enderror
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+
+                                <div class="col-lg-4">
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="user_image_wrapper mb-2 text-center">
+                                                <img id="placeholder_image" src="{{ asset('admin_Assets/img/user.jpg')}}" style="width: 200px; height: 200px;">
+                                            </div>
+                                            <div class="form-group">
+                                                <!-- <label>Choose your profile</label> -->
+                                                <div class="profile-upload">
+                                                    <div class="upload-input">
+                                                        <input type="file" id="profile" onchange="loadFile(event)" name="profile" value="{{ old('profile')}}" class="form-control">
+                                                        @error('profile')<span class="text-danger">{{ $message }}</span>@enderror
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Phone <span class="text-danger">*</span></label>
                                         <input id="phone" name="phone" value="{{ old('phone')}}" class="form-control" type="text">
                                         @error('phone')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
+                                    <div class="form-group">
+                                        <label>License Number <span class="text-danger">*</span></label>
+                                        <input id="license_no" name="license_no" value="{{ old('license_no')}}" type="text" class="form-control ">
+                                        @error('license_no')<span class="text-danger">{{ $message }}</span>@enderror
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Department<span class="text-danger">*</span></label>
                                         <select class="form-control select" name="department_id" id="department_id">
@@ -81,62 +139,19 @@
                                         @error('department_id')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>License Number <span class="text-danger">*</span></label>
-                                        <input id="license_no" name="license_no" value="{{ old('license_no')}}" type="text" class="form-control ">
-                                        @error('license_no')<span class="text-danger">{{ $message }}</span>@enderror
-                                    </div>
-                                </div>
-    							<div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Date of Birth[BS] <span class="text-danger">*</span></label>
-                                        <div class="cal-icon">
-                                            <input type="dob" id="dobBS" name="dobBS" value="{{ old('dobBS')}}" placeholder="Select your DOB" class="form-control datetimepicker">
-                                            @error('dobBS')<span class="text-danger">{{ $message }}</span>@enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Date of Birth[AD] <span class="text-danger">*</span></label>
-                                        <div class="cal-icon">
-                                            <input type="date" readonly id="dobAD" name="dobAD" value="{{ old('dobAD')}}" class="form-control datetimepicker">
-                                            @error('dobAD')<span class="text-danger">{{ $message }}</span>@enderror
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-    								<div class="form-group gender-select">
-    									<label class="gen-label">Gender <span class="text-danger">*</span></label>
-    									<div class="form-check-inline">
-    										<label class="form-check-label">
-    											<input id="male" type="radio" name="gender" class="form-check-input" value="Male" {{ old('gender') == 'male' ? 'checked' : '' }}>Male
-                                                @error('male')<span class="text-danger">{{ $message }}</span>@enderror
-    										</label>
-    									</div>
-    									<div class="form-check-inline">
-    										<label class="form-check-label">
-    											<input id="female" type="radio" name="gender" class="form-check-input" value="Female" {{ old('gender') == 'female' ? 'checked' : '' }}>Female
-                                                @error('female')<span class="text-danger">{{ $message }}</span>@enderror
-    										</label>
-    									</div>
-    								</div>
-                                </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Country<span class="text-danger">*</span></label>
                                         <select id="country" class="form-control select" name="country">
                                             <option disabled selected> Select your country </option>
                                             @foreach($countries as $country)
-                                            <option value="{{ $country ->english_name }}" {{ $country->english_name == 'Nepal' ? 'selected' : '' }}>{{ $country ->english_name }}</option>
-
+                                            <option value="{{ $country ->id }}" {{ $country->english_name == 'Nepal' ? 'selected' : '' }}>{{ $country ->english_name }}</option>
                                             @endforeach
                                         </select>
                                         @error('country')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Province<span class="text-danger">*</span></label>
                                         <select id="province" class="form-control select" name="province">
@@ -146,10 +161,9 @@
                                             @endforeach
                                         </select>
                                         @error('province')<span class="text-danger">{{ $message }}</span>@enderror
-
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>District<span class="text-danger">*</span></label>
                                         <select id="district" class="form-control select" name="district">
@@ -158,7 +172,7 @@
                                         @error('district')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Municipality<span class="text-danger">*</span></label>
                                         <select id="municipality" class="form-control select" name="municipality">
@@ -167,7 +181,7 @@
                                         @error('municipality')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
+                                <div class="col-sm-4">
                                     <div class="row">
                                         <div class="col-sm-12">
                                             <div class="form-group">
@@ -354,6 +368,11 @@
     </div>
 </div>
 <script type="text/javascript">
+     var loadFile = function(event) {
+        var image = document.getElementById('placeholder_image');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+
     $(document).ready(function () {
 
         $('#province').change(function () {

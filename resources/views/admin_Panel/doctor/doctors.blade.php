@@ -41,14 +41,10 @@
                                 <div class="doc-prof">{{ $education -> specialization }}</div>
                             @endif
                         @endforeach
-
-                        @foreach($addresses as $address)
-                            @if($address->doctor_id == $doctor->id)
-                            <div class="user-country">
-                                <i class="fa fa-map-marker"></i> {{ $address->municipality}}, {{ $address->district }} {{ $address->country}}
-                            </div>
-                            @endif
-                        @endforeach
+                        <div class="user-country">
+                            <i class="fa fa-map-marker"></i>
+                            {{ $doctor->municipality->{'municipality_name[nep]'} }}, {{ $doctor->district->{'district_name[nep]'} }}, {{ $doctor->province->province_name_nep }} {{ $doctor->country->english_name }}
+                        </div>
                     </div>
                 </div>
                 @endforeach

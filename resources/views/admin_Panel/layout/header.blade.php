@@ -14,6 +14,9 @@
         <script src="assets/js/respond.min.js"></script>
     <![endif]-->
 
+    <!-- CKeditor CDN -->
+    <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
+
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- Nepali Date Picker -->

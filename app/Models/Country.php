@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class District extends Model
+class Country extends Model
 {
     use HasFactory;
 
-    protected $table = 'districts';
+    protected $table = 'countries';
     protected $guarded = [];
 
     public function doctors(): HasOne
     {
-        return $this->hasOne(Doctor::class,'district_id','id');
+        return $this->hasOne(Doctor::class, 'country_id','id');
     }
 }

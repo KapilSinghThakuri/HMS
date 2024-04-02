@@ -13,6 +13,7 @@ use App\Models\Education;
 use App\Models\Experience;
 use App\Models\User;
 use App\Models\Address;
+use App\Models\Country;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Municipality;
@@ -26,12 +27,15 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        $doctors = Doctor::all();
         $educations = Education::all();
         $experiences = Experience::all();
-        $addresses = Address::all();
+
+        $doctors = Doctor::all();
+        // dd($doctors[0]->country->english_name);
+        // $countryId = $doctors->country_id;
+
         return view('admin_Panel.doctor.doctors',
-            compact('doctors','educations','experiences','addresses'));
+            compact('educations','experiences','doctors'));
     }
 
     /**
@@ -94,7 +98,7 @@ class DoctorController extends Controller
             'user_id' => $user_id,
             'department_id' =>$validated_data['department_id'],
             'first_name' => $validated_data['first_name'],
-            'middle_name' => $validated_data['middle_name'] == "" ? "" : $validated_data['middle_name'],
+            'middle_name' => $validated_data['middle_name'] == " " ? " " : $validated_data['middle_name'],
             'last_name' => $validated_data['last_name'],
             'profile' => '/admin_Assets/img/doctors'.'/'.$fileName,
             'gender' => $validated_data['gender'],
@@ -102,17 +106,15 @@ class DoctorController extends Controller
             'date_of_birth_AD' => $validated_data['dobAD'],
             'email' => $validated_data['email'],
             'phone' => $validated_data['phone'],
-        ]);
-        $doctor_id = $doctor->id;
 
-        Address::create([
-            'doctor_id' => $doctor_id,
-            'country' => $validated_data['country'],
-            'district' => $validated_data['district'],
-            'province' => $validated_data['province'],
-            'municipality' => $validated_data['municipality'],
+            'country_id' => $validated_data['country'],
+            'province_id' => $validated_data['province'],
+            'district_id' => $validated_data['district'],
+            'province_id' => $validated_data['province'],
+            'municipality_id' => $validated_data['municipality'],
             'street' => $validated_data['street'],
         ]);
+        $doctor_id = $doctor->id;
 
         Education::create([
             'doctor_id' => $doctor_id,
@@ -147,17 +149,9 @@ class DoctorController extends Controller
         $doctor_basic = Doctor::findOrFail($id);
         $doctor_edu = Education::where('doctor_id',$id)->first();
         $doctor_exp = Experience::where('doctor_id',$id)->first();
-        $doctor_addr = Address::where('doctor_id',$id)->first();
-        $districtId = $doctor_addr->district;
-        $districtName = District::where('district_code', $districtId)->first()->district_name[eng];
-        $provinceId = $doctor_addr->province;
-        $provinceName = Province::where('id',$provinceId)->first();
-        $MunicipalityId = $doctor_addr->municipality;
-        $municipalityName = Municipality::where('municipality_code', $MunicipalityId)->first();
-        dd($districtName,$provinceName, $municipalityName);
 
         return view('admin_Panel.doctor.profile',
-            compact('doctor_basic','doctor_exp','doctor_addr','doctor_edu'));
+            compact('doctor_basic','doctor_exp','doctor_edu'));
     }
 
     /**
@@ -174,14 +168,32 @@ class DoctorController extends Controller
         $municipalities = DB::table('municipalities')->get();
 
         $departments = Department::all();
+
         $doctor_basic = Doctor::findOrFail($id);
+
         $related_department = $doctor_basic->departments;
+        $related_municipality = $doctor_basic->municipality;
+        $related_district = $doctor_basic->district;
+        $related_province = $doctor_basic->province;
+
         $doctor_edu = Education::where('doctor_id',$id)->first();
         $doctor_exp = Experience::where('doctor_id',$id)->first();
         $doctor_addr = Address::where('doctor_id',$id)->first();
+
         return view('admin_Panel.doctor.edit-doctor',
-        compact('doctor_basic','doctor_exp','doctor_addr','doctor_edu','related_department','departments',
-                'countries','provinces','districts','municipalities'));
+        compact('doctor_basic','doctor_exp','doctor_addr','doctor_edu','related_department',
+            'related_municipality','related_district','related_province',
+            'departments','countries','provinces','districts','municipalities'));
+    }
+    public function getDistrictByProvinceEdit($provinceId)
+    {
+        $districts = District::where('province_id',$provinceId)->get();
+        return response()->json($districts);
+    }
+    public function getMunicipalityByDistrictEdit($districtId)
+    {
+        $municipalities = Municipality::where('district_id', $districtId)->get();
+        return response()->json($municipalities);
     }
 
     /**
@@ -193,8 +205,6 @@ class DoctorController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
-        // Validation rules
         $rules = [
             'first_name' => 'nullable|string|max:255',
             'middle_name' => 'nullable|string|max:255',
@@ -229,12 +239,10 @@ class DoctorController extends Controller
 
         $validated_data = $request->validate($rules);
 
-        // Find the doctor and related records
         $doctors = Doctor::findOrFail($id);
         $doctor_user = User::findOrFail($doctors->user_id);
         $doctor_edu = Education::where('doctor_id', $id)->firstOrFail();
         $doctor_exp = Experience::where('doctor_id', $id)->firstOrFail();
-        $doctor_addr = Address::where('doctor_id', $id)->firstOrFail();
 
         $username = $validated_data['first_name'] .' '. $validated_data['middle_name'] .' '. $validated_data['last_name'];
         $user_address = $validated_data['province'] .'-'. $validated_data['district'] .'-'. $validated_data['street'];
@@ -257,23 +265,20 @@ class DoctorController extends Controller
         }
 
         $doctors->update([
-            // 'department_id' =>$validated_data['department_id'],
+            'department_id' =>$validated_data['department_id'],
             'first_name' => $validated_data['first_name'],
             'middle_name' => $validated_data['middle_name'],
             'last_name' => $validated_data['last_name'],
-            // 'profile' => '/admin_Assets/img/doctors'.'/'.$fileName,
-            // 'gender' => $validated_data['gender'],
+            'gender' => $validated_data['gender'],
             'date_of_birth_BS' => $validated_data['date_of_birth_BS'],
             'date_of_birth_AD' => $validated_data['date_of_birth_AD'],
             'email' => $validated_data['email'],
             'phone' => $validated_data['phone'],
-        ]);
 
-        $doctor_addr->update([
-            'country' => $validated_data['country'] ,
-            'district' => $validated_data['district'],
-            'province' => $validated_data['province'],
-            // 'municipality' => $validated_data['municipality'],
+            'country_id' => $validated_data['country'] ,
+            'province_id' => $validated_data['province'],
+            'district_id' => $validated_data['district'],
+            'municipality_id' => $validated_data['municipality'],
             'street' => $validated_data['street'],
         ]);
 
@@ -311,9 +316,6 @@ class DoctorController extends Controller
 
         $doctor_exp = Experience::where('doctor_id', $id)->first();
         $doctor_exp->delete();
-
-        $doctor_addr = Address::where('doctor_id', $id)->first();
-        $doctor_addr->delete();
 
         $doctor_basic = Doctor::where('id', $id)->first();
         $doctor_basic->delete();

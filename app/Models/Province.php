@@ -11,4 +11,9 @@ class Province extends Model
 
     protected $table = 'provinces';
     protected $guarded = [];
+
+    public function doctors(): HasOne
+    {
+        return $this->hasOne(Doctor::class,'province_id','id');
+    }
 }

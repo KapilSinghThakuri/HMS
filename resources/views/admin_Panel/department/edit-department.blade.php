@@ -4,12 +4,15 @@
     <div class="page-wrapper">
         <div class="content">
             <div class="row">
-                <div class="col-lg-8 offset-lg-2">
+                <div class="col-lg-6">
                     <h4 class="page-title">Edit Department</h4>
+                </div>
+                <div class="col-lg-6 text-right">
+                    <a class="btn btn-primary btn-rounded" href="{{ route('department.index')}}"><i class="fa fa-eye" aria-hidden="true"></i>View List</a>
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-8 offset-lg-2">
+                <div class="col-lg-12">
                     <form action="{{ route('department.update',['department' => $departments->id]) }}" method="POST">
                         @method('PUT')
                         @csrf

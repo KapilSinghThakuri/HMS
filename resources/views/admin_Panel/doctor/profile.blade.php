@@ -9,7 +9,7 @@
             </div>
 
             <div class="col-sm-5 col-6 text-right m-b-30">
-                <a href="{{ route('doctor.edit', ['doctor' => $doctor_basic->id]) }}" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Edit Profile</a>
+                <a href="{{ route('doctor.edit', ['doctor' => $doctor_basic->id]) }}" class="btn btn-primary btn-rounded"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile</a>
             </div>
         </div>
         <div class="card-box profile-header">
@@ -47,7 +47,7 @@
                                         </li>
                                         <li>
                                             <span class="title">Address:</span>
-                                            <span class="text">{{ $doctor_addr->province }} Province, {{ $doctor_addr->municipality }}, {{ $doctor_addr->street }} {{ $doctor_addr->district }}</span>
+                                            <span class="text">{{ $doctor_basic->street }}, {{ $doctor_basic->municipality->{'municipality_name[nep]'} }}, {{ $doctor_basic->district->{'district_name[nep]'} }}, {{ $doctor_basic->province->province_name_nep }} Nepal</span>
                                         </li>
                                         <li>
                                             <span class="title">Gender:</span>

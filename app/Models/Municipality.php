@@ -11,4 +11,9 @@ class Municipality extends Model
 
     protected $table = 'municipalities';
     protected $guarded = [];
+
+    public function doctors(): HasOne
+    {
+        return $this->hasOne(Doctor::class,'municipality_id','id');
+    }
 }
