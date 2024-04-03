@@ -305,10 +305,11 @@
                                         @error('end_dateAD')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
+
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Job Description</label>
-                                        <textarea id="jobDescription" name="jobDescription" class="form-control" rows="3" cols="30">{{ old('jobDescription')}}</textarea>
+                                        <textarea id="job_description" name="jobDescription" class="form-control" rows="3" cols="30">{{ old('jobDescription')}}</textarea>
                                         @error('jobDescription')<span class="text-danger">{{ $message }}</span>@enderror
                                     </div>
                                 </div>
@@ -368,13 +369,12 @@
     </div>
 </div>
 <script type="text/javascript">
-     var loadFile = function(event) {
+    var loadFile = function(event) {
         var image = document.getElementById('placeholder_image');
         image.src = URL.createObjectURL(event.target.files[0]);
     };
 
     $(document).ready(function () {
-
         $('#province').change(function () {
             var provinceId = $(this).val();
             console.log(provinceId);
@@ -438,18 +438,11 @@
             if ($('#last_name').val().trim() === '') {
                 emptyFieldErrors.push('Last Name is required');
             }
+            if (!$('#male').is(':checked') && !$('#female').is(':checked')) {
+                emptyFieldErrors.push('Gender is required');
+            }
             if ($('#profile').val().trim() === '') {
                 emptyFieldErrors.push('Profile is required');
-            }
-            if ($('#phone').val().trim() === '') {
-                emptyFieldErrors.push('Phone is required');
-            }
-            var departmentIdValue = $('#department_id').val();
-                if (departmentIdValue !== null && departmentIdValue.toString().trim() === '') {
-                    emptyFieldErrors.push('Department is required');
-                }
-            if ($('#license_no').val().trim() === '') {
-                emptyFieldErrors.push('License Number is required');
             }
             if ($('#dobBS').val().trim() === '') {
                 emptyFieldErrors.push('Date of Birth[BS] is required');
@@ -457,24 +450,36 @@
             if ($('#dobAD').val().trim() === '') {
                 emptyFieldErrors.push('Date of Birth[AD] is required');
             }
-            if (!$('#male').is(':checked') && !$('#female').is(':checked')) {
-                emptyFieldErrors.push('Gender is required');
+            if ($('#phone').val().trim() === '') {
+                emptyFieldErrors.push('Phone is required');
+            }
+            if ($('#license_no').val().trim() === '') {
+                emptyFieldErrors.push('License Number is required');
+            }
+            var departmentIdValue = $('#department_id').val();
+            // if (departmentIdValue !== null && departmentIdValue.toString().trim() === '') {
+            if (departmentIdValue == null) {
+                emptyFieldErrors.push('Department is required');
             }
             if ($('#country').val().trim() === '') {
                 emptyFieldErrors.push('Country is required');
             }
+
             var provinceValue = $('#province').val();
-            if (provinceValue !== null && provinceValue.toString().trim() === '') {
+            if (provinceValue == null) {
                 emptyFieldErrors.push('Province is required');
             }
+
             var districtValue = $('#district').val();
-            if (districtValue !== null && districtValue.toString().trim() === '') {
+            if (districtValue == null || districtValue === 'Select your district') {
                 emptyFieldErrors.push('District is required');
             }
+
             var municipalityValue = $('#municipality').val();
-            if (municipalityValue !== null && municipalityValue.toString().trim() === '') {
+            if (municipalityValue == null || municipalityValue === 'Select your municipality') {
                 emptyFieldErrors.push('Municipality is required');
             }
+
             if ($('#street').val().trim() === '') {
                 emptyFieldErrors.push('Street is required');
             }
@@ -548,7 +553,9 @@
             if ($('#end_dateAD').val().trim() === '') {
                 emptyFieldErrors.push('End Date[AD] is required');
             }
-            if ($('#jobDescription').val().trim() === '') {
+
+            console.log($('#job_description').val());
+            if ($('#job_description').val().trim() === '') {
                 emptyFieldErrors.push('Job Description is required');
             }
 

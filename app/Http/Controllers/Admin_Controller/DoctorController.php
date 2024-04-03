@@ -74,6 +74,7 @@ class DoctorController extends Controller
     public function store(DoctorRequst $request)
     {
         $validated_data = $request->validated();
+
         $username = $validated_data['first_name'] .' '. $validated_data['middle_name'] .' '. $validated_data['last_name'];
         $user_address = $validated_data['province'] .'-'. $validated_data['district'] .'-'. $validated_data['municipality'] .'-'. $validated_data['street'];
         $user = User::create([
@@ -98,7 +99,7 @@ class DoctorController extends Controller
             'user_id' => $user_id,
             'department_id' =>$validated_data['department_id'],
             'first_name' => $validated_data['first_name'],
-            'middle_name' => $validated_data['middle_name'] == " " ? " " : $validated_data['middle_name'],
+            'middle_name' => $validated_data['middle_name'] == "" ? "" : $validated_data['middle_name'],
             'last_name' => $validated_data['last_name'],
             'profile' => '/admin_Assets/img/doctors'.'/'.$fileName,
             'gender' => $validated_data['gender'],

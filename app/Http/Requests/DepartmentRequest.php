@@ -24,9 +24,15 @@ class DepartmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'dept_name' => 'required|string',
-            'dept_code' => 'required|alpha_dash|unique:departments,department_code',
-            'dept_desc' => 'required|string',
+            'department_code' => 'required|alpha_dash|unique:departments,department_code',
+            'department_name' => 'required|string',
+            'department_desc' => 'required|string',
+        ];
+    }
+    public function messages()
+    {
+        return [
+            '*.required' => 'This field is required.',
         ];
     }
 }

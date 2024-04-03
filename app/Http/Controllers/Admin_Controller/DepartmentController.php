@@ -39,11 +39,7 @@ class DepartmentController extends Controller
     public function store(DepartmentRequest $request)
     {
         $validated = $request->validated();
-        Department::create([
-            'department_code' => $validated['dept_code'],
-            'department_name' => $validated['dept_name'],
-            'department_desc' => $validated['dept_desc'],
-        ]);
+        Department::create($validated);
         return redirect()->route('department.index')->with('success_message', 'Department added successfully!!!');
     }
 
@@ -77,15 +73,11 @@ class DepartmentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DepartmentRequest $request, $id)
     {
         $department = Department::findOrFail($id);
-
-        $department->update([
-            'department_code' => $request->dept_code,
-            'department_name' => $request->dept_name,
-            'department_desc' => $request->dept_desc,
-            ]);
+        $validated_data = $request->validated();
+        $department->update($validated_data);
         return redirect()->route('department.index')->with('success_message', 'Department updated successfully!!!');
     }
 

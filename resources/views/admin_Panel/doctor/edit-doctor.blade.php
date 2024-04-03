@@ -292,10 +292,15 @@
                                         <input readonly type="date" id="end_dateAD" name="end_date_AD" value="{{ $doctor_exp->end_date_AD }}" class="form-control ">
                                     </div>
                                 </div>
+                                <style type="text/css">
+                                      .ck.ck-editor__main div {
+                                        height: 200px;
+                                    }
+                                </style>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Job Description</label>
-                                        <textarea name="job_description" class="form-control" rows="3" cols="30">{{ $doctor_exp->job_description }}</textarea>
+                                        <textarea id="job_description" name="job_description" class="form-control" rows="3" cols="30">{{ $doctor_exp->job_description }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -350,6 +355,14 @@
         var image = document.getElementById('placeholder_image');
         image.src = URL.createObjectURL(event.target.files[0]);
     };
+    ClassicEditor
+        .create( document.querySelector( '#job_description' ) )
+        .then( editor => {
+                console.log( editor );
+        } )
+        .catch( error => {
+                console.error( error );
+        } );
     $(document).ready(function () {
 
         $('#province').change(function () {

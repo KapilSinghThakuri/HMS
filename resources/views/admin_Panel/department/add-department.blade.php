@@ -18,8 +18,8 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Department Name</label>
-                                    <input name="dept_name" value="{{ old('dept_name')}}" class="form-control" type="text">
-                                    @error('dept_name')
+                                    <input name="department_name" value="{{ old('department_name')}}" class="form-control" type="text">
+                                    @error('department_name')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -27,8 +27,8 @@
                             <div class="col-lg-6">
                                 <div class="form-group">
                                     <label>Department Code</label>
-                                    <input name="dept_code" value="{{ old('dept_code')}}" class="form-control" type="text">
-                                    @error('dept_code')
+                                    <input name="department_code" value="{{ old('department_code')}}" class="form-control" type="text">
+                                    @error('department_code')
                                     <span class="text-danger">{{ $message }}</span>
                                     @enderror
                                 </div>
@@ -41,8 +41,8 @@
                         </style>
                         <div class="form-group">
                             <label>Description</label>
-                            <textarea cols="30" id="editor" rows="4" name="dept_desc" value="{{ old('dept_desc')}}" class="form-control"></textarea>
-                            @error('dept_desc')
+                            <textarea cols="30" id="editor" rows="4" name="department_desc" value="{{ old('department_desc')}}" class="form-control"></textarea>
+                            @error('department_desc')
                             <span class="text-danger">{{ $message }}</span>
                             @enderror
                         </div>
