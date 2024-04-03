@@ -165,13 +165,16 @@ class DoctorController extends Controller
     {
         $countries = DB::table('countries')->get();
         $provinces = DB::table('provinces')->get();
-        $districts = DB::table('districts')->get();
-        $municipalities = DB::table('municipalities')->get();
-
         $departments = Department::all();
 
         $doctor_basic = Doctor::findOrFail($id);
-
+        // Retreiving districts based on province
+        $doctor_province = Province::findOrFail($doctor_basic->province_id);
+        $doctor_districts = $doctor_province->districts;
+        // Retreiving municipalities based on district
+        $doctor_district = District::findOrFail($doctor_basic->district_id);
+        $doctor_municipalities = $doctor_district->municipalities;
+        // Retreiving department based on doctor's department id
         $related_department = $doctor_basic->departments;
         $related_municipality = $doctor_basic->municipality;
         $related_district = $doctor_basic->district;
@@ -184,7 +187,7 @@ class DoctorController extends Controller
         return view('admin_Panel.doctor.edit-doctor',
         compact('doctor_basic','doctor_exp','doctor_addr','doctor_edu','related_department',
             'related_municipality','related_district','related_province',
-            'departments','countries','provinces','districts','municipalities'));
+            'departments','countries','provinces','doctor_districts','doctor_municipalities'));
     }
     public function getDistrictByProvinceEdit($provinceId)
     {

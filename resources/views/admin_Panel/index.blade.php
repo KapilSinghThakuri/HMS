@@ -8,7 +8,7 @@
                     <div class="dash-widget">
 						<span class="dash-widget-bg1"><i class="fa fa-stethoscope" aria-hidden="true"></i></span>
 						<div class="dash-widget-info text-right">
-							<h3>98</h3>
+							<h3>{{ $doctors->count() }}</h3>
 							<span class="widget-title1">Doctors <i class="fa fa-check" aria-hidden="true"></i></span>
 						</div>
                     </div>

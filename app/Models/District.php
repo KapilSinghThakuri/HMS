@@ -16,4 +16,12 @@ class District extends Model
     {
         return $this->hasOne(Doctor::class,'district_id','id');
     }
+    public function municipalities()
+    {
+        return $this->hasMany(Municipality::class,'district_id','district_code');
+    }
+    public function province()
+    {
+        return $this->belongsTo(Province::class,'province_id','id');
+    }
 }

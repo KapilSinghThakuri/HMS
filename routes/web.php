@@ -6,11 +6,13 @@ use App\Http\Controllers\Admin_Controller\RegisterController;
 use App\Http\Controllers\Admin_Controller\DashboardController;
 use App\Http\Controllers\Admin_Controller\DoctorController;
 use App\Http\Controllers\Admin_Controller\DepartmentController;
+use App\Http\Controllers\General_Controller\GeneralDashboardController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Admin User Routing
 Route::prefix('Healwave/admin')->group(function(){
 
     Route::middleware(['guest','throttle:3,1'])->group(function () {
@@ -43,5 +45,14 @@ Route::prefix('Healwave/admin')->group(function(){
         Route::view('patient/edit','admin_Panel.patient.edit-patient')->name('patient.edit');
     });
 });
+
+// General User Routing
+Route::prefix('Healwave')->group(function(){
+    Route::controller(GeneralDashboardController::class)->group(function ()
+    {
+        Route::get('dashboard','index')->name('general.dashboard');
+    });
+});
+
 
 

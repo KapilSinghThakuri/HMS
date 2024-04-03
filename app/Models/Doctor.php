@@ -10,7 +10,25 @@ class Doctor extends Model
     use HasFactory;
 
     protected $table = 'doctors';
-    protected $guarded = [];
+    protected $fillable = [
+        'user_id',
+        'department_id',
+        'first_name',
+        'middle_name',
+        'last_name',
+        'profile',
+        'gender',
+        'date_of_birth_BS',
+        'date_of_birth_AD',
+        'email',
+        'phone',
+        'country_id' ,
+        'province_id',
+        'district_id',
+        'province_id' ,
+        'municipality_id' ,
+        'street',
+    ];
 
     public function departments()
     {

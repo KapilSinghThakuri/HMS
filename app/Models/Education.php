@@ -10,5 +10,12 @@ class Education extends Model
     use HasFactory;
 
     protected $table = 'education';
-    protected $guarded = [];
+    protected $fillable = [
+        'doctor_id',
+        'institute_name' ,
+        'medical_degree' ,
+        'graduation_year_BS',
+        'graduation_year_AD',
+        'specialization',
+    ];
 }

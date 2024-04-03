@@ -172,7 +172,7 @@
                                         <label>District<span class="text-danger">*</span></label>
                                         <select id="district" class="form-control select" name="district">
                                             <option disabled selected> Select your district </option>
-                                            @foreach($districts as $district)
+                                            @foreach($doctor_districts as $district)
                                             <option value="{{ $district->district_code }}" {{ $district->district_code == $related_district->district_code ? 'selected' : ''  }}>{{ $district->{'district_name[nep]'} }}</option>
                                             @endforeach
                                         </select>
@@ -183,7 +183,7 @@
                                         <label>Municipality<span class="text-danger">*</span></label>
                                         <select id="municipality" class="form-control select" name="municipality">
                                             <option disabled selected> Select your Municipality </option>
-                                            @foreach($municipalities as $municipality)
+                                            @foreach($doctor_municipalities as $municipality)
                                             <option value="{{ $municipality->municipality_code }}" {{ $municipality->municipality_code == $related_municipality->municipality_code ? 'selected' : '' }} >{{ $municipality->{'municipality_name[nep]'} }}</option>
                                             @endforeach
                                         </select>

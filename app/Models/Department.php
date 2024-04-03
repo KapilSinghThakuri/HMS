@@ -10,7 +10,11 @@ class Department extends Model
     use HasFactory;
 
     protected $table = 'departments';
-    protected $guarded = [];
+    protected $fillable = [
+        'department_code',
+        'department_name',
+        'department_desc'
+    ];
 
     public function doctors()
     {

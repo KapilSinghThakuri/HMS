@@ -16,4 +16,8 @@ class Municipality extends Model
     {
         return $this->hasOne(Doctor::class,'municipality_id','id');
     }
+    public function district()
+    {
+        return $this->belongsTo(District::class,'district_id','district_code');
+    }
 }

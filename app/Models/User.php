@@ -12,5 +12,12 @@ class User extends AuthenticatableUser implements Authenticatable
     use HasFactory, Notifiable;
 
     protected $table = 'users';
-    protected $guarded = [];
+    protected $fillable = [
+        'role_id',
+        'username' ,
+        'email',
+        'password',
+        'address',
+        'phone',
+    ];
 }
