@@ -134,7 +134,7 @@
                         <li class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" >
                             <a href="{{ route('admin.dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
                         </li>
-                        <li class="{{ request()->routeIs('department.index') ||  request()->routeIs('department.create') || request()->routeIs('department.edit') ? 'active' : '' }}">
+                        <li class="{{ request()->routeIs('department.index') ||  request()->routeIs('department.create') || request()->routeIs('department.edit') || request()->routeIs('department.show') ? 'active' : '' }}">
                             <a href="{{ route('department.index') }}"><i class="fa fa-hospital-o"></i> <span>Departments</span></a>
                         </li>
                         <li class="{{ request()->routeIs('doctor.index') ||  request()->routeIs('doctor.create') || request()->routeIs('doctor.edit') || request()->routeIs('doctor.show') ? 'active' : '' }}">

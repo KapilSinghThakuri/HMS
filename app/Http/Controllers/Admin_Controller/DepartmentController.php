@@ -51,7 +51,8 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
-        //
+        $departments = Department::where('id',$id)->first();
+        return view('admin_Panel.department.department-details',compact('departments'));
     }
 
     /**

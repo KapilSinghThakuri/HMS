@@ -26,6 +26,7 @@
                                     <th>S No</th>
                                     <th>Department Name</th>
                                     <th>Department Code</th>
+                                    <th>Department Description</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -33,8 +34,13 @@
                                 @foreach($departments as $department)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $department->department_name }}</td>
+                                    <td>
+                                        <a href="{{ route('department.show',['department' => $department->id]) }}" style="text-decoration: none; color: black;">
+                                            {{ $department->department_name }}
+                                        </a>
+                                    </td>
 									<td>{{ $department->department_code }}</td>
+                                    <td>{!! Str::limit($department->department_desc, 30, '...'  ) !!}</td>
                                     <td>
                                         <a href="{{ route('department.edit', ['department' => $department->id]) }}" style="font-size: 20px;"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i></a>
                                         <a href="#" data-id="{{ $department->id }}" data-toggle="modal" data-target="#delete_department" style="font-size: 25px; color: red;"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
