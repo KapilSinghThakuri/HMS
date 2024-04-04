@@ -32,8 +32,10 @@ class LoginController extends Controller
             if ($roleId  === 1) {
                 $request->session()->regenerate();
                 return redirect()->route('admin.dashboard');
+            }elseif ($roleId === 2) {
+                return redirect()->route('doctor.dashboard');
             }else{
-                return redirect()->route('login.index');
+                return redirect()->route('general.dashboard');
             }
         }
         else{

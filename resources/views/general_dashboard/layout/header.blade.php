@@ -86,6 +86,6 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav>
       <a href="#appointment" class="appointment-btn scrollto"><span class="d-none d-md-inline">Make an</span> Appointment</a>
-      <a href="#appointment" class="appointment-btn scrollto"><span class="d-none d-md-inline">My</span>Profile</a>
+      <a href="{{ route('doctor.dashboard')}}" class="appointment-btn scrollto"><span class="d-none d-md-inline">My</span>Profile</a>
     </div>
   </header>

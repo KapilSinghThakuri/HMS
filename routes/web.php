@@ -7,24 +7,26 @@ use App\Http\Controllers\Admin_Controller\DashboardController;
 use App\Http\Controllers\Admin_Controller\DoctorController;
 use App\Http\Controllers\Admin_Controller\DepartmentController;
 use App\Http\Controllers\General_Controller\GeneralDashboardController;
+use App\Http\Controllers\General_Controller\ProfileController;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+// Register-Signin Routing
+Route::middleware(['guest','throttle:5,1'])->group(function () {
+    Route::get('Healwave/login',[LoginController::class,'index'])->name('login.index');
+    Route::post('Healwave/login/authenticate',[LoginController::class,'authenticateUser'])->name('login.authenticate');
+
+    Route::get('Healwave/register',[RegisterController::class,'index'])->name('register.index');
+    Route::get('Healwave/register/store',[RegisterController::class,'countries']);
+});
+
 // Admin User Routing
 Route::prefix('Healwave/admin')->group(function(){
+    Route::get('/logout',[LoginController::class,'logoutUser'])->name('logout');
 
-    Route::middleware(['guest','throttle:3,1'])->group(function () {
-        Route::get('login',[LoginController::class,'index'])->name('login.index');
-        Route::post('/login/authenticate',[LoginController::class,'authenticateUser'])->name('login.authenticate');
-
-        Route::get('register',[RegisterController::class,'index'])->name('register.index');
-        Route::get('register/store',[RegisterController::class,'countries']);
-    });
-
-    Route::middleware('auth')->group(function () {
-        Route::get('/logout',[LoginController::class,'logoutUser'])->name('logout');
+    Route::middleware(['auth','role_check'])->group(function () {
 
         Route::controller(DashboardController::class)->group(function(){
             Route::get('dashboard','index')->name('admin.dashboard');
@@ -56,6 +58,19 @@ Route::prefix('Healwave/admin')->group(function(){
 
 // General User Routing
 Route::prefix('Healwave')->group(function(){
+    Route::get('doctor/logout',[LoginController::class,'logoutUser'])->name('doctor.logout');
+    Route::middleware('auth')->group(function(){
+        Route::view('/doctor/dashboard','general_dashboard.doctor_dashboard.index')->name('doctor.dashboard');
+
+        Route::controller(ProfileController::class)->group(function (){
+            Route::GET('doctor/profile','index')->name('doctor.profile');
+            Route::GET('doctor/profile/edit','edit')->name('profile.edit');
+            Route::PUT('doctor/profile/update','update')->name('profile.update');
+
+            Route::get('doctor/profile/edit/district/{provinceId}',[ProfileController::class,'getDistrictByProvinceEdit']);
+            Route::get('doctor/profile/edit/municipality/{districtId}',[ProfileController::class,'getMunicipalityByDistrictEdit']);
+        });
+    });
     Route::controller(GeneralDashboardController::class)->group(function ()
     {
         Route::get('dashboard','index')->name('general.dashboard');
