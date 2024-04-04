@@ -43,6 +43,14 @@ Route::prefix('Healwave/admin')->group(function(){
         Route::view('patient','admin_Panel.patient.patients')->name('patient.index');
         Route::view('patient/create','admin_Panel.patient.add-patient')->name('patient.create');
         Route::view('patient/edit','admin_Panel.patient.edit-patient')->name('patient.edit');
+
+        Route::view('schedule','admin_Panel.doctor_schedule.schedule')->name('schedule.index');
+        Route::view('schedule/create','admin_Panel.doctor_schedule.add-schedule')->name('schedule.create');
+        Route::view('schedule/edit','admin_Panel.doctor_schedule.edit-schedule')->name('schedule.edit');
+
+        Route::view('appointment','admin_Panel.appointment.appointments')->name('appointment.index');
+        Route::view('appointment/create','admin_Panel.appointment.add-appointment')->name('appointment.create');
+        Route::view('appointment/edit','admin_Panel.appointment.edit-appointment')->name('appointment.edit');
     });
 });
 
