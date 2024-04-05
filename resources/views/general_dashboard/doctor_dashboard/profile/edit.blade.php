@@ -152,16 +152,16 @@
                                     <h4 class="page-title text-center border-bottom">Address Details</h4>
                                 </div>
                             </div>
-                            <div class="row mt-5">
+                            <div class="row mt-2">
                                 <div class="col-lg-12">
-                                    <h4 class="page-title">Permanent Address</h4>
+                                    <h4 class="page-title">Permanent Address </h4>
                                 </div>
                             </div>
-                            <div class="row" id="doctor_address">
+                            <div class="row" id="doctor_permanent_address">
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Country<span class="text-danger">*</span></label>
-                                        <select class="form-control select" name="country">
+                                        <select id="country" class="form-control select" name="country">
                                             <option disabled selected> Select your country </option>
                                             @foreach($countries as $country)
                                             <option value="{{ $country ->id }}" {{ $country->english_name == 'Nepal' ? 'selected' : '' }}>{{ $country ->english_name }}</option>
@@ -207,14 +207,17 @@
                                         <div class="col-sm-12">
                                             <div class="form-group">
                                                 <label>Street</label>
-                                                <input name="street" type="text" value="{{ $doctor_basic -> street}}" class="form-control ">
+                                                <input id="street" name="street" type="text" value="{{ $doctor_basic -> street}}" class="form-control ">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="m-t-20 text-center">
-                                <button type="button" onclick="tempAddress()" class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i> Add Temporary Address</button>
+                            <div class="m-t-20 text-center" id="addTempAddressBtn">
+                                <button  type="button" onclick="tempAddress()" class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i> Add Temporary Address</button>
+                            </div>
+                            <div id="doctor_temporary_address">
+                                <!-- here newly added temporary address ia placed... -->
                             </div>
                             <div class="m-t-20 d-flex justify-content-between">
                                 <button type="button" class="btn btn-outline-primary mr-auto btn-lg prevBtn" style="width: 130px; letter-spacing: 2px; font-size: 1.15rem;">Previous</button>
@@ -230,6 +233,11 @@
                                 </div>
                             </div>
                             <div class="row">
+                                <div class="col-lg-6">
+                                    <h4 class="page-title">Medical Degree</h4>
+                                </div>
+                            </div>
+                            <div class="row" id="medical_degree">
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Institute Name <span class="text-danger">*</span></label>
@@ -238,7 +246,7 @@
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <label>Medical Degree <span class="text-danger">*</span></label>
+                                        <label>Degree Title<span class="text-danger">*</span></label>
                                         <input name="medical_degree" value="{{ $doctor_edu -> medical_degree }}" class="form-control" type="text">
                                     </div>
                                 </div>
@@ -265,6 +273,14 @@
                                     </div>
                                 </div>
                             </div>
+
+                            <div id="addNextDegree">
+                                <!-- Here new degree input fields are placed... -->
+                            </div>
+                            <div class="m-t-20 text-center" id="addNewDegreeBtn">
+                                <button  type="button" onclick="nextDegree()" class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i> Add Next Degree</button>
+                            </div>
+
                             <div class="m-t-20 d-flex justify-content-between">
                                 <button type="button" class="btn btn-outline-primary mr-auto btn-lg prevBtn" style="width: 130px; letter-spacing: 2px; font-size: 1.15rem;">Previous</button>
                                 <button type="button" class="btn btn-primary ml-auto btn-lg nextBtn" style="width: 120px; letter-spacing: 2px; font-size: 1.15rem;">Next</button>
@@ -341,18 +357,6 @@
                                         <input name="email" class="form-control" value="{{ $doctor_basic->email }}" type="email">
                                     </div>
                                 </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Password <span class="text-danger">*</span></label>
-                                        <input name="password" class="form-control" type="password">
-                                    </div>
-                                </div>
-                                <div class="col-sm-6">
-                                    <div class="form-group">
-                                        <label>Confirm Password <span class="text-danger">*</span></label>
-                                        <input name="password_confirmation" class="form-control" type="password">
-                                    </div>
-                                </div>
                             </div>
 
                             <div class="m-t-20 d-flex justify-content-between">
@@ -368,11 +372,248 @@
     </div>
 </div>
 <script type="text/javascript">
-
+// New Input fields for Basic Details
+    let isCloned = false;
+    let tempProvinceId = '';
+    let tempDistrictId = '';
+    let tempMunicipalityId = '';
     function tempAddress() {
-        const nodeAddress = document.getElementById('doctor_address');
-        const cloneAddress = nodeAddress.cloneNode(true);
-        nodeAddress.appendChild(cloneAddress);
+        if (!isCloned) {
+            var addTempAddressBtn = document.getElementById('addTempAddressBtn');
+            addTempAddressBtn.style.display = 'none';
+
+            const mainDiv = document.getElementById('step2');
+            const nodeAddress = document.getElementById('doctor_permanent_address');
+            const clonedAddress = nodeAddress.cloneNode(true);
+
+            const tempDiv = document.createElement('div');
+            tempDiv.classList.add('mt-3');
+
+            var temTitle = document.createElement('h4');
+            temTitle.textContent = 'Temporary Address';
+            temTitle.classList.add('page-title','float-left');
+            tempDiv.appendChild(temTitle);
+
+            var removeBtn = document.createElement('span');
+            removeBtn.innerHTML = '<i class="fa fa-times"></i> Remove Temporary Address';
+            removeBtn.classList.add('btn', 'btn-danger', 'float-right');
+            tempDiv.appendChild(removeBtn);
+
+            doctor_temporary_address.appendChild(tempDiv);
+            doctor_temporary_address.appendChild(clonedAddress);
+            isCloned = true;
+
+            // Making new unique Name for newly cloned div input fields
+            clonedAddress.querySelectorAll('input, select').forEach(function(input) {
+                var originalName = input.getAttribute('name');
+                var newName = originalName + '_tempName';
+                input.setAttribute('name', newName);
+                console.log(newName);
+
+                // for extracting the new name of province and district
+                // Check if the input field is for province
+                if (originalName.includes('province')) {
+                    tempProvinceName = newName;
+                }
+                if (originalName.includes('district')) {
+                    tempDistrictName = newName;
+                }
+                if (originalName.includes('municipality')) {
+                    tempMunicipalityName = newName;
+                }
+            });
+
+            // Making new unique Id's for newly cloned div input fields
+            clonedAddress.querySelectorAll('input, select').forEach(function(input) {
+                var originalId = input.getAttribute('id');
+                var newId = originalId + '_tempId'; // Appending '_tempId' to the original ID
+                input.setAttribute('id', newId);
+                console.log(newId);
+
+                // for extracting the new ID of province, district, and municipality
+                // Check if the input field is for province
+                if (originalId.includes('province')) {
+                    tempProvinceId = newId;
+                }
+                if (originalId.includes('district')) {
+                    tempDistrictId = newId;
+                }
+                if (originalId.includes('municipality')) {
+                    tempMunicipalityId = newId;
+                }
+            });
+            // console.log(tempProvinceId);
+
+            // Get districts based on province for newly cloned div
+            $("#" + tempProvinceId).on('change', function () {
+                var provinceId = $(this).val();
+                console.log(provinceId);
+                if (provinceId) {
+                    $.ajax({
+                        url: '/Healwave/doctor/profile/edit/district/' + provinceId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function (response) {
+                            // console.log(response);
+                            var districtSelect = $('#' + tempDistrictId);
+                            districtSelect.empty().append('<option selected> Select your district </option>');
+
+                            response.forEach(function(district) {
+                                // console.log(district);
+                                districtSelect.append('<option value="' + district.district_code + '">' + district['district_name[nep]'] + '</option>');
+                            });
+                        },
+                        error: function(){
+                            alert('Error Fetching District !!!');
+                        }
+                    });
+                }else {
+                    $('#' + tempDistrictId).empty().append('<option value="">Select Your District</option>');
+                }
+            });
+            // Get municipalitis based on district for newly cloned div
+            $("#" + tempDistrictId).on('change', function () {
+                var districtId = $(this).val();
+                console.log(districtId);
+                if(districtId){
+                    $.ajax({
+                        url: '/Healwave/doctor/profile/edit/municipality/' + districtId,
+                        type: 'GET',
+                        dataType: 'json',
+                        success: function(response){
+                            // console.log(response);
+                            var municipalitySelect = $('#' + tempMunicipalityId);
+                            municipalitySelect.empty().append('<option selected> Select your municipality </option>');
+                            response.forEach(function (municipality) {
+                                // console.log(municipality);
+                                municipalitySelect.append('<option value="' + municipality.municipality_code + '">' + municipality['municipality_name[nep]'] + '</option>');
+                            });
+                        },
+                        error: function(){
+                            alert('Error Fetching Municipality !!!');
+                        }
+                    });
+                }else {
+                    $('#'+tempMunicipalityId).empty().append('<option value="">Select Your Municipality</option>');
+                }
+            });
+
+            removeBtn.onclick = function() {
+                addTempAddressBtn.style.display = 'block';
+
+                const mainDiv = document.getElementById('step2');
+                doctor_temporary_address.removeChild(tempDiv);
+                doctor_temporary_address.removeChild(clonedAddress);
+
+                isCloned = false;
+            };
+
+        } else {
+            console.log('Parent node has already been cloned.');
+        }
+    }
+
+
+// New Input fields for Educations
+    // intializing the degree counter for how we should add our education degree
+    let degreeCounter = 0;
+    const degreeTitles = ["+2 Degree", "Bachelor's Degree","Master's Degree(Optional)"];
+    function nextDegree() {
+        if (degreeCounter<3) {
+
+            const mainDiv = document.getElementById('step3');
+            const nodeDegree = document.getElementById('medical_degree');
+            const clonedDegree = nodeDegree.cloneNode(true);
+
+            clonedDegree.removeAttribute('id');
+            const tempDiv = document.createElement('div');
+            tempDiv.classList.add('mt-3');
+
+
+
+            // Setting unique name for cloned div's id and input field name here...
+            var oldInstitute_name = clonedDegree.querySelector('[name="institute_name"]');
+            var newInstitute_name = oldInstitute_name.name + [degreeCounter];
+            oldInstitute_name.name = newInstitute_name;
+            console.log(newInstitute_name);
+
+            var oldMedical_degree = clonedDegree.querySelector('[name="medical_degree"]');
+            var newMedical_degree = oldMedical_degree.name + [degreeCounter];
+            oldMedical_degree.name = newMedical_degree;
+            console.log(newMedical_degree);
+
+            var oldSpecialization = clonedDegree.querySelector('[name="specialization"]');
+            var newSpecialization = oldSpecialization.name + [degreeCounter];
+            oldSpecialization.name = newSpecialization;
+            console.log(newSpecialization);
+
+            var inputFieldNameBS = clonedDegree.querySelector('[name="graduation_year_BS"]');
+            var newGradNameBS = inputFieldNameBS.name + [degreeCounter];
+            inputFieldNameBS.name = newGradNameBS;
+            console.log(newGradNameBS);
+
+            var inputFieldIdBS = clonedDegree.querySelector('#grad_yearBS');
+            var newGradIdBS = inputFieldIdBS.id+ [degreeCounter];
+            inputFieldIdBS.id = newGradIdBS;
+            console.log(newGradIdBS);
+
+            var inputFieldNameAD = clonedDegree.querySelector('[name="graduation_year_AD"]');
+            var newGradNameAD = inputFieldNameAD.name + [degreeCounter];
+            inputFieldNameAD.name = newGradNameAD;
+            console.log(newGradNameAD);
+
+            var inputFieldIdAD = clonedDegree.querySelector('#grad_yearAD');
+            var newGradIdAD = inputFieldIdAD.id+ [degreeCounter];
+            inputFieldIdAD.id = newGradIdAD;
+            console.log(newGradIdAD);
+
+
+            var temTitle = document.createElement('h4');
+            temTitle.textContent = degreeTitles[degreeCounter];
+            temTitle.classList.add('page-title','float-left');
+            tempDiv.appendChild(temTitle);
+
+            var removeBtn = document.createElement('span');
+            removeBtn.innerHTML = '<i class="fa fa-times"></i> Remove this degree';
+            removeBtn.classList.add('btn', 'btn-danger', 'float-right');
+            tempDiv.appendChild(removeBtn);
+
+            addNextDegree.appendChild(tempDiv);
+            addNextDegree.appendChild(clonedDegree);
+            degreeCounter++;
+
+            // Making empty the newly cloned input fields
+            clonedDegree.querySelectorAll('input').forEach(function(input) {
+                input.value = '';
+            });
+
+            if (degreeCounter === 3) {
+                var addNewDegreeBtn = document.getElementById('addNewDegreeBtn');
+                addNewDegreeBtn.style.display = 'none';
+            }else{
+                addTempAddressBtn.style.display = 'block';
+            }
+
+            $('#' + newGradIdBS).nepaliDatePicker({
+                onChange: function() {
+                    var nepaliDate = $('#' + newGradIdBS).val();
+                    console.log(nepaliDate);
+                    var englishDate = NepaliFunctions.BS2AD(nepaliDate);
+                    $('#' + newGradIdAD).val(englishDate);
+                }
+            });
+
+            removeBtn.onclick = function() {
+                degreeCounter--;
+                // addTempAddressBtn.style.display = 'block';
+
+                const mainDiv = document.getElementById('step3');
+                addNextDegree.removeChild(tempDiv);
+                addNextDegree.removeChild(clonedDegree);
+            };
+        }else{
+            console.log('You can add only 3 different degree!!!');
+        }
     }
 
 
@@ -388,6 +629,7 @@
         .catch( error => {
                 console.error( error );
         } );
+
     $(document).ready(function () {
 
         $('#province').change(function () {
@@ -468,6 +710,7 @@
                 $('#dobAD').val(englishDate);
             }
         });
+
         $('#grad_yearBS').nepaliDatePicker({
             onChange: function() {
                 var nepaliDate = $('#grad_yearBS').val();
@@ -476,6 +719,7 @@
                 $('#grad_yearAD').val(englishDate);
             }
         });
+
         $('#start_dateBS').nepaliDatePicker({
             onChange: function() {
                 var nepaliDate = $('#start_dateBS').val();
