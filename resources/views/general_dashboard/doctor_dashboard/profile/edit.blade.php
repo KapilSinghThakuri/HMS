@@ -294,48 +294,54 @@
                                     <h4 class="page-title text-center border-bottom">Experience Details</h4>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" id="experience">
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Organization Name <span class="text-danger">*</span></label>
-                                        <input name="org_name" value="{{ $doctor_exp->org_name }}" type="text" class="form-control ">
+                                        <input name="org_name[]" value="{{ $doctor_exp->org_name }}" type="text" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Start Date[BS] <span class="text-danger">*</span></label>
-                                        <input name="start_date_BS" type="dob" value="{{ $doctor_exp->start_date_BS }}" id="start_dateBS" placeholder="Select your start date" class="form-control ">
+                                        <input name="start_date_BS[]" type="dob" value="{{ $doctor_exp->start_date_BS }}" id="start_dateBS" placeholder="Select your start date" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Start Date[AD] <span class="text-danger">*</span></label>
-                                        <input readonly type="date" name="start_date_AD" id="start_dateAD" value="{{ $doctor_exp->start_date_AD }}" class="form-control ">
+                                        <input readonly type="date" name="start_date_AD[]" id="start_dateAD" value="{{ $doctor_exp->start_date_AD }}" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>End Date[BS] <span class="text-danger">*</span></label>
-                                        <input name="end_date_BS" type="dob" id="end_dateBS" value="{{ $doctor_exp->end_date_BS }}" placeholder="Select your end date" class="form-control ">
+                                        <input name="end_date_BS[]" type="dob" id="end_dateBS" value="{{ $doctor_exp->end_date_BS }}" placeholder="Select your end date" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>End Date[AD] <span class="text-danger">*</span></label>
-                                        <input readonly type="date" id="end_dateAD" name="end_date_AD" value="{{ $doctor_exp->end_date_AD }}" class="form-control ">
+                                        <input readonly type="date" id="end_dateAD" name="end_date_AD[]" value="{{ $doctor_exp->end_date_AD }}" class="form-control ">
                                     </div>
                                 </div>
                                 <style type="text/css">
                                       .ck.ck-editor__main div {
-                                        height: 200px;
+                                        height: 150px;
                                     }
                                 </style>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Job Description</label>
-                                        <textarea id="job_description" name="job_description" class="form-control" rows="3" cols="30">{{ $doctor_exp->job_description }}</textarea>
+                                        <textarea id="job_description" name="job_description[]" class="form-control" rows="3" cols="30">{{ $doctor_exp->job_description }}</textarea>
                                     </div>
                                 </div>
+                            </div>
+                            <div id="addNextExperience">
+                                <!-- Here new experience input fields are apppear -->
+                            </div>
+                            <div class="m-t-20 text-center" id="addNewExperienceBtn">
+                                <button  type="button" onclick="nextExperience()" class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i> Add Next Experience</button>
                             </div>
                             <div class="m-t-20 d-flex justify-content-between">
                                 <button type="button" class="btn btn-lg mr-auto btn-outline-primary prevBtn" style="width: 130px; letter-spacing: 2px; font-size: 1.15rem;">Previous</button>
@@ -613,6 +619,124 @@
             };
         }else{
             console.log('You can add only 3 different degree!!!');
+        }
+    }
+
+    // New Input fields for Experience
+    let experienceCounter = 0;
+    const experienceTitles = ["A Experience", "B Experience","C Experience(Optional)"];
+    function nextExperience() {
+        if (experienceCounter<3) {
+
+            const mainDiv = document.getElementById('step4');
+            const nodeExperience = document.getElementById('experience');
+            const clonedExperience = nodeExperience.cloneNode(true);
+
+            clonedExperience.removeAttribute('id');
+            const tempDiv = document.createElement('div');
+            tempDiv.classList.add('mt-3');
+
+
+
+            // Setting unique name for cloned div's id and input field name here...
+            // var oldInstitute_name = clonedDegree.querySelector('[name="institute_name"]');
+            // var newInstitute_name = oldInstitute_name.name + [experienceCounter];
+            // oldInstitute_name.name = newInstitute_name;
+            // console.log(newInstitute_name);
+
+            // var oldMedical_degree = clonedDegree.querySelector('[name="medical_degree"]');
+            // var newMedical_degree = oldMedical_degree.name + [experienceCounter];
+            // oldMedical_degree.name = newMedical_degree;
+            // console.log(newMedical_degree);
+
+            // var oldSpecialization = clonedDegree.querySelector('[name="specialization"]');
+            // var newSpecialization = oldSpecialization.name + [experienceCounter];
+            // oldSpecialization.name = newSpecialization;
+            // console.log(newSpecialization);
+
+            // var inputFieldNameBS = clonedDegree.querySelector('[name="graduation_year_BS"]');
+            // var newGradNameBS = inputFieldNameBS.name + [experienceCounter];
+            // inputFieldNameBS.name = newGradNameBS;
+            // console.log(newGradNameBS);
+
+            // var inputFieldNameAD = clonedDegree.querySelector('[name="graduation_year_AD"]');
+            // var newGradNameAD = inputFieldNameAD.name + [experienceCounter];
+            // inputFieldNameAD.name = newGradNameAD;
+            // console.log(newGradNameAD);
+
+            var startDateBsId = clonedExperience.querySelector('#start_dateBS');
+            var newStartDateBsId = startDateBsId.id + [experienceCounter];
+            startDateBsId.id = newStartDateBsId;
+            console.log(newStartDateBsId);
+
+            var startDateAdId = clonedExperience.querySelector('#start_dateAD');
+            var newStartDateAdId = startDateAdId.id+ [experienceCounter];
+            startDateAdId.id = newStartDateAdId;
+            console.log(newStartDateAdId);
+
+            var endDateBsId = clonedExperience.querySelector('#end_dateBS');
+            var newEndDateBsId = endDateBsId.id + [experienceCounter];
+            endDateBsId.id = newEndDateBsId;
+            console.log(newEndDateBsId);
+
+            var endDateAdId = clonedExperience.querySelector('#end_dateAD');
+            var newEndDateAdId = endDateAdId.id + [experienceCounter];
+            endDateAdId.id = newEndDateAdId;
+            console.log(newEndDateAdId);
+
+            // Creating title for new experience div
+            var temTitle = document.createElement('h4');
+            temTitle.textContent = experienceTitles[experienceCounter];
+            temTitle.classList.add('page-title','float-left');
+            tempDiv.appendChild(temTitle);
+            // Creating remove button for new experience div
+            var removeBtn = document.createElement('span');
+            removeBtn.innerHTML = '<i class="fa fa-times"></i> Remove This Experience';
+            removeBtn.classList.add('btn', 'btn-danger', 'float-right');
+            tempDiv.appendChild(removeBtn);
+
+            addNextExperience.appendChild(tempDiv);
+            addNextExperience.appendChild(clonedExperience);
+            experienceCounter++;
+
+            // Making empty the newly cloned input fields
+            clonedExperience.querySelectorAll('input').forEach(function(input) {
+                input.value = '';
+            });
+
+            if (experienceCounter === 3) {
+                var addNewExperienceBtn = document.getElementById('addNewExperienceBtn');
+                addNewExperienceBtn.style.display = 'none';
+            }
+
+            // Converting the selected nepali dato to english date
+            $('#' + newStartDateBsId).nepaliDatePicker({
+                onChange: function() {
+                    var nepaliDate = $('#' + newStartDateBsId).val();
+                    console.log(nepaliDate);
+                    var englishDate = NepaliFunctions.BS2AD(nepaliDate);
+                    $('#' + newStartDateAdId).val(englishDate);
+                }
+            });
+            $('#' + newEndDateBsId).nepaliDatePicker({
+                onChange: function() {
+                    var nepaliDate = $('#' + newEndDateBsId).val();
+                    console.log(nepaliDate);
+                    var englishDate = NepaliFunctions.BS2AD(nepaliDate);
+                    $('#' + newEndDateAdId).val(englishDate);
+                }
+            });
+
+
+            removeBtn.onclick = function() {
+                experienceCounter--;
+
+                const mainDiv = document.getElementById('step4');
+                addNextExperience.removeChild(tempDiv);
+                addNextExperience.removeChild(clonedExperience);
+            };
+        }else{
+            console.log('You can add only 3 different experiences !!!');
         }
     }
 
