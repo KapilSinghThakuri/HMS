@@ -8,6 +8,8 @@ use App\Http\Controllers\Admin_Controller\DoctorController;
 use App\Http\Controllers\Admin_Controller\DepartmentController;
 use App\Http\Controllers\General_Controller\GeneralDashboardController;
 use App\Http\Controllers\General_Controller\ProfileController;
+use App\Http\Controllers\General_Controller\ScheduleController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -70,6 +72,8 @@ Route::prefix('Healwave')->group(function(){
             Route::get('doctor/profile/edit/district/{provinceId}',[ProfileController::class,'getDistrictByProvinceEdit']);
             Route::get('doctor/profile/edit/municipality/{districtId}',[ProfileController::class,'getMunicipalityByDistrictEdit']);
         });
+
+        Route::resource('doctor/my-schedule',ScheduleController::class);
     });
     Route::controller(GeneralDashboardController::class)->group(function ()
     {

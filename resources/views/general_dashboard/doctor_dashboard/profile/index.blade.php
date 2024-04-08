@@ -11,6 +11,12 @@
                 <a href="{{ route('profile.edit') }}" class="btn btn-primary btn-rounded"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile </a>
             </div>
         </div>
+        @if(session('success_message'))
+            <div class="alert alert-success">{{ session('success_message')}}</div>
+        @endif
+        @if(session('fail_message'))
+            <div class="alert alert-success">{{ session('fail_message')}}</div>
+        @endif
         <div class="card-box profile-header">
             <div class="row">
                 <div class="col-md-12">
@@ -100,7 +106,7 @@
                                             </div>
                                             <div class="experience-content">
                                                 <div class="timeline-content">
-                                                    <a href="#/" class="name">{{ $doctor_exp -> job_description}}</a>
+                                                    <a href="#/" class="name">{!! $doctor_exp -> job_description !!}</a>
                                                     <span class="time">{{ $doctor_exp -> start_date_BS}} - {{ $doctor_exp -> end_date_BS}}</span>
                                                 </div>
                                             </div>

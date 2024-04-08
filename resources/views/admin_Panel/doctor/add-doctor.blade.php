@@ -441,9 +441,9 @@
             if (!$('#male').is(':checked') && !$('#female').is(':checked')) {
                 emptyFieldErrors.push('Gender is required');
             }
-            if ($('#profile').val().trim() === '') {
-                emptyFieldErrors.push('Profile is required');
-            }
+            // if ($('#profile').val().trim() === '') {
+            //     emptyFieldErrors.push('Profile is required');
+            // }
             if ($('#dobBS').val().trim() === '') {
                 emptyFieldErrors.push('Date of Birth[BS] is required');
             }

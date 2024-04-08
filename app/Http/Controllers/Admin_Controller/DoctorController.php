@@ -262,6 +262,15 @@ class DoctorController extends Controller
         if ($request->hasFile('profile')) {
             $file = $request->file('profile');
             $fileName = time().'.'.$file->getClientOriginalExtension();
+
+            // Delete the previous image if it exists
+            if ($doctors->profile) {
+                $previousImagePath = public_path($doctors->profile);
+                if (file_exists($previousImagePath)) {
+                    unlink($previousImagePath);
+                }
+            }
+
             $file->move(public_path('admin_Assets/img/doctors'), $fileName);
             $doctors->update([
                 'profile' => '/admin_Assets/img/doctors'.'/'.$fileName,
@@ -316,18 +325,36 @@ class DoctorController extends Controller
     public function destroy($id)
     {
         $doctor_edu = Education::where('doctor_id', $id)->first();
-        $doctor_edu->delete();
+        if ($doctor_edu) {
+            $doctor_edu->delete();
+        }
 
         $doctor_exp = Experience::where('doctor_id', $id)->first();
-        $doctor_exp->delete();
+        if ($doctor_exp) {
+            $doctor_exp->delete();
+        }
 
         $doctor_basic = Doctor::where('id', $id)->first();
-        $doctor_basic->delete();
+        if ($doctor_basic) {
+            $doctor_basic->delete();
+        }
+
+        if ($doctor_basic->profile) {
+            $imagePath = public_path($doctor_basic->profile);
+            if (file_exists($imagePath)) {
+                unlink($imagePath);
+            }
+        }
 
         $user_id = $doctor_basic->user_id;
-        $doctor = User::where('id', $user_id)->first();
-        $doctor->delete();
+        if ($user_id) {
+            $doctor = User::find($user_id);
+            if ($doctor) {
+                $doctor->delete();
+            }
+        }
 
         return redirect()->route('doctor.index')->with('success_message','Doctor deleted Successfully !!!');
     }
+
 }

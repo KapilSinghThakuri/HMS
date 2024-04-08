@@ -16,7 +16,8 @@
 
     <!-- CKeditor CDN -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
-
+    <!-- X-CSRF Tokens -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <!-- Nepali Date Picker -->
@@ -40,7 +41,16 @@
                             <img class="rounded-circle" src="{{ asset('admin_Assets/img/user.jpg') }}" width="24" alt="Admin">
                             <span class="status online"></span>
                         </span>
-                        <span>Doctor</span>
+                        @if (Auth::check())
+                            @php
+                                $fullName = Auth::user()->username;
+                                $parts = explode(" ", $fullName);
+                                $firstName = $parts[0];
+                            @endphp
+                            Hello, <span>{{ $firstName }}</span>!
+                        @else
+                            Please Signin!
+                        @endif
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="">My Profile</a>
@@ -62,8 +72,8 @@
                         <li class="{{ request()->routeIs('doctor.profile') ||  request()->routeIs('profile.edit') ? 'active' : '' }}">
                             <a href="{{ route('doctor.profile')}}"> <i class="fa fa-user" aria-hidden="true"></i> <span>My Profile</span></a>
                         </li>
-                        <li class="{{ request()->routeIs('schedule.index') || request()->routeIs('schedule.create') || request()->routeIs('schedule.edit') ? 'active' : '' }} ">
-                            <a href="#"><i class="fa fa-calendar-check-o"></i> <span>My Schedule</span></a>
+                        <li class="{{ request()->routeIs('my-schedule.index') || request()->routeIs('my-schedule.create') || request()->routeIs('my-schedule.edit') ? 'active' : '' }} ">
+                            <a href="{{ route('my-schedule.index') }}"><i class="fa fa-calendar-check-o"></i> <span>My Schedule</span></a>
                         </li>
                         <li class="{{ request()->routeIs('appointment.index') || request()->routeIs('appointment.create') || request()->routeIs('appointment.edit') ? 'active' : '' }}">
                             <a href="#"><i class="fa fa-calendar"></i> <span>Appointments</span></a>

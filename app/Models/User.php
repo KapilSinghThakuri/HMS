@@ -20,4 +20,8 @@ class User extends AuthenticatableUser implements Authenticatable
         'address',
         'phone',
     ];
+    public function doctor()
+    {
+        return $this->hasOne(Doctor::class,'user_id','id');
+    }
 }

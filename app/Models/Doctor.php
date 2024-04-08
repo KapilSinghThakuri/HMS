@@ -28,11 +28,24 @@ class Doctor extends Model
         'province_id' ,
         'municipality_id' ,
         'street',
+        'temp_country_id',
+        'temp_province_id',
+        'temp_district_id',
+        'temp_municipality_id',
+        'temp_street',
     ];
 
     public function departments()
     {
         return $this->belongsTo(Department::class,'department_id','id');
+    }
+    public function educations()
+    {
+        return $this->hasMany(Education::class,'doctor_id','id');
+    }
+    public function experiences()
+    {
+        return $this->hasMany(Experience::class,'doctor_id','id');
     }
 
     public function country()

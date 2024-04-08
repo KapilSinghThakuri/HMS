@@ -298,31 +298,31 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Organization Name <span class="text-danger">*</span></label>
-                                        <input name="org_name[]" value="{{ $doctor_exp->org_name }}" type="text" class="form-control ">
+                                        <input name="org_name" value="{{ $doctor_exp->org_name }}" type="text" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Start Date[BS] <span class="text-danger">*</span></label>
-                                        <input name="start_date_BS[]" type="dob" value="{{ $doctor_exp->start_date_BS }}" id="start_dateBS" placeholder="Select your start date" class="form-control ">
+                                        <input name="start_date_BS" type="dob" value="{{ $doctor_exp->start_date_BS }}" id="start_dateBS" placeholder="Select your start date" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Start Date[AD] <span class="text-danger">*</span></label>
-                                        <input readonly type="date" name="start_date_AD[]" id="start_dateAD" value="{{ $doctor_exp->start_date_AD }}" class="form-control ">
+                                        <input readonly type="date" name="start_date_AD" id="start_dateAD" value="{{ $doctor_exp->start_date_AD }}" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>End Date[BS] <span class="text-danger">*</span></label>
-                                        <input name="end_date_BS[]" type="dob" id="end_dateBS" value="{{ $doctor_exp->end_date_BS }}" placeholder="Select your end date" class="form-control ">
+                                        <input name="end_date_BS" type="dob" id="end_dateBS" value="{{ $doctor_exp->end_date_BS }}" placeholder="Select your end date" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>End Date[AD] <span class="text-danger">*</span></label>
-                                        <input readonly type="date" id="end_dateAD" name="end_date_AD[]" value="{{ $doctor_exp->end_date_AD }}" class="form-control ">
+                                        <input readonly type="date" id="end_dateAD" name="end_date_AD" value="{{ $doctor_exp->end_date_AD }}" class="form-control ">
                                     </div>
                                 </div>
                                 <style type="text/css">
@@ -333,7 +333,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Job Description</label>
-                                        <textarea id="job_description" name="job_description[]" class="form-control" rows="3" cols="30">{{ $doctor_exp->job_description }}</textarea>
+                                        <textarea id="job_description" name="job_description" class="form-control" rows="3" cols="30">{{ $doctor_exp->job_description }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -378,7 +378,7 @@
     </div>
 </div>
 <script type="text/javascript">
-// New Input fields for Basic Details
+// New Input Fields For Addresses
     let isCloned = false;
     let tempProvinceId = '';
     let tempDistrictId = '';
@@ -596,7 +596,7 @@
             if (degreeCounter === 3) {
                 var addNewDegreeBtn = document.getElementById('addNewDegreeBtn');
                 addNewDegreeBtn.style.display = 'none';
-            }else{
+            } else {
                 addTempAddressBtn.style.display = 'block';
             }
 
@@ -611,7 +611,11 @@
 
             removeBtn.onclick = function() {
                 degreeCounter--;
-                // addTempAddressBtn.style.display = 'block';
+
+                if (degreeCounter < 3) {
+                    var addNewDegreeBtn = document.getElementById('addNewDegreeBtn');
+                    addNewDegreeBtn.style.display = 'block';
+                }
 
                 const mainDiv = document.getElementById('step3');
                 addNextDegree.removeChild(tempDiv);
@@ -639,30 +643,12 @@
 
 
             // Setting unique name for cloned div's id and input field name here...
-            // var oldInstitute_name = clonedDegree.querySelector('[name="institute_name"]');
-            // var newInstitute_name = oldInstitute_name.name + [experienceCounter];
-            // oldInstitute_name.name = newInstitute_name;
-            // console.log(newInstitute_name);
-
-            // var oldMedical_degree = clonedDegree.querySelector('[name="medical_degree"]');
-            // var newMedical_degree = oldMedical_degree.name + [experienceCounter];
-            // oldMedical_degree.name = newMedical_degree;
-            // console.log(newMedical_degree);
-
-            // var oldSpecialization = clonedDegree.querySelector('[name="specialization"]');
-            // var newSpecialization = oldSpecialization.name + [experienceCounter];
-            // oldSpecialization.name = newSpecialization;
-            // console.log(newSpecialization);
-
-            // var inputFieldNameBS = clonedDegree.querySelector('[name="graduation_year_BS"]');
-            // var newGradNameBS = inputFieldNameBS.name + [experienceCounter];
-            // inputFieldNameBS.name = newGradNameBS;
-            // console.log(newGradNameBS);
-
-            // var inputFieldNameAD = clonedDegree.querySelector('[name="graduation_year_AD"]');
-            // var newGradNameAD = inputFieldNameAD.name + [experienceCounter];
-            // inputFieldNameAD.name = newGradNameAD;
-            // console.log(newGradNameAD);
+            clonedExperience.querySelectorAll('input, select').forEach(function(input) {
+                var originalName = input.getAttribute('name');
+                var newName = originalName + [experienceCounter];
+                input.setAttribute('name', newName);
+                console.log(newName);
+            });
 
             var startDateBsId = clonedExperience.querySelector('#start_dateBS');
             var newStartDateBsId = startDateBsId.id + [experienceCounter];
@@ -730,6 +716,10 @@
 
             removeBtn.onclick = function() {
                 experienceCounter--;
+                if (experienceCounter < 3) {
+                    var addNewExperienceBtn = document.getElementById('addNewExperienceBtn');
+                    addNewExperienceBtn.style.display = 'block';
+                }
 
                 const mainDiv = document.getElementById('step4');
                 addNextExperience.removeChild(tempDiv);
