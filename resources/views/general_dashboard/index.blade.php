@@ -106,7 +106,7 @@
           <div class="col-lg-3 col-md-6">
             <div class="count-box">
               <i class="fas fa-user-md"></i>
-              <span data-purecounter-start="0" data-purecounter-end="85" data-purecounter-duration="1" class="purecounter"></span>
+              <span data-purecounter-start="0" data-purecounter-end="{{ $doctors->count()}}" data-purecounter-duration="1" class="purecounter"></span>
               <p>Doctors</p>
             </div>
           </div>
@@ -114,7 +114,7 @@
           <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
             <div class="count-box">
               <i class="far fa-hospital"></i>
-              <span data-purecounter-start="0" data-purecounter-end="18" data-purecounter-duration="1" class="purecounter"></span>
+              <span data-purecounter-start="0" data-purecounter-end="{{ $departments->count()}}" data-purecounter-duration="1" class="purecounter"></span>
               <p>Departments</p>
             </div>
           </div>
@@ -279,21 +279,14 @@
         <div class="row gy-4">
           <div class="col-lg-3">
             <ul class="nav nav-tabs flex-column">
+              @foreach($departments as $department)
               <li class="nav-item">
-                <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">Cardiology</a>
+                <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">{{ $department->department_name }}</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#tab-2">Neurology</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#tab-3">Hepatology</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#tab-4">Pediatrics</a>
-              </li>
-              <li class="nav-item">
+              @endforeach
+              <!-- <li class="nav-item">
                 <a class="nav-link" data-bs-toggle="tab" href="#tab-5">Eye Care</a>
-              </li>
+              </li> -->
             </ul>
           </div>
           <div class="col-lg-9">

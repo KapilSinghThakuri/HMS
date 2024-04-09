@@ -12,6 +12,12 @@
                     <a href="{{ route('my-schedule.create')}}" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Schedule</a>
                 </div>
             </div>
+            @if(session('success_message'))
+                <div class="alert alert-success">{{ session('success_message')}}</div>
+            @endif
+            @if(session('fail_message'))
+                <div class="alert alert-success">{{ session('fail_message')}}</div>
+            @endif
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
@@ -20,39 +26,47 @@
                                 <tr>
                                     <th>Doctor Name</th>
                                     <th>Department</th>
-                                    <th>Available Days</th>
+                                    <th>Available Date</th>
                                     <th>Available Time</th>
                                     <th>Status</th>
                                     <th class="text-right">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @foreach($schedules as $schedule)
                                 <tr>
-                                    <td><img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt=""> Henry Daniels</td>
-                                    <td>Cardiology</td>
-                                    <td>Sunday, Monday, Tuesday</td>
-                                    <td>10:00 AM - 7:00 PM</td>
+                                    <td><img width="28" height="28" src="{{ asset($doctor->profile) }}" class="rounded-circle m-r-5" alt="">{{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}</td>
+                                    <td>{{ $department->department_name }}</td>
+                                    <td>{{ $schedule->in }}</td>
+                                    <td>{{ $schedule->from }} - {{ $schedule->to }}</td>
                                     <td><span class="custom-badge status-green">Active</span></td>
                                     <td>
-                                        <a href="{{ route('schedule.edit') }}" style="font-size: 20px;"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i></a>
-                                        <a href="#" data-toggle="modal" data-target="#delete_schedule" style="font-size: 25px; color: red;"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                        <a href="{{ route('my-schedule.edit',['my_schedule'=>$schedule->id] )}}" style="font-size: 20px;"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i></a>
+                                        <a href="#" data-toggle="modal" data-id="{{ $schedule->id }}" data-target="#delete_schedule_{{ $schedule->id }}" style="font-size: 25px; color: red;"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
+                                <!-- Delete Confirm Modal -->
+                                <div id="delete_schedule_{{ $schedule->id }}" class="modal fade delete-modal" role="dialog">
+                                    <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                            <div class="modal-body text-center">
+                                                <img src="{{ asset('admin_Assets/img/sent.png') }}" alt="" width="50" height="46">
+                                                <h3>Are you sure want to delete this Schedule?</h3>
+                                                <div class="m-t-20 d-flex justify-content-center">
+                                                    <a href="#" class="btn btn-white mr-2" data-dismiss="modal">Close</a>
+                                                    <form action="{{ route('my-schedule.destroy',['my_schedule'=>$schedule->id] )}}" method="POST">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="delete_schedule" class="modal fade delete-modal" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-body text-center">
-                    <img src="assets/img/sent.png" alt="" width="50" height="46">
-                    <h3>Are you sure want to delete this Schedule?</h3>
-                    <div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
-                        <button type="submit" class="btn btn-danger">Delete</button>
                     </div>
                 </div>
             </div>

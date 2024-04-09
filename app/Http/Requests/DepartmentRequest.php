@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Request;
+
 
 class DepartmentRequest extends FormRequest
 {
@@ -21,10 +23,11 @@ class DepartmentRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(Request $request)
     {
+        $id = $request->department;
         return [
-            'department_code' => 'required|alpha_dash|unique:departments,department_code',
+            'department_code' => 'required|alpha_dash|unique:departments,department_code,' . $id,
             'department_name' => 'required|string',
             'department_desc' => 'required|string',
         ];

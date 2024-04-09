@@ -47,6 +47,10 @@ class Doctor extends Model
     {
         return $this->hasMany(Experience::class,'doctor_id','id');
     }
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class,'doctor_id','id');
+    }
 
     public function country()
     {

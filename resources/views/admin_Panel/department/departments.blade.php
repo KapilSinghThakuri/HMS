@@ -60,11 +60,11 @@
 				<div class="modal-body text-center">
 					<img src="{{ asset('admin_Assets/img/sent.png')}}" alt="" width="50" height="46">
 					<h3>Are you sure want to delete this Department?</h3>
-					<div class="m-t-20"> <a href="#" class="btn btn-white" data-dismiss="modal">Close</a>
+					<div class="m-t-20 d-flex justify-content-center"> <a href="#" class="btn btn-white mr-2" data-dismiss="modal">Close</a>
                         <form action="{{ route('department.destroy', ['department' => $department->id]) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger mt-2">Delete</button>
+                            <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
 					</div>
 				</div>
