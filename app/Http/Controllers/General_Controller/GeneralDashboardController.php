@@ -22,7 +22,10 @@ class GeneralDashboardController extends Controller
 {
     public function index()
     {
-        $departments = Department::all();
+        $departments = Department::with('doctors')->get();
+
+        $doc = Department::with('doctors')->find(1);
+        dd($doc);
         $doctors = Doctor::all();
         return view('general_dashboard.index',compact('departments','doctors'));
     }

@@ -14,6 +14,8 @@
         <script src="assets/js/respond.min.js"></script>
     <![endif]-->
 
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" href="{{ asset('general_Assets/css/index-style.css')}}">
     <!-- CKeditor CDN -->
     <script src="https://cdn.ckeditor.com/ckeditor5/41.2.1/classic/ckeditor.js"></script>
     <!-- X-CSRF Tokens -->

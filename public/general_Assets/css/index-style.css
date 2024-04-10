@@ -1,0 +1,37 @@
+.profile-card {
+  background-color: #1977cc;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.profile-img {
+  border-radius: 50%;
+  background-color: #fff;
+  height: 50px;
+  width: 50px;
+  margin-right: 10px;
+}
+
+.profile-img img {
+  border-radius: 50%;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.profile-details {
+  flex-grow: 1;
+}
+
+.profile-name {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 2px;
+}
+
+.profile-specialization {
+  font-size: 14px;
+}

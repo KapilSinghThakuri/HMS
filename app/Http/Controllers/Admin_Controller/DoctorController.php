@@ -75,68 +75,75 @@ class DoctorController extends Controller
     {
         $validated_data = $request->validated();
 
-        $username = $validated_data['first_name'] .' '. $validated_data['middle_name'] .' '. $validated_data['last_name'];
-        $user_address = $validated_data['province'] .'-'. $validated_data['district'] .'-'. $validated_data['municipality'] .'-'. $validated_data['street'];
-        $user = User::create([
-            'role_id' => 2,
-            'username' => $username,
-            'email' => $validated_data['email'],
-            'password' => Hash::make($validated_data['password']),
-            'address' => $user_address,
-            'phone' => $validated_data['phone'],
-        ]);
-        $user_id = $user->id;
+        DB::beginTransaction();
+        try {
+            $username = $validated_data['first_name'] .' '. $validated_data['middle_name'] .' '. $validated_data['last_name'];
+            $user_address = $validated_data['province'] .'-'. $validated_data['district'] .'-'. $validated_data['municipality'] .'-'. $validated_data['street'];
+            $user = User::create([
+                'role_id' => 2,
+                'username' => $username,
+                'email' => $validated_data['email'],
+                'password' => Hash::make($validated_data['password']),
+                'address' => $user_address,
+                'phone' => $validated_data['phone'],
+            ]);
+            $user_id = $user->id;
 
-        if ($request->hasFile('profile')) {
-            $file = $request->file('profile');
-            $fileName = time().'.'.$file->getClientOriginalExtension();
-            $file->move(public_path('admin_Assets/img/doctors'), $fileName);
-        } else {
-            return back()->with('fail_message', 'Please upload a profile picture!!!');
+            if ($request->hasFile('profile')) {
+                $file = $request->file('profile');
+                $fileName = time().'.'.$file->getClientOriginalExtension();
+                $file->move(public_path('admin_Assets/img/doctors'), $fileName);
+            } else {
+                return back()->with('fail_message', 'Please upload a profile picture!!!');
+            }
+
+            $doctor = Doctor::create([
+                'user_id' => $user_id,
+                'department_id' =>$validated_data['department_id'],
+                'first_name' => $validated_data['first_name'],
+                'middle_name' => $validated_data['middle_name'] == "" ? "" : $validated_data['middle_name'],
+                'last_name' => $validated_data['last_name'],
+                'profile' => '/admin_Assets/img/doctors'.'/'.$fileName,
+                'gender' => $validated_data['gender'],
+                'date_of_birth_BS' => $validated_data['dobBS'],
+                'date_of_birth_AD' => $validated_data['dobAD'],
+                'email' => $validated_data['email'],
+                'phone' => $validated_data['phone'],
+
+                'country_id' => $validated_data['country'],
+                'province_id' => $validated_data['province'],
+                'district_id' => $validated_data['district'],
+                'province_id' => $validated_data['province'],
+                'municipality_id' => $validated_data['municipality'],
+                'street' => $validated_data['street'],
+            ]);
+            $doctor_id = $doctor->id;
+
+            Education::create([
+                'doctor_id' => $doctor_id,
+                'institute_name' => $validated_data['institute_name'],
+                'medical_degree' => $validated_data['medical_degree'],
+                'graduation_year_BS' => $validated_data['grad_yearBS'],
+                'graduation_year_AD' => $validated_data['grad_yearAD'],
+                'specialization' => $validated_data['specialization'],
+            ]);
+
+            Experience::create([
+                'doctor_id' => $doctor_id,
+                'license_no' => $validated_data['license_no'],
+                'org_name' => $validated_data['org_name'],
+                'start_date_BS' => $validated_data['start_dateBS'],
+                'start_date_AD' => $validated_data['start_dateAD'],
+                'end_date_BS' => $validated_data['end_dateBS'],
+                'end_date_AD' => $validated_data['end_dateAD'],
+                'job_description' => $validated_data['jobDescription'],
+            ]);
+             DB::commit();
+            return redirect()->route('doctor.index')->with('success_message','Doctor Added Successfully !!!');
+        } catch (Exception $e) {
+            DB::rollback();
+            return $e->getMessage();
         }
-
-        $doctor = Doctor::create([
-            'user_id' => $user_id,
-            'department_id' =>$validated_data['department_id'],
-            'first_name' => $validated_data['first_name'],
-            'middle_name' => $validated_data['middle_name'] == "" ? "" : $validated_data['middle_name'],
-            'last_name' => $validated_data['last_name'],
-            'profile' => '/admin_Assets/img/doctors'.'/'.$fileName,
-            'gender' => $validated_data['gender'],
-            'date_of_birth_BS' => $validated_data['dobBS'],
-            'date_of_birth_AD' => $validated_data['dobAD'],
-            'email' => $validated_data['email'],
-            'phone' => $validated_data['phone'],
-
-            'country_id' => $validated_data['country'],
-            'province_id' => $validated_data['province'],
-            'district_id' => $validated_data['district'],
-            'province_id' => $validated_data['province'],
-            'municipality_id' => $validated_data['municipality'],
-            'street' => $validated_data['street'],
-        ]);
-        $doctor_id = $doctor->id;
-
-        Education::create([
-            'doctor_id' => $doctor_id,
-            'institute_name' => $validated_data['institute_name'],
-            'medical_degree' => $validated_data['medical_degree'],
-            'graduation_year_BS' => $validated_data['grad_yearBS'],
-            'graduation_year_AD' => $validated_data['grad_yearAD'],
-            'specialization' => $validated_data['specialization'],
-        ]);
-
-        Experience::create([
-            'doctor_id' => $doctor_id,
-            'license_no' => $validated_data['license_no'],
-            'org_name' => $validated_data['org_name'],
-            'start_date_BS' => $validated_data['start_dateBS'],
-            'start_date_AD' => $validated_data['start_dateAD'],
-            'end_date_BS' => $validated_data['end_dateBS'],
-            'end_date_AD' => $validated_data['end_dateAD'],
-            'job_description' => $validated_data['jobDescription'],
-        ]);
-        return redirect()->route('doctor.index')->with('success_message','Doctor Added Successfully !!!');
     }
 
     /**

@@ -31,7 +31,7 @@ class DoctorRequst extends FormRequest
             'phone' => ['required', 'numeric', 'digits:10'],
             'department_id' => ['required'],
             'license_no' => ['required','alpha_dash'],
-            'profile' => ['nullable','required','image','mimes:jpeg,png,jpg,gif','max:3072'],
+            'profile' => ['nullable','image','mimes:jpeg,png,jpg,gif','max:3072'],
 
             'dobBS' => ['required', 'date'],
             'dobAD' => ['required', 'date'],

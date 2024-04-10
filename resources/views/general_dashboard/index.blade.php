@@ -284,9 +284,6 @@
                 <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">{{ $department->department_name }}</a>
               </li>
               @endforeach
-              <!-- <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="tab" href="#tab-5">Eye Care</a>
-              </li> -->
             </ul>
           </div>
           <div class="col-lg-9">
@@ -294,16 +291,37 @@
               <div class="tab-pane active show" id="tab-1">
                 <div class="row gy-4">
                   <div class="col-lg-8 details order-2 order-lg-1">
-                    <h3>Cardiology</h3>
-                    <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde sonata raqer a videna mareta paulona marka</p>
-                    <p>Et nobis maiores eius. Voluptatibus ut enim blanditiis atque harum sint. Laborum eos ipsum ipsa odit magni. Incidunt hic ut molestiae aut qui. Est repellat minima eveniet eius et quis magni nihil. Consequatur dolorem quaerat quos qui similique accusamus nostrum rem vero</p>
-                  </div>
-                  <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="{{ asset('general_Assets/img/departments-1.jpg') }}" alt="" class="img-fluid">
+                    <h3>Cardiology's Available Doctors</h3>
+
+                    <div class="row" id="available-doctors">
+                      <div class="col-md-4">
+                        <div class="card bg-primary profile-card">
+                          <div class="profile-img">
+                            <img src="" alt="Profile Image">
+                          </div>
+                          <div class="profile-details">
+                            <div class="profile-name">Doctor Name</div>
+                            <div class="profile-specialization">Specialization</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <div class="card bg-primary profile-card">
+                          <div class="profile-img">
+                            <img src="" alt="Profile Image">
+                          </div>
+                          <div class="profile-details">
+                            <div class="profile-name">Doctor Name</div>
+                            <div class="profile-specialization">Specialization</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
                   </div>
                 </div>
               </div>
-              <div class="tab-pane" id="tab-2">
+              <!-- <div class="tab-pane" id="tab-2">
                 <div class="row gy-4">
                   <div class="col-lg-8 details order-2 order-lg-1">
                     <h3>Et blanditiis nemo veritatis excepturi</h3>
@@ -350,7 +368,7 @@
                     <img src="{{ asset('general_Assets/img/departments-5.jpg') }}" alt="" class="img-fluid">
                   </div>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>

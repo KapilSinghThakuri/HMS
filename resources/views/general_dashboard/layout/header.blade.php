@@ -31,6 +31,8 @@
 
   <!-- Template Main CSS File -->
   <link href="{{ asset('general_Assets/css/style.css') }}" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="{{ asset('general_Assets/css/index-style.css')}}">
 
 </head>
 
