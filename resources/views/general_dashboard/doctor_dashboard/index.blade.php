@@ -53,97 +53,53 @@
                                     <thead class="d-none">
                                         <tr>
                                             <th>Patient Name</th>
-                                            <th>Doctor Name</th>
+                                            <th>Date</th>
                                             <th>Timing</th>
                                             <th class="text-right">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        @foreach($appointments as $appointment)
                                         <tr>
                                             <td style="min-width: 200px;">
-                                                <a class="avatar" href="profile.html">B</a>
-                                                <h2><a href="profile.html">Bernardo Galaviz <span>New York, USA</span></a></h2>
+                                                <a class="avatar" href="#">P</a>
+                                                <h2><a href="profile.html">{{ $appointment->patient->fullname }} <span>{{ $appointment->patient->permanent_address }}</span></a></h2>
                                             </td>
                                             <td>
-                                                <h5 class="time-title p-0">Appointment With</h5>
-                                                <p>Dr. Cristina Groves</p>
+                                                <h5 class="time-title p-0">Date</h5>
+                                                <p>{{ $appointment->schedule->in }}</p>
                                             </td>
                                             <td>
                                                 <h5 class="time-title p-0">Timing</h5>
-                                                <p>7.00 PM</p>
+                                                <p>{{ $appointment->schedule->from }} - {{ $appointment->schedule->to }}</p>
                                             </td>
                                             <td class="text-right">
-                                                <a href="appointments.html" class="btn btn-outline-primary take-btn">Take up</a>
+                                                @if($appointment->status == 'pending')
+                                                <div class="dropdown">
+                                                    <button class="btn btn-outline-primary dropdown-toggle" type="button" id="approvalDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        Action
+                                                    </button>
+                                                    <div class="dropdown-menu" aria-labelledby="approvalDropdown">
+                                                        <form action="{{ route('doctor.appointment-approve',['appointment'=>$appointment->id ])}}" method="POST">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button type="submit" class="dropdown-item">Approved</button>
+                                                        </form>
+                                                        <form action="{{ route('doctor.appointment-cancel',['appointment'=>$appointment->id ])}}" method="POST">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button type="submit" class="dropdown-item">Cancel</button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                                @elseif($appointment->status == 'approved')
+                                                <span class="custom-badge status-green">Approved</span>
+                                                @else
+                                                <span class="custom-badge status-red">Cancelled</span>
+                                                @endif
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td style="min-width: 200px;">
-                                                <a class="avatar" href="profile.html">B</a>
-                                                <h2><a href="profile.html">Bernardo Galaviz <span>New York, USA</span></a></h2>
-                                            </td>
-                                            <td>
-                                                <h5 class="time-title p-0">Appointment With</h5>
-                                                <p>Dr. Cristina Groves</p>
-                                            </td>
-                                            <td>
-                                                <h5 class="time-title p-0">Timing</h5>
-                                                <p>7.00 PM</p>
-                                            </td>
-                                            <td class="text-right">
-                                                <a href="appointments.html" class="btn btn-outline-primary take-btn">Take up</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="min-width: 200px;">
-                                                <a class="avatar" href="profile.html">B</a>
-                                                <h2><a href="profile.html">Bernardo Galaviz <span>New York, USA</span></a></h2>
-                                            </td>
-                                            <td>
-                                                <h5 class="time-title p-0">Appointment With</h5>
-                                                <p>Dr. Cristina Groves</p>
-                                            </td>
-                                            <td>
-                                                <h5 class="time-title p-0">Timing</h5>
-                                                <p>7.00 PM</p>
-                                            </td>
-                                            <td class="text-right">
-                                                <a href="appointments.html" class="btn btn-outline-primary take-btn">Take up</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="min-width: 200px;">
-                                                <a class="avatar" href="profile.html">B</a>
-                                                <h2><a href="profile.html">Bernardo Galaviz <span>New York, USA</span></a></h2>
-                                            </td>
-                                            <td>
-                                                <h5 class="time-title p-0">Appointment With</h5>
-                                                <p>Dr. Cristina Groves</p>
-                                            </td>
-                                            <td>
-                                                <h5 class="time-title p-0">Timing</h5>
-                                                <p>7.00 PM</p>
-                                            </td>
-                                            <td class="text-right">
-                                                <a href="appointments.html" class="btn btn-outline-primary take-btn">Take up</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td style="min-width: 200px;">
-                                                <a class="avatar" href="profile.html">B</a>
-                                                <h2><a href="profile.html">Bernardo Galaviz <span>New York, USA</span></a></h2>
-                                            </td>
-                                            <td>
-                                                <h5 class="time-title p-0">Appointment With</h5>
-                                                <p>Dr. Cristina Groves</p>
-                                            </td>
-                                            <td>
-                                                <h5 class="time-title p-0">Timing</h5>
-                                                <p>7.00 PM</p>
-                                            </td>
-                                            <td class="text-right">
-                                                <a href="appointments.html" class="btn btn-outline-primary take-btn">Take up</a>
-                                            </td>
-                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>

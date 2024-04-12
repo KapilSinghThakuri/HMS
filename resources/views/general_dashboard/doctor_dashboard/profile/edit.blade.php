@@ -90,7 +90,28 @@
                                         </div>
                                     </div>
                                 </div>
-
+                                <style>
+                                    .user_image_wrapper {
+                                        position: relative;
+                                        border-radius: 50%;
+                                        overflow: hidden;
+                                        width: 200px;
+                                        margin: 0 auto;
+                                    }
+                                    .user_image_wrapper img {
+                                        width: 100% !important;
+                                        object-fit: cover;
+                                        height: 200px;
+                                        }
+                                    .user_image_wrapper input[type="file"]{
+                                        height: 100%;
+                                        width: 100%;
+                                        position: absolute;
+                                        top: 0;
+                                        left: 0;
+                                        opacity: 0;
+                                    }
+                                </style>
                                 <div class="col-lg-4">
                                     <div class="row">
                                         <div class="col-sm-12">
@@ -101,16 +122,10 @@
                                                     @else
                                                         src="{{ asset('admin_Assets/img/user.jpg')}}"
                                                     @endif
-                                                    style="width: 200px; height: 200px;">
+                                                    >
+                                                    <input type="file" name="profile" value="" onchange="loadFile(event)" class="form-control">
                                             </div>
-                                            <div class="form-group">
-                                                <!-- <label>Change Your Profile</label> -->
-                                                <div class="profile-upload">
-                                                    <div class="upload-input">
-                                                        <input type="file" name="profile" value="" onchange="loadFile(event)" class="form-control">
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <p class="text-center">Click To Upload Profile</p>
                                         </div>
                                     </div>
                                 </div>

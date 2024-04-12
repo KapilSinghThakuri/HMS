@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin_Controller\DashboardController;
 use App\Http\Controllers\Admin_Controller\DoctorController;
 use App\Http\Controllers\Admin_Controller\DepartmentController;
 use App\Http\Controllers\General_Controller\GeneralDashboardController;
+use App\Http\Controllers\General_Controller\DoctorDashboardController;
 use App\Http\Controllers\General_Controller\ProfileController;
 use App\Http\Controllers\General_Controller\ScheduleController;
 
@@ -62,7 +63,9 @@ Route::prefix('Healwave/admin')->group(function(){
 Route::prefix('Healwave')->group(function(){
     Route::get('doctor/logout',[LoginController::class,'logoutUser'])->name('doctor.logout');
     Route::middleware('auth')->group(function(){
-        Route::view('/doctor/dashboard','general_dashboard.doctor_dashboard.index')->name('doctor.dashboard');
+        Route::GET('/doctor/dashboard',[DoctorDashboardController::class,'index'])->name('doctor.dashboard');
+        Route::PATCH('/doctor/dashboard/approve-appointment/{appointment}',[DoctorDashboardController::class,'approveAppointment'])->name('doctor.appointment-approve');
+        Route::PATCH('/doctor/dashboard/cancel-appointment/{appointment}',[DoctorDashboardController::class,'cancelAppointment'])->name('doctor.appointment-cancel');
 
         Route::controller(ProfileController::class)->group(function (){
             Route::GET('doctor/profile','index')->name('doctor.profile');

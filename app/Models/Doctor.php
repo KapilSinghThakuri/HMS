@@ -35,6 +35,10 @@ class Doctor extends Model
         'temp_street',
     ];
 
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class,'doctor_id','id');
+    }
     public function departments()
     {
         return $this->belongsTo(Department::class,'department_id','id');

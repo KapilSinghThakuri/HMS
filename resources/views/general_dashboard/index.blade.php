@@ -340,17 +340,17 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Doctors</h2>
+          <h2>Our Main Doctors</h2>
           <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
         </div>
 
         <div class="row">
-
+          @foreach($doctors as $doctor)
           <div class="col-lg-6">
             <div class="member d-flex align-items-start">
-              <div class="pic"><img src="{{ asset('general_Assets/img/doctors/doctors-1.jpg') }}" class="img-fluid" alt=""></div>
+              <div class="pic"><img src="{{ asset($doctor->profile) }}" class="img-fluid" alt=""></div>
               <div class="member-info">
-                <h4>Walter White</h4>
+                <h4>{{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}</h4>
                 <span>Chief Medical Officer</span>
                 <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
                 <div class="social">
@@ -362,60 +362,8 @@
               </div>
             </div>
           </div>
-
-          <div class="col-lg-6 mt-4 mt-lg-0">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="{{ asset('general_Assets/img/doctors/doctors-2.jpg') }}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Sarah Jhonson</h4>
-                <span>Anesthesiologist</span>
-                <p>Aut maiores voluptates amet et quis praesentium qui senda para</p>
-                <div class="social">
-                  <a href=""><i class="ri-twitter-fill"></i></a>
-                  <a href=""><i class="ri-facebook-fill"></i></a>
-                  <a href=""><i class="ri-instagram-fill"></i></a>
-                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6 mt-4">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="{{ asset('general_Assets/img/doctors/doctors-3.jpg') }}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>William Anderson</h4>
-                <span>Cardiology</span>
-                <p>Quisquam facilis cum velit laborum corrupti fuga rerum quia</p>
-                <div class="social">
-                  <a href=""><i class="ri-twitter-fill"></i></a>
-                  <a href=""><i class="ri-facebook-fill"></i></a>
-                  <a href=""><i class="ri-instagram-fill"></i></a>
-                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-6 mt-4">
-            <div class="member d-flex align-items-start">
-              <div class="pic"><img src="{{ asset('general_Assets/img/doctors/doctors-4.jpg') }}" class="img-fluid" alt=""></div>
-              <div class="member-info">
-                <h4>Amanda Jepson</h4>
-                <span>Neurosurgeon</span>
-                <p>Dolorum tempora officiis odit laborum officiis et et accusamus</p>
-                <div class="social">
-                  <a href=""><i class="ri-twitter-fill"></i></a>
-                  <a href=""><i class="ri-facebook-fill"></i></a>
-                  <a href=""><i class="ri-instagram-fill"></i></a>
-                  <a href=""> <i class="ri-linkedin-box-fill"></i> </a>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          @endforeach
         </div>
-
       </div>
     </section><!-- End Doctors Section -->
 
@@ -725,7 +673,26 @@
       </div>
     </section><!-- End Contact Section -->
   </main><!-- End #main -->
-
+  <style type="text/css">
+    .status-green, a.status-green {
+      background-color: #e5faf3;
+      border: 1px solid #00ce7c;
+      color: #00ce7c;
+      }
+    .status-blue, a.status-blue {
+        background-color: #e5f0fa;
+        border: 1px solid #0080ff;
+        color: #0080ff;
+      }
+    .custom-badge {
+      border-radius: 4px;
+      display: inline-block;
+      font-size: 12px;
+      min-width: 95px;
+      padding: 1px 10px;
+      text-align: center;
+      }
+  </style>
   <script type="text/javascript">
     $(document).ready(function() {
         $('.nav-link').on('click', function(e) {
@@ -742,29 +709,36 @@
             });
         });
         $(document).on('click', '.profile-img, .profile-name', function() {
-            $('#doctorModal').modal('show');
-            var doctorId = $(this).closest('.profile-card').data('doctor-id');
-            console.log(doctorId);
-            $.ajax({
-                url: '/Healwave/dashboard/get-schedules/' + doctorId,
-                type: 'GET',
-                success: function(response) {
-                  console.log(response);
-                  var schedules = response;
-                  var scheduleList = '<ul>';
-                  $.each(schedules, function(index, schedule) {
-                    scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + '<a href="/Healwave/dashboard/appointment-form/' + schedule.id + '/' + schedule.doctor_id + '" class="btn btn-sm btn-primary"> Make Appointment </a>' + '</li>';
-                  });
-                  scheduleList += '</ul>';
-                  $('#doctorSchedule').html(scheduleList);
-
-                  // var scheduleBatch = '';
-                  // $.each(schedules, function(index, schedule) {
-                  //     scheduleBatch += '<span class="badge bg-secondary">' + schedule.from + ' - ' + schedule.to + '</span> ';
-                  // });
-                  $('#doctorSchedule').html(scheduleBatch);
-                }
-            });
+          $('#doctorModal').modal('show');
+          var doctorId = $(this).closest('.profile-card').data('doctor-id');
+          console.log(doctorId);
+          $.ajax({
+              url: '/Healwave/dashboard/get-schedules/' + doctorId,
+              type: 'GET',
+              beforeSend: function(){
+                var loadSchedule = '<p>Schedules are loading...</p>';
+                $('#doctorSchedule').html(loadSchedule);
+              },
+              success: function(response) {
+                console.log(response);
+                var schedules = response.schedules;
+                var appointments = response.appointments;
+                var scheduleList = '<ul>';
+                $.each(schedules, function(index, schedule) {
+                  // Finding the appointments that matches with current schedule
+                    var appointment = appointments.find(appointment => appointment.schedule_id === schedule.id);
+                    if (appointment && appointment.status === 'approved') {
+                        scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + ' ' + '<span class="custom-badge status-green">Booked</span>' + '</li>';
+                    }else if(appointment && appointment.status === 'pending'){
+                        scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + ' ' + '<span class="custom-badge status-blue">Pending</span>' + '</li>';
+                    } else {
+                        scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + ' ' + '<a href="/Healwave/dashboard/appointment-form/' + schedule.id + '/' + schedule.doctor_id + '" class="btn btn-sm btn-primary"> Make Appointment </a>' + '</li>';
+                    }
+                });
+                scheduleList += '</ul>';
+                $('#doctorSchedule').html(scheduleList);
+              }
+          });
         });
     });
   </script>

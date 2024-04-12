@@ -43,7 +43,7 @@ class GeneralDashboardController extends Controller
         $output = '';
         foreach ($doctors as $doctor) {
             $output .= '<div class="col-md-4">';
-            $output .= '<div class="card bg-primary profile-card" data-doctor-id="{{ $doctor->id }}" style="cursor: pointer;">';
+            $output .= '<div class="card bg-primary profile-card" data-doctor-id="' . $doctor->id . '" style="cursor: pointer;">';
             $output .= '<div class="profile-img">';
             $output .= '<img src="' . asset($doctor->profile) . '" alt="Profile Image">';
             $output .= '</div>';
@@ -62,8 +62,12 @@ class GeneralDashboardController extends Controller
     public function getSchedulesByDoctor($doctorId)
     {
         $doctor = Doctor::findOrFail($doctorId);
+        $appointments = $doctor->appointments;
         $schedules = $doctor->schedules;
-        return response()->json($schedules);
+        return response()->json([
+            'appointments' => $appointments,
+            'schedules' => $schedules
+        ]);
     }
 
     public function appointment($doctorId, $scheduleId)
