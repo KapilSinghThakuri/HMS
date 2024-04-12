@@ -281,7 +281,7 @@
             <ul class="nav nav-tabs flex-column">
               @foreach($departments as $department)
               <li class="nav-item">
-                <a class="nav-link active show" data-bs-toggle="tab" href="#tab-1">{{ $department->department_name }}</a>
+                <a class="nav-link active show" data-bs-toggle="tab" href="#tab-{{ $department->id }}" data-department-id="{{ $department->id }}">{{ $department->department_name }}</a>
               </li>
               @endforeach
             </ul>
@@ -294,85 +294,44 @@
                     <h3>Cardiology's Available Doctors</h3>
 
                     <div class="row" id="available-doctors">
+                      @foreach($first_dept_doctors as $doctor)
                       <div class="col-md-4">
-                        <div class="card bg-primary profile-card">
+                        <div class="card bg-primary profile-card" data-doctor-id="{{ $doctor->id }}" style="cursor: pointer;">
                           <div class="profile-img">
-                            <img src="" alt="Profile Image">
+                            <img src="{{ asset( $doctor->profile ) }}" alt="Profile Image">
                           </div>
                           <div class="profile-details">
-                            <div class="profile-name">Doctor Name</div>
-                            <div class="profile-specialization">Specialization</div>
+                            <div class="profile-name">{{ $doctor->first_name }}{{ $doctor->middle_name }} {{ $doctor->last_name }}</div>
+                            @foreach($doctor->educations as $education)
+                            <div class="profile-specialization">{{ $education->specialization }}</div>
+                            @endforeach
                           </div>
                         </div>
                       </div>
-                      <div class="col-md-4">
-                        <div class="card bg-primary profile-card">
-                          <div class="profile-img">
-                            <img src="" alt="Profile Image">
-                          </div>
-                          <div class="profile-details">
-                            <div class="profile-name">Doctor Name</div>
-                            <div class="profile-specialization">Specialization</div>
-                          </div>
-                        </div>
-                      </div>
+                      @endforeach
                     </div>
-
                   </div>
                 </div>
               </div>
-              <!-- <div class="tab-pane" id="tab-2">
-                <div class="row gy-4">
-                  <div class="col-lg-8 details order-2 order-lg-1">
-                    <h3>Et blanditiis nemo veritatis excepturi</h3>
-                    <p class="fst-italic">Qui laudantium consequatur laborum sit qui ad sapiente dila parde sonata raqer a videna mareta paulona marka</p>
-                    <p>Ea ipsum voluptatem consequatur quis est. Illum error ullam omnis quia et reiciendis sunt sunt est. Non aliquid repellendus itaque accusamus eius et velit ipsa voluptates. Optio nesciunt eaque beatae accusamus lerode pakto madirna desera vafle de nideran pal</p>
-                  </div>
-                  <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="{{ asset('general_Assets/img/departments-2.jpg') }}" alt="" class="img-fluid">
-                  </div>
-                </div>
-              </div>
-              <div class="tab-pane" id="tab-3">
-                <div class="row gy-4">
-                  <div class="col-lg-8 details order-2 order-lg-1">
-                    <h3>Impedit facilis occaecati odio neque aperiam sit</h3>
-                    <p class="fst-italic">Eos voluptatibus quo. Odio similique illum id quidem non enim fuga. Qui natus non sunt dicta dolor et. In asperiores velit quaerat perferendis aut</p>
-                    <p>Iure officiis odit rerum. Harum sequi eum illum corrupti culpa veritatis quisquam. Neque necessitatibus illo rerum eum ut. Commodi ipsam minima molestiae sed laboriosam a iste odio. Earum odit nesciunt fugiat sit ullam. Soluta et harum voluptatem optio quae</p>
-                  </div>
-                  <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="{{ asset('general_Assets/img/departments-3.jpg') }}" alt="" class="img-fluid">
-                  </div>
-                </div>
-              </div>
-              <div class="tab-pane" id="tab-4">
-                <div class="row gy-4">
-                  <div class="col-lg-8 details order-2 order-lg-1">
-                    <h3>Fuga dolores inventore laboriosam ut est accusamus laboriosam dolore</h3>
-                    <p class="fst-italic">Totam aperiam accusamus. Repellat consequuntur iure voluptas iure porro quis delectus</p>
-                    <p>Eaque consequuntur consequuntur libero expedita in voluptas. Nostrum ipsam necessitatibus aliquam fugiat debitis quis velit. Eum ex maxime error in consequatur corporis atque. Eligendi asperiores sed qui veritatis aperiam quia a laborum inventore</p>
-                  </div>
-                  <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="{{ asset('general_Assets/img/departments-4.jpg') }}" alt="" class="img-fluid">
-                  </div>
-                </div>
-              </div>
-              <div class="tab-pane" id="tab-5">
-                <div class="row gy-4">
-                  <div class="col-lg-8 details order-2 order-lg-1">
-                    <h3>Est eveniet ipsam sindera pad rone matrelat sando reda</h3>
-                    <p class="fst-italic">Omnis blanditiis saepe eos autem qui sunt debitis porro quia.</p>
-                    <p>Exercitationem nostrum omnis. Ut reiciendis repudiandae minus. Omnis recusandae ut non quam ut quod eius qui. Ipsum quia odit vero atque qui quibusdam amet. Occaecati sed est sint aut vitae molestiae voluptate vel</p>
-                  </div>
-                  <div class="col-lg-4 text-center order-1 order-lg-2">
-                    <img src="{{ asset('general_Assets/img/departments-5.jpg') }}" alt="" class="img-fluid">
-                  </div>
-                </div>
-              </div> -->
             </div>
           </div>
         </div>
-
+        <!-- Doctor Schedule Modal -->
+          <div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-md">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="doctorModalLabel">Select Your Suitable Schedule</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div id="doctorSchedule">
+                    <!-- Here doctor's schedules are displayed... -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
       </div>
     </section><!-- End Departments Section -->
 
@@ -765,6 +724,48 @@
 
       </div>
     </section><!-- End Contact Section -->
-
   </main><!-- End #main -->
+
+  <script type="text/javascript">
+    $(document).ready(function() {
+        $('.nav-link').on('click', function(e) {
+            e.preventDefault();
+            var departmentId = $(this).data('department-id');
+            console.log(departmentId);
+            $.ajax({
+              url: '/Healwave/dashboard/get-doctors/' + departmentId,
+              type: 'GET',
+              success: function (response) {
+                console.log(response);
+                $('#available-doctors').html(response.html);
+              }
+            });
+        });
+        $(document).on('click', '.profile-img, .profile-name', function() {
+            $('#doctorModal').modal('show');
+            var doctorId = $(this).closest('.profile-card').data('doctor-id');
+            console.log(doctorId);
+            $.ajax({
+                url: '/Healwave/dashboard/get-schedules/' + doctorId,
+                type: 'GET',
+                success: function(response) {
+                  console.log(response);
+                  var schedules = response;
+                  var scheduleList = '<ul>';
+                  $.each(schedules, function(index, schedule) {
+                    scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + '<a href="/Healwave/dashboard/appointment-form/' + schedule.id + '/' + schedule.doctor_id + '" class="btn btn-sm btn-primary"> Make Appointment </a>' + '</li>';
+                  });
+                  scheduleList += '</ul>';
+                  $('#doctorSchedule').html(scheduleList);
+
+                  // var scheduleBatch = '';
+                  // $.each(schedules, function(index, schedule) {
+                  //     scheduleBatch += '<span class="badge bg-secondary">' + schedule.from + ' - ' + schedule.to + '</span> ';
+                  // });
+                  $('#doctorSchedule').html(scheduleBatch);
+                }
+            });
+        });
+    });
+  </script>
 @endsection

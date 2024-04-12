@@ -138,7 +138,7 @@ class DoctorController extends Controller
                 'end_date_AD' => $validated_data['end_dateAD'],
                 'job_description' => $validated_data['jobDescription'],
             ]);
-             DB::commit();
+            DB::commit();
             return redirect()->route('doctor.index')->with('success_message','Doctor Added Successfully !!!');
         } catch (Exception $e) {
             DB::rollback();

@@ -78,6 +78,10 @@ Route::prefix('Healwave')->group(function(){
     Route::controller(GeneralDashboardController::class)->group(function ()
     {
         Route::get('dashboard','index')->name('general.dashboard');
+        Route::get('dashboard/get-doctors/{department}','getDoctorsByDepartment');
+        Route::get('dashboard/get-schedules/{doctor}','getSchedulesByDoctor');
+        Route::get('dashboard/appointment-form/{schedule}/{doctor}','appointment')->name('appointment.create');
+        Route::post('dashboard/appointment-form/store/{doctorId}/{scheduleId}','appointmentStore')->name('appointment.store');
     });
 });
 
