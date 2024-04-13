@@ -30,7 +30,7 @@
                                 <tr>
                                     <td>{{ $appointment->id }}</td>
                                     <td><img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt=""> {{ $appointment->patient->fullname }}</td>
-                                    <td>{{ $appointment->patient->date_of_birth }}</td>
+                                    <td>{{ $appointment->patient->age }} years</td>
                                     <td>{{ $appointment->schedule->in }}</td>
                                     <td>{{ $appointment->schedule->from }} - {{ $appointment->schedule->to }}</td>
                                     <td>

@@ -15,6 +15,15 @@ class Schedule extends Model
         'from',
         'to',
     ];
+    public function doctor()
+    {
+        return $this->belongsTo(Doctor::class);
+    }
+    public function appointment()
+    {
+        return $this->hasOne(Appointment::class,'schedule_id','id');
+    }
+
     // Using Accessor property for define the date-time format
     public function getInAttribute($value)
     {

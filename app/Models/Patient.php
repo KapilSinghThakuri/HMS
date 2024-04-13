@@ -21,4 +21,11 @@ class Patient extends Model
         'appointment_message',
         'medical_history',
     ];
+
+    // Specifying that date_of_birth should be treated as a date
+    protected $dates = ['date_of_birth'];
+    public function getAgeAttribute()
+    {
+        return $this->date_of_birth->diffInYears(now());
+    }
 }
