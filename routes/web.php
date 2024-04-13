@@ -10,6 +10,7 @@ use App\Http\Controllers\General_Controller\GeneralDashboardController;
 use App\Http\Controllers\General_Controller\DoctorDashboardController;
 use App\Http\Controllers\General_Controller\ProfileController;
 use App\Http\Controllers\General_Controller\ScheduleController;
+use App\Http\Controllers\General_Controller\PatientAppointmentController;
 
 
 Route::get('/', function () {
@@ -72,11 +73,13 @@ Route::prefix('Healwave')->group(function(){
             Route::GET('doctor/profile/edit','edit')->name('profile.edit');
             Route::PUT('doctor/profile/update','update')->name('profile.update');
 
-            Route::get('doctor/profile/edit/district/{provinceId}',[ProfileController::class,'getDistrictByProvinceEdit']);
-            Route::get('doctor/profile/edit/municipality/{districtId}',[ProfileController::class,'getMunicipalityByDistrictEdit']);
+            Route::get('doctor/profile/edit/district/{provinceId}','getDistrictByProvinceEdit');
+            Route::get('doctor/profile/edit/municipality/{districtId}','getMunicipalityByDistrictEdit');
         });
 
         Route::resource('doctor/my-schedule',ScheduleController::class);
+
+        Route::get('doctor/appointment',[PatientAppointmentController::class,'index'])->name('patient.appointment');
     });
     Route::controller(GeneralDashboardController::class)->group(function ()
     {
