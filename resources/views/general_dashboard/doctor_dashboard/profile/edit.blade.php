@@ -256,20 +256,20 @@
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Institute Name <span class="text-danger">*</span></label>
-                                        <input name="institute_name" value="{{ $doctor_edu -> institute_name}}" class="form-control" type="text">
+                                        <input name="institute_name[]" value="{{ $doctor_edu -> institute_name}}" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Degree Title<span class="text-danger">*</span></label>
-                                        <input name="medical_degree" value="{{ $doctor_edu -> medical_degree }}" class="form-control" type="text">
+                                        <input name="medical_degree[]" value="{{ $doctor_edu -> medical_degree }}" class="form-control" type="text">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Graduation Year[BS] <span class="text-danger">*</span></label>
                                         <div class="cal-icon">
-                                            <input type="dob" id="grad_yearBS" value="{{ $doctor_edu -> graduation_year_BS}}" name="graduation_year_BS" placeholder="Select Your Graduation Year" name="grad_year" class="form-control datetimepicker">
+                                            <input type="dob" id="grad_yearBS" value="{{ $doctor_edu -> graduation_year_BS}}" name="graduation_year_BS[]" placeholder="Select Your Graduation Year" name="grad_year" class="form-control datetimepicker">
                                         </div>
                                     </div>
                                 </div>
@@ -277,14 +277,14 @@
                                     <div class="form-group">
                                         <label>Graduation Year[AD] <span class="text-danger">*</span></label>
                                         <div class="cal-icon">
-                                            <input readonly type="date" id="grad_yearAD" name="graduation_year_AD" value="{{ $doctor_edu -> graduation_year_AD}}" class="form-control datetimepicker">
+                                            <input readonly type="date" id="grad_yearAD" name="graduation_year_AD[]" value="{{ $doctor_edu -> graduation_year_AD}}" class="form-control datetimepicker">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Specialization <span class="text-danger">*</span></label>
-                                        <input name="specialization" value="{{ $doctor_edu -> specialization}}" type="text" class="form-control ">
+                                        <input name="specialization[]" value="{{ $doctor_edu -> specialization}}" type="text" class="form-control ">
                                     </div>
                                 </div>
                             </div>
@@ -313,31 +313,31 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Organization Name <span class="text-danger">*</span></label>
-                                        <input name="org_name" value="{{ $doctor_exp->org_name }}" type="text" class="form-control ">
+                                        <input name="org_name[]" value="{{ $doctor_exp->org_name }}" type="text" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Start Date[BS] <span class="text-danger">*</span></label>
-                                        <input name="start_date_BS" type="dob" value="{{ $doctor_exp->start_date_BS }}" id="start_dateBS" placeholder="Select your start date" class="form-control ">
+                                        <input name="start_date_BS[]" type="dob" value="{{ $doctor_exp->start_date_BS }}" id="start_dateBS" placeholder="Select your start date" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>Start Date[AD] <span class="text-danger">*</span></label>
-                                        <input readonly type="date" name="start_date_AD" id="start_dateAD" value="{{ $doctor_exp->start_date_AD }}" class="form-control ">
+                                        <input readonly type="date" name="start_date_AD[]" id="start_dateAD" value="{{ $doctor_exp->start_date_AD }}" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>End Date[BS] <span class="text-danger">*</span></label>
-                                        <input name="end_date_BS" type="dob" id="end_dateBS" value="{{ $doctor_exp->end_date_BS }}" placeholder="Select your end date" class="form-control ">
+                                        <input name="end_date_BS[]" type="dob" id="end_dateBS" value="{{ $doctor_exp->end_date_BS }}" placeholder="Select your end date" class="form-control ">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
                                         <label>End Date[AD] <span class="text-danger">*</span></label>
-                                        <input readonly type="date" id="end_dateAD" name="end_date_AD" value="{{ $doctor_exp->end_date_AD }}" class="form-control ">
+                                        <input readonly type="date" id="end_dateAD" name="end_date_AD[]" value="{{ $doctor_exp->end_date_AD }}" class="form-control ">
                                     </div>
                                 </div>
                                 <style type="text/css">
@@ -348,7 +348,7 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label>Job Description</label>
-                                        <textarea id="job_description" name="job_description" class="form-control" rows="3" cols="30">{{ $doctor_exp->job_description }}</textarea>
+                                        <textarea id="job_description" name="job_description[]" class="form-control" rows="3" cols="30">{{ $doctor_exp->job_description }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -553,41 +553,15 @@
 
 
             // Setting unique name for cloned div's id and input field name here...
-            var oldInstitute_name = clonedDegree.querySelector('[name="institute_name"]');
-            var newInstitute_name = oldInstitute_name.name + [degreeCounter];
-            oldInstitute_name.name = newInstitute_name;
-            console.log(newInstitute_name);
-
-            var oldMedical_degree = clonedDegree.querySelector('[name="medical_degree"]');
-            var newMedical_degree = oldMedical_degree.name + [degreeCounter];
-            oldMedical_degree.name = newMedical_degree;
-            console.log(newMedical_degree);
-
-            var oldSpecialization = clonedDegree.querySelector('[name="specialization"]');
-            var newSpecialization = oldSpecialization.name + [degreeCounter];
-            oldSpecialization.name = newSpecialization;
-            console.log(newSpecialization);
-
-            var inputFieldNameBS = clonedDegree.querySelector('[name="graduation_year_BS"]');
-            var newGradNameBS = inputFieldNameBS.name + [degreeCounter];
-            inputFieldNameBS.name = newGradNameBS;
-            console.log(newGradNameBS);
-
             var inputFieldIdBS = clonedDegree.querySelector('#grad_yearBS');
             var newGradIdBS = inputFieldIdBS.id+ [degreeCounter];
             inputFieldIdBS.id = newGradIdBS;
             console.log(newGradIdBS);
 
-            var inputFieldNameAD = clonedDegree.querySelector('[name="graduation_year_AD"]');
-            var newGradNameAD = inputFieldNameAD.name + [degreeCounter];
-            inputFieldNameAD.name = newGradNameAD;
-            console.log(newGradNameAD);
-
             var inputFieldIdAD = clonedDegree.querySelector('#grad_yearAD');
             var newGradIdAD = inputFieldIdAD.id+ [degreeCounter];
             inputFieldIdAD.id = newGradIdAD;
             console.log(newGradIdAD);
-
 
             var temTitle = document.createElement('h4');
             temTitle.textContent = degreeTitles[degreeCounter];
@@ -655,16 +629,7 @@
             const tempDiv = document.createElement('div');
             tempDiv.classList.add('mt-3');
 
-
-
             // Setting unique name for cloned div's id and input field name here...
-            clonedExperience.querySelectorAll('input, select').forEach(function(input) {
-                var originalName = input.getAttribute('name');
-                var newName = originalName + [experienceCounter];
-                input.setAttribute('name', newName);
-                console.log(newName);
-            });
-
             var startDateBsId = clonedExperience.querySelector('#start_dateBS');
             var newStartDateBsId = startDateBsId.id + [experienceCounter];
             startDateBsId.id = newStartDateBsId;
@@ -727,7 +692,6 @@
                     $('#' + newEndDateAdId).val(englishDate);
                 }
             });
-
 
             removeBtn.onclick = function() {
                 experienceCounter--;

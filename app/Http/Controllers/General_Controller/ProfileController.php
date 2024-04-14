@@ -81,90 +81,108 @@ class ProfileController extends Controller
     public function update(ProfileRequest $request)
     {
         $validatedData = $request->validated();
-        // dd($validatedData);
-        $degreeRules = ProfileRequest::degreeRules();
-        $validatedDegreeData = $request->validate($degreeRules);
-        // dd($validatedDegreeData);
-        $experienceRules = ProfileRequest::experienceRules();
-        $validatedExperienceData = $request->validate($experienceRules);
-        // dd($validatedExperienceData);
+        DB::beginTransaction();
+        try {
+            $users = Auth::user();
+            $id = $users->id;
+            // Update user details
+            $username = $validatedData['first_name'] .' '. $validatedData['middle_name'] .' '. $validatedData['last_name'];
+            $user_address = $validatedData['province'] .'-'. $validatedData['district'] .'-'. $validatedData['street'];
+            $users -> update([
+                'username' => $username,
+                'email' => $validatedData['email'],
+                'address' => $user_address,
+                'phone' => $validatedData['phone'],
+            ]);
 
-        $users = Auth::user();
-        $id = $users->id;
-        // Update user details
-        $username = $validatedData['first_name'] .' '. $validatedData['middle_name'] .' '. $validatedData['last_name'];
-        $user_address = $validatedData['province'] .'-'. $validatedData['district'] .'-'. $validatedData['street'];
-        $users -> update([
-            'username' => $username,
-            'email' => $validatedData['email'],
-            'address' => $user_address,
-            'phone' => $validatedData['phone'],
-        ]);
+            // Update doctor details
+            $doctor = $users->doctor;
+            if ($request->hasFile('profile')) {
+                $file = $request->file('profile');
+                $fileName = time().'.'.$file->getClientOriginalExtension();
 
-        // Update doctor details
-        $doctor = $users->doctor;
-        if ($request->hasFile('profile')) {
-            $file = $request->file('profile');
-            $fileName = time().'.'.$file->getClientOriginalExtension();
-
-            // Delete the previous image if it exists
-            if ($doctor->profile) {
-                $previousImagePath = public_path($doctor->profile);
-                if (file_exists($previousImagePath)) {
-                    unlink($previousImagePath);
+                // Delete the previous image if it exists
+                if ($doctor->profile) {
+                    $previousImagePath = public_path($doctor->profile);
+                    if (file_exists($previousImagePath)) {
+                        unlink($previousImagePath);
+                    }
                 }
+
+                $file->move(public_path('admin_Assets/img/doctors'), $fileName);
+                $doctor->update([
+                    'profile' => '/admin_Assets/img/doctors'.'/'.$fileName,
+                ]);
+            }
+            $doctorData = [
+                'user_id' => $id,
+                'department_id' =>$validatedData['department_id'],
+                'first_name' => $validatedData['first_name'],
+                'middle_name' => $validatedData['middle_name'],
+                'last_name' => $validatedData['last_name'],
+                'gender' => $validatedData['gender'],
+                'date_of_birth_BS' => $validatedData['date_of_birth_BS'],
+                'date_of_birth_AD' => $validatedData['date_of_birth_AD'],
+                'email' => $validatedData['email'],
+                'phone' => $validatedData['phone'],
+                'country_id' => $validatedData['country'],
+                'province_id' => $validatedData['province'],
+                'district_id' => $validatedData['district'],
+                'municipality_id' => $validatedData['municipality'],
+                'street' => $validatedData['street'],
+            ];
+
+            if (isset($validatedData['country_tempName'])) {
+                $doctorData['temp_country_id'] = $validatedData['country_tempName'];
+            }
+            if (isset($validatedData['province_tempName'])) {
+                $doctorData['temp_province_id'] = $validatedData['province_tempName'];
+            }
+            if (isset($validatedData['district_tempName'])) {
+                $doctorData['temp_district_id'] = $validatedData['district_tempName'];
+            }
+            if (isset($validatedData['municipality_tempName'])) {
+                $doctorData['temp_municipality_id'] = $validatedData['municipality_tempName'];
+            }
+            if (isset($validatedData['street_tempName'])) {
+                $doctorData['temp_street'] = $validatedData['street_tempName'];
+            }
+            $doctor->update($doctorData);
+
+            // Update education details
+            Education::where('doctor_id', $doctor->id)->delete();
+            foreach ($validatedData['institute_name'] as $key => $value) {
+                Education::updateOrCreate(
+                    [   'doctor_id' => $doctor->id,
+                        'institute_name' => $validatedData['institute_name'][$key],
+                        'medical_degree' => $validatedData['medical_degree'][$key],
+                        'graduation_year_BS' => $validatedData['graduation_year_BS'][$key],
+                        'graduation_year_AD' => $validatedData['graduation_year_AD'][$key],
+                        'specialization' => $validatedData['specialization'][$key],
+                    ]
+                );
+            }
+            // Update experience details
+            Experience::where('doctor_id', $doctor->id)->delete();
+            foreach ($validatedData['org_name'] as $key => $value) {
+                Experience::updateOrCreate(
+                    [   'doctor_id' => $doctor->id,
+                        'license_no' => $validatedData['license_no'],
+                        'org_name' => $validatedData['org_name'][$key],
+                        'start_date_BS' => $validatedData['start_date_BS'][$key],
+                        'start_date_AD' => $validatedData['start_date_AD'][$key],
+                        'end_date_BS' => $validatedData['end_date_BS'][$key],
+                        'end_date_AD' => $validatedData['end_date_AD'][$key],
+                        'job_description' => $validatedData['job_description'][$key],
+                    ]
+                );
             }
 
-            $file->move(public_path('admin_Assets/img/doctors'), $fileName);
-            $doctor->update([
-                'profile' => '/admin_Assets/img/doctors'.'/'.$fileName,
-            ]);
+            DB::commit();
+            return redirect()->route('doctor.profile')->with('success_message','Your profile has been updated successfully !!!');
+        } catch (Exception $e) {
+            DB::rollback();
+            return $e->getMessage();
         }
-        $doctorData = [
-            'user_id' => $id,
-            'department_id' =>$validatedData['department_id'],
-            'first_name' => $validatedData['first_name'],
-            'middle_name' => $validatedData['middle_name'],
-            'last_name' => $validatedData['last_name'],
-            'gender' => $validatedData['gender'],
-            'date_of_birth_BS' => $validatedData['date_of_birth_BS'],
-            'date_of_birth_AD' => $validatedData['date_of_birth_AD'],
-            'email' => $validatedData['email'],
-            'phone' => $validatedData['phone'],
-            'country_id' => $validatedData['country'],
-            'province_id' => $validatedData['province'],
-            'district_id' => $validatedData['district'],
-            'municipality_id' => $validatedData['municipality'],
-            'street' => $validatedData['street'],
-        ];
-
-        if (isset($validatedData['country_tempName'])) {
-            $doctorData['temp_country_id'] = $validatedData['country_tempName'];
-        }
-        if (isset($validatedData['province_tempName'])) {
-            $doctorData['temp_province_id'] = $validatedData['province_tempName'];
-        }
-        if (isset($validatedData['district_tempName'])) {
-            $doctorData['temp_district_id'] = $validatedData['district_tempName'];
-        }
-        if (isset($validatedData['municipality_tempName'])) {
-            $doctorData['temp_municipality_id'] = $validatedData['municipality_tempName'];
-        }
-        if (isset($validatedData['street_tempName'])) {
-            $doctorData['temp_street'] = $validatedData['street_tempName'];
-        }
-        $doctor->update($doctorData);
-
-        // Update education details
-        $educations = $doctor->educations->first();
-        $validatedData['doctor_id'] = $doctor->id;
-        $educations->update($validatedData);
-
-        // Update experience details
-        $experiences = $doctor->experiences->first();
-        $validatedData['doctor_id'] = $doctor->id;
-        $experiences->update($validatedData);
-
-        return redirect()->route('doctor.profile')->with('success_message','Your profile has been updated successfully !!!');
     }
 }

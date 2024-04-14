@@ -49,49 +49,20 @@ class ProfileRequest extends FormRequest
             'municipality_tempName' => ['nullable', 'string', 'max:255'],
             'street_tempName' => ['nullable', 'string', 'max:255'],
 
-            'institute_name' => ['nullable', 'string', 'max:255'],
-            'medical_degree'=> ['nullable', 'string', 'max:255'],
-            'graduation_year_BS' => ['nullable', 'date'],
-            'graduation_year_AD'=> ['nullable', 'date'],
-            'specialization' => ['nullable', 'string', 'max:255'],
+            'institute_name.*' => ['nullable', 'string', 'max:255'],
+            'medical_degree.*' => ['nullable', 'string', 'max:255'],
+            'graduation_year_BS.*' => ['nullable', 'date'],
+            'graduation_year_AD.*' => ['nullable', 'date'],
+            'specialization.*' => ['nullable', 'string', 'max:255'],
 
             'license_no' => ['nullable', 'numeric', 'digits:6'],
-            'org_name' => ['nullable', 'string', 'max:255'],
-            'start_date_BS' => ['nullable', 'date'],
-            'start_date_AD' => ['nullable', 'date'],
-            'end_date_BS' => ['nullable', 'date'],
-            'end_date_AD' => ['nullable', 'date'],
-            'job_description'=> ['nullable', 'string', 'max:255'],
+            'org_name.*' => ['nullable', 'string', 'max:255'],
+            'start_date_BS.*' => ['nullable', 'date'],
+            'start_date_AD.*' => ['nullable', 'date'],
+            'end_date_BS.*' => ['nullable', 'date'],
+            'end_date_AD.*' => ['nullable', 'date'],
+            'job_description.*'=> ['nullable', 'string', 'max:255'],
         ];
-    }
-
-    // Add validation rules for degree-related fields
-    public static function degreeRules()
-    {
-        $rules = [];
-        for ($i = 0; $i < 3; $i++) {
-            $rules["institute_name$i"] = ['nullable', 'string', 'max:255'];
-            $rules["medical_degree$i"] = ['nullable', 'string', 'max:255'];
-            $rules["graduation_year_BS$i"] = ['nullable', 'date'];
-            $rules["graduation_year_AD$i"] = ['nullable', 'date'];
-            $rules["specialization$i"] = ['nullable', 'string', 'max:255'];
-        }
-        return $rules;
-    }
-
-    // Add validation rules for job-related fields
-    public static function experienceRules()
-    {
-        $rules = [];
-        for ($i = 0; $i < 3; $i++) {
-            $rules["org_name$i"] = ['nullable', 'string', 'max:255'];
-            $rules["start_date_BS$i"] = ['nullable', 'date'];
-            $rules["start_date_AD$i"] = ['nullable', 'date'];
-            $rules["end_date_BS$i"] = ['nullable', 'date'];
-            $rules["end_date_AD$i"] = ['nullable', 'date'];
-            $rules["job_description$i"] = ['nullable', 'string', 'max:255'];
-        }
-        return $rules;
     }
 }
 
