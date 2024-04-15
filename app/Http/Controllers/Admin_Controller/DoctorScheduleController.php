@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Admin_Controller;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Requests\DoctorScheduleRequest;
+use Carbon\CarbonPeriod;
 use App\Models\Schedule;
+use App\Models\Doctor;
 
 class DoctorScheduleController extends Controller
 {
@@ -15,7 +18,10 @@ class DoctorScheduleController extends Controller
      */
     public function index()
     {
-        $schedules = Schedule::with('appointment')->get();
+        // $scheduleInterval = Schedule::find(1);
+        // dd($scheduleInterval->time_intervals);
+        $schedules = Schedule::with('appointment')->orderBy('created_at','desc')->simplePaginate(10);
+        $schedules->withPath('');
         return view('admin_Panel.doctor_schedule.schedule',compact('schedules'));
     }
 
@@ -26,7 +32,8 @@ class DoctorScheduleController extends Controller
      */
     public function create()
     {
-        //
+        $doctors = Doctor::all();
+        return view('admin_Panel.doctor_schedule.add-schedule',compact('doctors'));
     }
 
     /**
@@ -35,9 +42,11 @@ class DoctorScheduleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DoctorScheduleRequest $request)
     {
-        //
+        $validatedData = $request->validated();
+        Schedule::create($validatedData);
+        return redirect()->route('schedule.index')->with('message','Doctor Schedule has been set successfully !!!');
     }
 
     /**
@@ -59,7 +68,9 @@ class DoctorScheduleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $doctors = Doctor::all();
+        $schedule = Schedule::findOrFail($id);
+        return view('admin_Panel.doctor_schedule.edit-schedule',compact('schedule','doctors'));
     }
 
     /**
@@ -69,9 +80,11 @@ class DoctorScheduleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DoctorScheduleRequest $request, $id)
     {
-        //
+        $validatedData = $request->validated();
+        Schedule::where('id', $id)->update($validatedData);
+        return redirect()->route('schedule.index')->with('message','Doctor Schedule has been updated successfully!!!');
     }
 
     /**
@@ -82,6 +95,7 @@ class DoctorScheduleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Schedule::findOrFail($id)->delete();
+        return redirect()->route('schedule.index')->with('message','Doctor Schedule has been deleted successfully!!!');
     }
 }

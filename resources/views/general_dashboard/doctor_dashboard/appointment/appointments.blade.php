@@ -29,7 +29,11 @@
                                 @foreach($appointments as $appointment)
                                 <tr>
                                     <td>{{ $appointment->id }}</td>
-                                    <td><img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt=""> {{ $appointment->patient->fullname }}</td>
+                                    <td>
+                                        <a href="{{ route('patient.appointment.view',['appointment'=>$appointment->id ]) }}">
+                                            <img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt=""> {{ $appointment->patient->fullname }}
+                                        </a>
+                                    </td>
                                     <td>{{ $appointment->patient->age }} years</td>
                                     <td>{{ $appointment->schedule->in }}</td>
                                     <td>{{ $appointment->schedule->from }} - {{ $appointment->schedule->to }}</td>

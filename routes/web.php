@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin_Controller\DoctorController;
 use App\Http\Controllers\Admin_Controller\DepartmentController;
 use App\Http\Controllers\Admin_Controller\AppointmentController;
 use App\Http\Controllers\Admin_Controller\DoctorScheduleController;
+use App\Http\Controllers\Admin_Controller\PatientController;
 use App\Http\Controllers\General_Controller\GeneralDashboardController;
 use App\Http\Controllers\General_Controller\DoctorDashboardController;
 use App\Http\Controllers\General_Controller\ProfileController;
@@ -49,7 +50,7 @@ Route::prefix('Healwave/admin')->group(function(){
         Route::get('doctor/edit/district/{provinceId}',[DoctorController::class,'getDistrictByProvinceEdit'])->name('province.edit');
         Route::get('doctor/edit/municipality/{districtId}',[DoctorController::class,'getMunicipalityByDistrictEdit'])->name('district.edit');
 
-        Route::view('patient','admin_Panel.patient.patients')->name('patient.index');
+        Route::get('patient',[PatientController::class,'index'])->name('patient.index');
         Route::view('patient/create','admin_Panel.patient.add-patient')->name('patient.create');
         Route::view('patient/edit','admin_Panel.patient.edit-patient')->name('patient.edit');
 
@@ -79,6 +80,7 @@ Route::prefix('Healwave')->group(function(){
         Route::resource('doctor/my-schedule',ScheduleController::class);
 
         Route::get('doctor/appointment',[PatientAppointmentController::class,'index'])->name('patient.appointment');
+        Route::get('doctor/appointment/view/{appointment}',[PatientAppointmentController::class,'show'])->name('patient.appointment.view');
     });
     Route::controller(GeneralDashboardController::class)->group(function ()
     {

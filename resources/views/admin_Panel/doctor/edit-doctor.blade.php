@@ -20,7 +20,7 @@
                                     <h4 class="page-title">Edit Doctor Details</h4>
                                 </div>
                                 <div class="col-lg-6 text-right">
-                                    <a class="btn btn-primary btn-rounded" href="{{ route('doctor.index')}}"><i class="fa fa-eye" aria-hidden="true"></i>View List</a>
+                                    <a class="btn btn-primary btn-rounded" href="{{ route('doctor.index')}}"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</a>
                                 </div>
                             </div>
 

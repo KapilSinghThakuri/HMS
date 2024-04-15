@@ -24,26 +24,21 @@
                         <div class="doctor-img">
                             <a class="avatar" href="{{ route('doctor.show', ['doctor' => $doctor->id]) }}"><img alt="" src="{{ asset($doctor->profile) }}"></a>
                         </div>
-                        <div class="dropdown profile-action">
-                            <a href="#" class="action-icon dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><i class="fa fa-ellipsis-v"></i></a>
-                            <div class="dropdown-menu dropdown-menu-right">
-                                <a class="dropdown-item" href="{{ route('doctor.edit', ['doctor' => $doctor->id]) }}"><i class="fa fa-pencil m-r-5"></i> Edit</a>
-                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#delete_doctor"><i class="fa fa-trash-o m-r-5"></i> Delete</a>
-                            </div>
-                        </div>
                         <h4 class="doctor-name text-ellipsis">
                             <a href="{{ route('doctor.show', ['doctor' => $doctor->id]) }}">
                                 {{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}
                             </a>
                         </h4>
-                        @foreach($educations as $education)
-                            @if($education ->doctor_id == $doctor->id )
-                                <div class="doc-prof">{{ $education->specialization }}</div>
-                            @endif
-                        @endforeach
+                        <div class="doc-prof">{{ $doctor->educations[0]->specialization }}</div>
                         <div class="user-country">
                             <i class="fa fa-map-marker"></i>
                             {{ $doctor->municipality->{'municipality_name[nep]'} }}, {{ $doctor->district->{'district_name[nep]'} }}, {{ $doctor->province->province_name_nep }} {{ $doctor->country->english_name }}
+                        </div>
+                    </div>
+                    <div class="profile-action card">
+                        <div class="btn-group" role="group" aria-label="Doctor actions">
+                            <a href="{{ route('doctor.edit', ['doctor' => $doctor->id]) }}" class="btn btn-outline-primary"><i class="fa fa-pencil m-r-5"></i>Edit</a>
+                            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#delete_doctor"><i class="fa fa-trash-o m-r-5"></i>Delete</button>
                         </div>
                     </div>
                 </div>
@@ -58,6 +53,24 @@
             </div>
         </div>
     </div>
+    <style type="text/css">
+        .profile-action.card {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border-top: 1px solid #ccc;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .profile-action.card .btn-group {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .profile-action.card .btn {
+            flex-grow: 1;
+            margin: 0 5px;
+        }
+    </style>
 	<div id="delete_doctor" class="modal fade delete-modal" role="dialog">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">

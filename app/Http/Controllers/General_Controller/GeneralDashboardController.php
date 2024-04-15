@@ -84,6 +84,7 @@ class GeneralDashboardController extends Controller
             $validatedData['schedule_id'] = $scheduleId;
             $validatedData['patient_id'] = $patient->id;
             $validatedData['status'] = 'pending';
+
             if ($request->hasFile('medical_history')) {
                 $file = $request->file('medical_history');
                 $fileName = time().'.'.$file->getClientOriginalName();

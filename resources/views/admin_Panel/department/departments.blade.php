@@ -42,8 +42,8 @@
 									<td>{{ $department->department_code }}</td>
                                     <td>{!! Str::limit($department->department_desc, 30, '...'  ) !!}</td>
                                     <td>
-                                        <a href="{{ route('department.edit', ['department' => $department->id]) }}" style="font-size: 20px;"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i></a>
-                                        <a href="#" data-id="{{ $department->id }}" data-toggle="modal" data-target="#delete_department" style="font-size: 25px; color: red;"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                        <a href="{{ route('department.edit', ['department' => $department->id]) }}" style="font-size: 20px;" title="Click For Edit"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i></a>
+                                        <a href="#" data-id="{{ $department->id }}" data-toggle="modal" data-target="#delete_department" style="font-size: 25px; color: red;" title="Click For Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                                     </td>
                                 </tr>
                                 @endforeach

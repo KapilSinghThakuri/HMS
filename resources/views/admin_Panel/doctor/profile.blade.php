@@ -10,9 +10,6 @@
             <div class="col-sm-5 col-6 text-right m-b-30">
                 <a href="{{ route('doctor.index') }}" class="btn btn-primary btn-rounded"><i class="fa fa-chevron-circle-left" aria-hidden="true"></i> Back </a>
             </div>
-            <!-- <div class="col-sm-5 col-6 text-right m-b-30">
-                <a href="{{ route('doctor.edit', ['doctor' => $doctor_basic->id]) }}" class="btn btn-primary btn-rounded"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile</a>
-            </div> -->
         </div>
         <div class="card-box profile-header">
             <div class="row">
@@ -28,8 +25,8 @@
                                 <div class="col-md-5">
                                     <div class="profile-info-left">
                                         <h3 class="user-name m-t-0 mb-0">{{ $doctor_basic->first_name }} {{ $doctor_basic->last_name }}</h3>
-                                        <small class="text-muted">{{ $doctor_edu ->specialization }}</small>
-                                        <div class="staff-id">License ID : {{ $doctor_exp -> license_no}}</div>
+                                        <small class="text-muted">{{$doctor_edu[0]->specialization}}</small>
+                                        <div class="staff-id">License ID : {{$doctor_exp[0]->license_no}}</div>
                                         <div class="staff-msg"><a href="chat.html" class="btn btn-primary">Send Message</a></div>
                                     </div>
                                 </div>
@@ -83,11 +80,13 @@
                                                 <div class="before-circle"></div>
                                             </div>
                                             <div class="experience-content">
+                                                @foreach($doctor_edu as $education)
                                                 <div class="timeline-content">
-                                                    <a href="#/" class="name">{{ $doctor_edu->institute_name }} College of Medical Science</a>
-                                                    <div>{{ $doctor_edu->medical_degree }}</div>
-                                                    <span class="time">{{ $doctor_edu->graduation_year_BS }}BS - {{ $doctor_edu->graduation_year_AD }}AD</span>
+                                                    <a href="#" class="name">{{ $education->institute_name }} College of Medical Science</a>
+                                                    <div>{{ $education->medical_degree }}</div>
+                                                    <span class="time">{{ $education->graduation_year_BS }}BS - {{ $education->graduation_year_AD }}AD</span>
                                                 </div>
+                                                @endforeach
                                             </div>
                                         </li>
                                     </ul>
@@ -102,10 +101,14 @@
                                                 <div class="before-circle"></div>
                                             </div>
                                             <div class="experience-content">
+                                                @foreach($doctor_exp as $experience)
+
                                                 <div class="timeline-content">
-                                                    <a href="#/" class="name">{{ $doctor_exp -> job_description}}</a>
-                                                    <span class="time">{{ $doctor_exp -> start_date_BS}} - {{ $doctor_exp -> end_date_BS}}</span>
+                                                    <a href="#" class="name">{!! $experience -> job_description !!}</a>
+                                                    <span class="time">{{ $experience -> start_date_BS}} - {{ $experience -> end_date_BS}}</span>
                                                 </div>
+                                                @endforeach
+
                                             </div>
                                         </li>
                                         <li>

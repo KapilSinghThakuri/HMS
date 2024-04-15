@@ -11,7 +11,8 @@ class AppointmentController extends Controller
 {
     public function index()
     {
-        $appointments = Appointment::all();
+        $appointments = Appointment::orderBy('created_at','desc')->simplePaginate(8);
+        $appointments->withPath('');
         return view('admin_Panel.appointment.appointments',compact('appointments'));
     }
 }

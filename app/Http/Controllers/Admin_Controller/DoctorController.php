@@ -27,15 +27,10 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        $educations = Education::all();
-        $experiences = Experience::all();
-
-        $doctors = Doctor::all();
-        // dd($doctors[0]->country->english_name);
-        // $countryId = $doctors->country_id;
+        $doctors = Doctor::with('educations','experiences')->get();
 
         return view('admin_Panel.doctor.doctors',
-            compact('educations','experiences','doctors'));
+            compact('doctors'));
     }
 
     /**
@@ -155,8 +150,8 @@ class DoctorController extends Controller
     public function show($id)
     {
         $doctor_basic = Doctor::findOrFail($id);
-        $doctor_edu = Education::where('doctor_id',$id)->first();
-        $doctor_exp = Experience::where('doctor_id',$id)->first();
+        $doctor_edu = Education::where('doctor_id',$id)->get();
+        $doctor_exp = Experience::where('doctor_id',$id)->get();
 
         return view('admin_Panel.doctor.profile',
             compact('doctor_basic','doctor_exp','doctor_edu'));

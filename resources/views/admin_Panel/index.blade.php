@@ -17,7 +17,7 @@
                     <div class="dash-widget">
                         <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
                         <div class="dash-widget-info text-right">
-                            <h3>1072</h3>
+                            <h3>{{ $patients->count() }}</h3>
                             <span class="widget-title2">Patients <i class="fa fa-check" aria-hidden="true"></i></span>
                         </div>
                     </div>
@@ -26,8 +26,8 @@
                     <div class="dash-widget">
                         <span class="dash-widget-bg3"><i class="fa fa-user-md" aria-hidden="true"></i></span>
                         <div class="dash-widget-info text-right">
-                            <h3>72</h3>
-                            <span class="widget-title3">Attend <i class="fa fa-check" aria-hidden="true"></i></span>
+                            <h3>{{ $appointments->count() }}</h3>
+                            <span class="widget-title3">Appointment <i class="fa fa-check" aria-hidden="true"></i></span>
                         </div>
                     </div>
                 </div>
@@ -35,8 +35,8 @@
                     <div class="dash-widget">
                         <span class="dash-widget-bg4"><i class="fa fa-heartbeat" aria-hidden="true"></i></span>
                         <div class="dash-widget-info text-right">
-                            <h3>618</h3>
-                            <span class="widget-title4">Pending <i class="fa fa-check" aria-hidden="true"></i></span>
+                            <h3>{{ $departments->count() }}</h3>
+                            <span class="widget-title4">Department <i class="fa fa-check" aria-hidden="true"></i></span>
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
 				<div class="col-12 col-md-6 col-lg-8 col-xl-8">
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title d-inline-block">Upcoming Appointments</h4> <a href="appointments.html" class="btn btn-primary float-right">View all</a>
+							<h4 class="card-title d-inline-block">Upcoming Appointments</h4> <a href="{{ route('appointment.index') }}" class="btn btn-primary float-right">View all</a>
 						</div>
 						<div class="card-body p-0">
 							<div class="table-responsive">
@@ -153,80 +153,27 @@
                 <div class="col-12 col-md-6 col-lg-4 col-xl-4">
                     <div class="card member-panel">
 						<div class="card-header bg-white">
-							<h4 class="card-title mb-0">Doctors</h4>
+							<h4 class="card-title mb-0">Newly Added Doctors</h4>
 						</div>
                         <div class="card-body">
                             <ul class="contact-list">
+                            	@foreach($doctors as $doctor)
                                 <li>
                                     <div class="contact-cont">
                                         <div class="float-left user-img m-r-10">
-                                            <a href="profile.html" title="John Doe"><img src="assets/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
+                                            <a href="{{ route('doctor.show', ['doctor' => $doctor->id]) }}" title="John Doe"><img src="{{ asset($doctor->profile)}}" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
                                         </div>
                                         <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">John Doe</span>
-                                            <span class="contact-date">MBBS, MD</span>
+                                            <span class="contact-name text-ellipsis">{{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}</span>
+                                            <span class="contact-date">{{ $doctor->educations[0]->medical_degree }}</span>
                                         </div>
                                     </div>
                                 </li>
-                                <li>
-                                    <div class="contact-cont">
-                                        <div class="float-left user-img m-r-10">
-                                            <a href="profile.html" title="Richard Miles"><img src="assets/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status offline"></span></a>
-                                        </div>
-                                        <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">Richard Miles</span>
-                                            <span class="contact-date">MD</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="contact-cont">
-                                        <div class="float-left user-img m-r-10">
-                                            <a href="profile.html" title="John Doe"><img src="assets/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status away"></span></a>
-                                        </div>
-                                        <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">John Doe</span>
-                                            <span class="contact-date">BMBS</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="contact-cont">
-                                        <div class="float-left user-img m-r-10">
-                                            <a href="profile.html" title="Richard Miles"><img src="assets/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
-                                        </div>
-                                        <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">Richard Miles</span>
-                                            <span class="contact-date">MS, MD</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="contact-cont">
-                                        <div class="float-left user-img m-r-10">
-                                            <a href="profile.html" title="John Doe"><img src="assets/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status offline"></span></a>
-                                        </div>
-                                        <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">John Doe</span>
-                                            <span class="contact-date">MBBS</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="contact-cont">
-                                        <div class="float-left user-img m-r-10">
-                                            <a href="profile.html" title="Richard Miles"><img src="assets/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status away"></span></a>
-                                        </div>
-                                        <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">Richard Miles</span>
-                                            <span class="contact-date">MBBS, MD</span>
-                                        </div>
-                                    </div>
-                                </li>
+                                @endforeach
                             </ul>
                         </div>
                         <div class="card-footer text-center bg-white">
-                            <a href="doctors.html" class="text-muted">View all Doctors</a>
+                            <a href="{{ route('doctor.index')}}" class="text-muted">View all Doctors</a>
                         </div>
                     </div>
                 </div>
@@ -283,7 +230,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-12 col-md-6 col-lg-4 col-xl-4">
+				<!-- <div class="col-12 col-md-6 col-lg-4 col-xl-4">
 					<div class="hospital-barchart">
 						<h4 class="card-title d-inline-block">Hospital Management</h4>
 					</div>
@@ -346,7 +293,7 @@
 							</div>
 						</div>
 					</div>
-				 </div>
+				</div> -->
 			</div>
         </div>
         <div class="notification-box">
