@@ -1,0 +1,55 @@
+.departmentTable a:hover,
+.personal-info a:hover,
+.view_all_doctor a:hover,
+.contact-info a:hover{
+    text-decoration: underline;
+}
+
+/* Doctor Profile Basic Info Style */
+.card-box {
+    border: 1px solid #ebeff2;
+    border-radius: 5px;
+    padding: 20px;
+}
+
+.card-title {
+    margin-bottom: 20px;
+    font-size: 20px;
+    color: #333;
+}
+
+.basic-info {
+    display: grid;
+    grid-template-columns: auto auto;
+    row-gap: 10px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+}
+
+.info-label {
+    font-weight: bold;
+    margin-right: 10px;
+    width: 120px;
+}
+
+.info-value {
+    color: #666;
+}
+
+.address-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+.address-info p {
+    margin-bottom: 5px;
+}
+.w-40.rounded-circle:hover {
+opacity: 0.6;
+}
+
+

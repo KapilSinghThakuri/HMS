@@ -28,38 +28,6 @@
 								</tr>
 							</thead>
 							<tbody>
-                                <!-- @foreach($schedules as $schedule)
-								<tr>
-                                    <td>{{ $loop->index + $schedules->firstItem() }}</td>
-									<td><img width="28" height="28" src="{{ asset($schedule->doctor->profile )}}" class="rounded-circle m-r-5" alt="">Dr. {{ $schedule->doctor->first_name }} {{ $schedule->doctor->middle_name }} {{ $schedule->doctor->last_name }}</td>
-									<td>{{ $schedule->doctor->departments->department_name }}</td>
-									<td>{{ $schedule->in }}</td>
-
-                                    <td>
-                                        @foreach( $schedule->time_intervals as $interval )
-                                            {{ $interval }}
-                                        @endforeach
-                                    </td>
-
-									<td>
-                                        @if($schedule->appointment)
-                                            @if($schedule->appointment->status === 'approved')
-                                            <span class="custom-badge status-green">Approved</span>
-                                            @elseif($schedule->appointment->status === 'pending')
-                                            <span class="custom-badge status-purple">Pending</span>
-                                            @else
-                                            <span class="custom-badge status-red">Cancelled</span>
-                                            @endif
-                                        @else
-                                        <span class="custom-badge status-grey">Opened</span>
-                                        @endif
-                                    </td>
-                                    <td>
-                                        <a href="#" style="font-size: 20px;"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i></a>
-                                        <a href="#" data-toggle="modal" data-target="#delete_schedule" style="font-size: 25px; color: red;"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                    </td>
-								</tr>
-                                @endforeach -->
 							    @foreach($schedules as $schedule)
                                     @php
                                         $timeIntervals = $schedule->time_intervals;

@@ -44,6 +44,13 @@ Route::prefix('Healwave/admin')->group(function(){
                 'department' => DepartmentController::class,
                 'schedule' => DoctorScheduleController::class,
             ]);
+        Route::get('/trash',[DoctorController::class,'doctorTrash'])->name('doctor.trash');
+        Route::get('/trash/{doctor}',[DoctorController::class,'doctorRestore'])->name('doctor.restore');
+        Route::DELETE('/trash/permanent-delete/{doctor}',[DoctorController::class,'permanentDelete'])->name('doctor.permanentDelete');
+        Route::get('/trashDoctor/empty',[DoctorController::class,'emptyDoctor'])->name('trash.empty');
+
+
+
         Route::get('doctor/create/district/{provinceId}',[DoctorController::class,'getDistrictByProvince'])->name('province.add');
         Route::get('doctor/create/municipality/{districtId}',[DoctorController::class,'getMunicipalityByDistrict'])->name('district.add');
 
@@ -87,8 +94,8 @@ Route::prefix('Healwave')->group(function(){
         Route::get('dashboard','index')->name('general.dashboard');
         Route::get('dashboard/get-doctors/{department}','getDoctorsByDepartment');
         Route::get('dashboard/get-schedules/{doctor}','getSchedulesByDoctor');
-        Route::get('dashboard/appointment-form/{schedule}/{doctor}','appointment')->name('appointment.create');
-        Route::post('dashboard/appointment-form/store/{doctorId}/{scheduleId}','appointmentStore')->name('appointment.store');
+        Route::get('dashboard/appointment-form/{schedule}','appointment')->name('appointment.create');
+        Route::post('dashboard/appointment-form/store/{scheduleId}','appointmentStore')->name('appointment.store');
     });
 });
 

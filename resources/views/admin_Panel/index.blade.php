@@ -45,6 +45,74 @@
 				<div class="col-12 col-md-6 col-lg-8 col-xl-8">
 					<div class="card">
 						<div class="card-header">
+							<h4 class="card-title d-inline-block">New Patients </h4> <a href="{{ route('patient.index')}}" class="btn btn-primary float-right">View all</a>
+						</div>
+						<div class="card-block">
+							<div class="table-responsive">
+								<table class="table mb-0 new-patient-table" style="border-spacing: 0;">
+									<tbody>
+										@foreach($patients as $index => $patient)
+										@if($index >= 5)
+					                        @break
+					                    @endif
+										<tr>
+											<td>
+												<img width="28" height="28" class="rounded-circle" src="assets/img/user.jpg" alt="">
+												<h2>{{$patient->fullname}}</h2>
+											</td>
+											<td>{{$patient->age}} years</td>
+											<td>{{$patient->permanent_address}}</td>
+											<td>{{$patient->phone}}</td>
+											<td><button class="btn btn-primary btn-primary-one float-right">Fever</button></td>
+										</tr>
+										@endforeach
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+                <div class="col-12 col-md-6 col-lg-4 col-xl-4">
+				    <div class="card member-panel">
+				        <div class="card-header bg-white">
+				            <h4 class="card-title mb-0">Newly Added Doctors</h4>
+				        </div>
+				        <div class="card-body">
+				            <ul class="contact-list">
+				                @foreach($doctors->take(5) as $doctor)
+				                <li>
+				                    <div class="contact-cont">
+				                        <div class="float-left user-img m-r-10">
+				                            <a href="{{ route('doctor.show', ['doctor' => $doctor->id]) }}" title="Click to view profile">
+				                                <img src="{{ asset($doctor->profile)}}" alt="" class="w-40 rounded-circle">
+				                                <span class="status online"></span>
+				                            </a>
+				                        </div>
+				                        <div class="contact-info">
+				                            <a href="{{ route('doctor.show', ['doctor' => $doctor->id]) }}" title="Click to view profile">
+					                            <span class="contact-name text-ellipsis">{{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}</span>
+				                            </a>
+				                            <span class="contact-date">{{ $doctor->educations[0]->medical_degree }}</span>
+				                        </div>
+				                    </div>
+				                </li>
+				                @endforeach
+				            </ul>
+				        </div>
+				        @if(count($doctors) >= 5)
+				        <div class="card-footer text-center bg-white view_all_doctor">
+				            <a href="{{ route('doctor.index')}}" class="text-muted">View all Doctors</a>
+				        </div>
+				        @endif
+				    </div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12 col-md-6 col-lg-8 col-xl-8">
+					<div class="card">
+						<div class="card-header">
 							<h4 class="card-title d-inline-block">Upcoming Appointments</h4> <a href="{{ route('appointment.index') }}" class="btn btn-primary float-right">View all</a>
 						</div>
 						<div class="card-body p-0">
@@ -143,86 +211,6 @@
 											<td class="text-right">
 												<a href="appointments.html" class="btn btn-outline-primary take-btn">Take up</a>
 											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-                <div class="col-12 col-md-6 col-lg-4 col-xl-4">
-                    <div class="card member-panel">
-						<div class="card-header bg-white">
-							<h4 class="card-title mb-0">Newly Added Doctors</h4>
-						</div>
-                        <div class="card-body">
-                            <ul class="contact-list">
-                            	@foreach($doctors as $doctor)
-                                <li>
-                                    <div class="contact-cont">
-                                        <div class="float-left user-img m-r-10">
-                                            <a href="{{ route('doctor.show', ['doctor' => $doctor->id]) }}" title="John Doe"><img src="{{ asset($doctor->profile)}}" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
-                                        </div>
-                                        <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">{{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}</span>
-                                            <span class="contact-date">{{ $doctor->educations[0]->medical_degree }}</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                @endforeach
-                            </ul>
-                        </div>
-                        <div class="card-footer text-center bg-white">
-                            <a href="{{ route('doctor.index')}}" class="text-muted">View all Doctors</a>
-                        </div>
-                    </div>
-                </div>
-			</div>
-			<div class="row">
-				<div class="col-12 col-md-6 col-lg-8 col-xl-8">
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title d-inline-block">New Patients </h4> <a href="patients.html" class="btn btn-primary float-right">View all</a>
-						</div>
-						<div class="card-block">
-							<div class="table-responsive">
-								<table class="table mb-0 new-patient-table">
-									<tbody>
-										<tr>
-											<td>
-												<img width="28" height="28" class="rounded-circle" src="assets/img/user.jpg" alt="">
-												<h2>John Doe</h2>
-											</td>
-											<td>Johndoe21@gmail.com</td>
-											<td>+1-202-555-0125</td>
-											<td><button class="btn btn-primary btn-primary-one float-right">Fever</button></td>
-										</tr>
-										<tr>
-											<td>
-												<img width="28" height="28" class="rounded-circle" src="assets/img/user.jpg" alt="">
-												<h2>Richard</h2>
-											</td>
-											<td>Richard123@yahoo.com</td>
-											<td>202-555-0127</td>
-											<td><button class="btn btn-primary btn-primary-two float-right">Cancer</button></td>
-										</tr>
-										<tr>
-											<td>
-												<img width="28" height="28" class="rounded-circle" src="assets/img/user.jpg" alt="">
-												<h2>Villiam</h2>
-											</td>
-											<td>Richard123@yahoo.com</td>
-											<td>+1-202-555-0106</td>
-											<td><button class="btn btn-primary btn-primary-three float-right">Eye</button></td>
-										</tr>
-										<tr>
-											<td>
-												<img width="28" height="28" class="rounded-circle" src="assets/img/user.jpg" alt="">
-												<h2>Martin</h2>
-											</td>
-											<td>Richard123@yahoo.com</td>
-											<td>776-2323 89562015</td>
-											<td><button class="btn btn-primary btn-primary-four float-right">Fever</button></td>
 										</tr>
 									</tbody>
 								</table>

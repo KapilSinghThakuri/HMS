@@ -281,22 +281,23 @@
             <ul class="nav nav-tabs flex-column">
               @foreach($departments as $department)
               <li class="nav-item">
-                <a class="nav-link active show" data-bs-toggle="tab" href="#tab-{{ $department->id }}" data-department-id="{{ $department->id }}">{{ $department->department_name }}</a>
+                <a class="nav-link" data-bs-toggle="tab" href="#tab-{{ $department->id }}" data-department-id="{{ $department->id }}">{{ $department->department_name }}</a>
               </li>
               @endforeach
             </ul>
           </div>
           <div class="col-lg-9">
             <div class="tab-content">
-              <div class="tab-pane active show" id="tab-1">
+              @foreach($departments as $department)
+              <div class="tab-pane" id="tab-{{ $department->id }}">
                 <div class="row gy-4">
                   <div class="col-lg-8 details order-2 order-lg-1">
-                    <h3>Cardiology's Available Doctors</h3>
+                    <h3>{{ $department->department_name }}'s Available Doctors</h3>
 
                     <div class="row" id="available-doctors">
-                      @foreach($first_dept_doctors as $doctor)
+                      @foreach($department->doctors as $doctor)
                       <div class="col-md-4">
-                        <div class="card bg-primary profile-card" data-doctor-id="{{ $doctor->id }}" style="cursor: pointer;">
+                        <div class="card bg-primary profile-card" data-doctor-id="{{ $doctor->id }}" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#scheduleModal-{{ $doctor->id }}">
                           <div class="profile-img">
                             <img src="{{ asset( $doctor->profile ) }}" alt="Profile Image">
                           </div>
@@ -307,33 +308,103 @@
                             @endforeach
                           </div>
                         </div>
+
+                        <!-- Schedule Modal -->
+                        <style type="text/css">
+                          .custom-badge {
+                              display: inline-block;
+                              padding: 5px 10px;
+                              margin-right: 10px;
+                              margin-bottom: 10px;
+                              background-color: #007bff;
+                              color: #fff;
+                              border-radius: 20px;
+                              transition: all 0.3s ease-in-out;
+                          }
+
+                          .custom-badge:hover {
+                              transform: scale(1.1);
+                              color: #fff;
+                              background-color: #0056b3;
+                              cursor: pointer;
+                          }
+                        </style>
+                        <div class="modal fade" id="scheduleModal-{{ $doctor->id }}" tabindex="-1" aria-labelledby="scheduleModalLabel-{{ $doctor->id }}" aria-hidden="true">
+                          <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="scheduleModalLabel-{{ $doctor->id }}">Select your suitable schedule</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <!-- <div class="modal-body">
+                                @foreach($schedules as $schedule)
+
+                                  @if($schedule->doctor_id == $doctor->id)
+                                    @php
+                                      $timeIntervals = $schedule->time_intervals;
+                                    @endphp
+
+                                    @foreach($timeIntervals as $interval)
+                                      <a href="#">
+                                        <span class="custom-badge status-blue">{{ $interval }}</span>
+                                      </a>
+                                    @endforeach
+                                  @else
+                                    <p class="alert alert-danger">No Schedule</p>
+                                  @endif
+
+                                @endforeach
+                              </div> -->
+                              @php
+                                $doctor_schedules = collect([]);
+                                foreach($schedules as $schedule) {
+                                    if($schedule->doctor_id == $doctor->id) {
+                                        $doctor_schedules->push($schedule);
+                                    }
+                                }
+                              @endphp
+
+                              @if($doctor_schedules->isEmpty())
+                                <p class="alert alert-danger">No Schedule</p>
+                              @else
+                                  @foreach($doctor_schedules as $schedule)
+                                      @php
+                                          $timeIntervals = $schedule->time_intervals;
+                                      @endphp
+                                      <div class="container">
+                                        <div class="row">
+                                          <p>{{ $schedule->in }}'s Schedules</p>
+                                          @foreach($timeIntervals as $interval)
+                                            <!-- Check if the interval is exist in schedule or not -->
+                                            <div class="col p-3">
+                                              <a href="{{ route('appointment.create',['schedule'=>$schedule->id])}}">
+                                                  <span class="custom-badge status-blue">{{ $interval }}</span>
+                                              </a>
+                                            </div>
+                                          @endforeach
+                                        </div>
+                                      </div>
+
+                                  @endforeach
+                              @endif
+                            </div>
+                          </div>
+                        </div>
+
                       </div>
                       @endforeach
                     </div>
                   </div>
                 </div>
               </div>
+              @endforeach
             </div>
           </div>
         </div>
-        <!-- Doctor Schedule Modal -->
-          <div class="modal fade" id="doctorModal" tabindex="-1" aria-labelledby="doctorModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-md">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="doctorModalLabel">Select Your Suitable Schedule</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                  <div id="doctorSchedule">
-                    <!-- Here doctor's schedules are displayed... -->
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
       </div>
-    </section><!-- End Departments Section -->
+    </section>
+    <!-- End Departments Section -->
+
 
     <!-- ======= Doctors Section ======= -->
     <section id="doctors" class="doctors">
@@ -694,52 +765,52 @@
       }
   </style>
   <script type="text/javascript">
-    $(document).ready(function() {
-        $('.nav-link').on('click', function(e) {
-            e.preventDefault();
-            var departmentId = $(this).data('department-id');
-            console.log(departmentId);
-            $.ajax({
-              url: '/Healwave/dashboard/get-doctors/' + departmentId,
-              type: 'GET',
-              success: function (response) {
-                console.log(response);
-                $('#available-doctors').html(response.html);
-              }
-            });
-        });
-        $(document).on('click', '.profile-img, .profile-name', function() {
-          $('#doctorModal').modal('show');
-          var doctorId = $(this).closest('.profile-card').data('doctor-id');
-          console.log(doctorId);
-          $.ajax({
-              url: '/Healwave/dashboard/get-schedules/' + doctorId,
-              type: 'GET',
-              beforeSend: function(){
-                var loadSchedule = '<p>Schedules are loading...</p>';
-                $('#doctorSchedule').html(loadSchedule);
-              },
-              success: function(response) {
-                console.log(response);
-                var schedules = response.schedules;
-                var appointments = response.appointments;
-                var scheduleList = '<ul>';
-                $.each(schedules, function(index, schedule) {
-                  // Finding the appointments that matches with current schedule
-                    var appointment = appointments.find(appointment => appointment.schedule_id === schedule.id);
-                    if (appointment && appointment.status === 'approved') {
-                        scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + ' ' + '<span class="custom-badge status-green">Booked</span>' + '</li>';
-                    }else if(appointment && appointment.status === 'pending'){
-                        scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + ' ' + '<span class="custom-badge status-blue">Pending</span>' + '</li>';
-                    } else {
-                        scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + ' ' + '<a href="/Healwave/dashboard/appointment-form/' + schedule.id + '/' + schedule.doctor_id + '" class="btn btn-sm btn-primary"> Make Appointment </a>' + '</li>';
-                    }
-                });
-                scheduleList += '</ul>';
-                $('#doctorSchedule').html(scheduleList);
-              }
-          });
-        });
-    });
+    // $(document).ready(function() {
+    //     $('.nav-link').on('click', function(e) {
+    //         e.preventDefault();
+    //         var departmentId = $(this).data('department-id');
+    //         console.log(departmentId);
+    //         $.ajax({
+    //           url: '/Healwave/dashboard/get-doctors/' + departmentId,
+    //           type: 'GET',
+    //           success: function (response) {
+    //             console.log(response);
+    //             $('#available-doctors').html(response.html);
+    //           }
+    //         });
+    //     });
+    //     $(document).on('click', '.profile-img, .profile-name', function() {
+    //       $('#doctorModal').modal('show');
+    //       var doctorId = $(this).closest('.profile-card').data('doctor-id');
+    //       console.log(doctorId);
+    //       $.ajax({
+    //           url: '/Healwave/dashboard/get-schedules/' + doctorId,
+    //           type: 'GET',
+    //           beforeSend: function(){
+    //             var loadSchedule = '<p>Schedules are loading...</p>';
+    //             $('#doctorSchedule').html(loadSchedule);
+    //           },
+    //           success: function(response) {
+    //             console.log(response);
+    //             var schedules = response.schedules;
+    //             var appointments = response.appointments;
+    //             var scheduleList = '<ul>';
+    //             $.each(schedules, function(index, schedule) {
+    //               // Finding the appointments that matches with current schedule
+    //                 var appointment = appointments.find(appointment => appointment.schedule_id === schedule.id);
+    //                 if (appointment && appointment.status === 'approved') {
+    //                     scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + ' ' + '<span class="custom-badge status-green">Booked</span>' + '</li>';
+    //                 }else if(appointment && appointment.status === 'pending'){
+    //                     scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + ' ' + '<span class="custom-badge status-blue">Pending</span>' + '</li>';
+    //                 } else {
+    //                     scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + ' ' + '<a href="/Healwave/dashboard/appointment-form/' + schedule.id + '/' + schedule.doctor_id + '" class="btn btn-sm btn-primary"> Make Appointment </a>' + '</li>';
+    //                 }
+    //             });
+    //             scheduleList += '</ul>';
+    //             $('#doctorSchedule').html(scheduleList);
+    //           }
+    //       });
+    //     });
+    // });
   </script>
 @endsection

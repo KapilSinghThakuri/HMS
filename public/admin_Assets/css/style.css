@@ -3190,6 +3190,10 @@ html.menu-opened body {
 	margin: 0 auto 15px;
 	position: relative;
 	width: 80px;
+	transition: filter 0.3s ease-in-out;
+}
+.doctor-img:hover {
+	filter: brightness(75%);
 }
 .doctor-img .avatar {
 	font-size: 24px;
@@ -3208,6 +3212,10 @@ html.menu-opened body {
 }
 .doctor-name a {
 	color: #333;
+}
+.doctor-name a:hover {
+	color: #009efb;
+	text-decoration: underline;
 }
 .see-all {
 	margin-top: 30px;

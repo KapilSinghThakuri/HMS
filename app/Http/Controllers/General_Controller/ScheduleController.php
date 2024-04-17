@@ -48,36 +48,13 @@ class ScheduleController extends Controller
 
     public function store(ScheduleRequest $request)
     {
-        $fromTime = $request->from;
-        $toTime = $request->to;
-
-        $start_time = Carbon::createFromFormat('H:i', $fromTime);
-        $end_time = Carbon::createFromFormat('H:i', $toTime);
-
-        // Create a period of 30-minute intervals between start and end times
-        $period = CarbonPeriod::create($start_time, '30 minutes', $end_time);
-        $departed_schedule = [];
-        foreach ($period as $interval) {
-            $departed_schedule[] = $interval->format('H:i');
-        }
-        $grouped_schedule = collect($departed_schedule)
-                            ->slice(0, -1)
-                            ->map(function ($item, $key) use ($departed_schedule){
-                        return[
-                            'from' => $item,
-                            'to' => $departed_schedule[$key + 1]
-                        ];
-                    });
-        // dd($grouped_schedule);
+        $validatedData = $request->validated();
         $user = Auth::user();
         $doctor = $user->doctor;
         $doctor_id = $doctor->id;
-        foreach ($grouped_schedule as $schedule) {
-            $schedule['doctor_id'] = $doctor_id;
-            $schedule['in'] = $request->in;
-            Schedule::create($schedule);
-        }
-        return redirect()->route('my-schedule.index')->with('success_message','Your Schedule has been set successfully !!!');
+        $validatedData['doctor_id'] = $doctor_id;
+        Schedule::create($validatedData);
+        return redirect()->route('my-schedule.index')->with('message','Your Schedule has been set successfully !!!');
     }
 
     /**
@@ -99,19 +76,9 @@ class ScheduleController extends Controller
      */
     public function edit($id)
     {
-        $schedule = Schedule::where('id', $id)->first();
-        $date = $schedule->in;
-        $time_interval = Schedule::where('in', $date)->get();
-
-        // Fetching the first element of the first array
-        $start_time = $time_interval->first()['from'];
-
-        // Fetching the last element of the last array
-        $end_time = $time_interval->last()['to'];
-
-        // dd($start_time . ' - ' . $end_time);
+        $schedule = Schedule::findOrFail($id);
         return view('general_dashboard.doctor_dashboard.schedule.edit-schedule',
-            compact('date','start_time','end_time'));
+            compact('schedule'));
     }
 
     /**
@@ -121,9 +88,11 @@ class ScheduleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(ScheduleRequest $request, $id)
     {
-        //
+        $validatedData = $request->validated();
+        Schedule::where('id', $id)->update($validatedData);
+        return redirect()->route('my-schedule.index')->with('message','Your Schedule has been updated successfully !!!');
     }
 
     /**
@@ -134,9 +103,7 @@ class ScheduleController extends Controller
      */
     public function destroy($id)
     {
-        $schedule = Schedule::where('id', $id)->first();
-        $date = $schedule->in;
-        Schedule::whereDate('in', $date)->delete();
-        return redirect()->route('my-schedule.index')->with('success_message','Your Schedule has been deleted successfully !!!');
+        Schedule::findOrFail($id)->delete();
+        return redirect()->route('my-schedule.index')->with('message','Your Schedule has been deleted successfully !!!');
     }
 }

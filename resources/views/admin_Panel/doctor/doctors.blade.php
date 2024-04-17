@@ -8,7 +8,9 @@
                     <h4 class="page-title">Doctors</h4>
                 </div>
                 <div class="col-sm-8 col-9 text-right m-b-20">
-                    <a href="{{ route('doctor.create')}}" class="btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Doctor</a>
+                    <a href="{{ route('doctor.trash')}}" class="btn btn-danger btn-rounded float-right ml-3" title="Trash"><i class="fa fa-trash-o" aria-hidden="true"></i> Trash</a>
+
+                    <a href="{{ route('doctor.create')}}" class="btn btn-primary btn-rounded float-right" title="Click for add doctor"><i class="fa fa-plus"></i> Add Doctor</a>
                 </div>
             </div>
             @if(session('success_message'))
@@ -22,10 +24,10 @@
                 <div class="col-md-4 col-sm-4  col-lg-3">
                     <div class="profile-widget">
                         <div class="doctor-img">
-                            <a class="avatar" href="{{ route('doctor.show', ['doctor' => $doctor->id]) }}"><img alt="" src="{{ asset($doctor->profile) }}"></a>
+                            <a class="avatar" href="{{ route('doctor.show', ['doctor' => $doctor->id]) }}" title="Click to view profile"><img alt="" src="{{ asset($doctor->profile) }}"></a>
                         </div>
                         <h4 class="doctor-name text-ellipsis">
-                            <a href="{{ route('doctor.show', ['doctor' => $doctor->id]) }}">
+                            <a href="{{ route('doctor.show', ['doctor' => $doctor->id]) }}" title="Click to view profile">
                                 {{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}
                             </a>
                         </h4>
@@ -38,7 +40,25 @@
                     <div class="profile-action card">
                         <div class="btn-group" role="group" aria-label="Doctor actions">
                             <a href="{{ route('doctor.edit', ['doctor' => $doctor->id]) }}" class="btn btn-outline-primary"><i class="fa fa-pencil m-r-5"></i>Edit</a>
-                            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#delete_doctor"><i class="fa fa-trash-o m-r-5"></i>Delete</button>
+                            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#delete_doctor_{{ $doctor->id }}"><i class="fa fa-trash-o m-r-5"></i>Delete</button>
+                            <div id="delete_doctor_{{ $doctor->id }}" class="modal fade delete-modal" role="dialog">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-body text-center">
+                                            <img src="{{ asset('admin_Assets/img/sent.png')}}" alt="" width="50" height="46">
+                                            <h3>Are you sure want to delete this Doctor?</h3>
+                                            <div class="m-t-20 d-flex justify-content-center">
+                                                <a href="#" class="btn btn-white mr-2" style="flex-grow: 0; height: 38px; width: 95px;" data-dismiss="modal">Cancel</a>
+                                                <form action="{{ route('doctor.destroy', ['doctor' => $doctor->id]) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -71,23 +91,7 @@
             margin: 0 5px;
         }
     </style>
-	<div id="delete_doctor" class="modal fade delete-modal" role="dialog">
-		<div class="modal-dialog modal-dialog-centered">
-			<div class="modal-content">
-				<div class="modal-body text-center">
-					<img src="{{ asset('admin_Assets/img/sent.png')}}" alt="" width="50" height="46">
-					<h3>Are you sure want to delete this Doctor?</h3>
-					<div class="m-t-20 d-flex justify-content-center"> <a href="#" class="btn btn-white mr-2" data-dismiss="modal">Close</a>
-                        <form action="{{ route('doctor.destroy', ['doctor' => $doctor->id]) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+
 </div>
 
 @endsection

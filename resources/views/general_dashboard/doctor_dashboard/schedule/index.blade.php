@@ -34,36 +34,41 @@
                             </thead>
                             <tbody>
                                 @foreach($schedules as $schedule)
-                                <tr>
-                                    <td><img width="28" height="28" src="{{ asset($doctor->profile) }}" class="rounded-circle m-r-5" alt="">{{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}</td>
-                                    <td>{{ $department->department_name }}</td>
-                                    <td>{{ $schedule->in }}</td>
-                                    <td>{{ $schedule->from }} - {{ $schedule->to }}</td>
-                                    <td><span class="custom-badge status-green">Active</span></td>
-                                    <td>
-                                        <a href="{{ route('my-schedule.edit',['my_schedule'=>$schedule->id] )}}" style="font-size: 20px;"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i></a>
-                                        <a href="#" data-toggle="modal" data-id="{{ $schedule->id }}" data-target="#delete_schedule_{{ $schedule->id }}" style="font-size: 25px; color: red;"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                    </td>
-                                </tr>
-                                <!-- Delete Confirm Modal -->
-                                <div id="delete_schedule_{{ $schedule->id }}" class="modal fade delete-modal" role="dialog">
-                                    <div class="modal-dialog modal-dialog-centered">
-                                        <div class="modal-content">
-                                            <div class="modal-body text-center">
-                                                <img src="{{ asset('admin_Assets/img/sent.png') }}" alt="" width="50" height="46">
-                                                <h3>Are you sure want to delete this Schedule?</h3>
-                                                <div class="m-t-20 d-flex justify-content-center">
-                                                    <a href="#" class="btn btn-white mr-2" data-dismiss="modal">Close</a>
-                                                    <form action="{{ route('my-schedule.destroy',['my_schedule'=>$schedule->id] )}}" method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="btn btn-danger">Delete</button>
-                                                    </form>
+                                    @php
+                                        $timeIntervals = $schedule->time_intervals;
+                                    @endphp
+                                    @foreach($timeIntervals as $interval)
+                                        <tr>
+                                            <td><img width="28" height="28" src="{{ asset($doctor->profile) }}" class="rounded-circle m-r-5" alt="">{{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}</td>
+                                            <td>{{ $department->department_name }}</td>
+                                            <td>{{ $schedule->in }}</td>
+                                            <td>{{ $interval }}</td>
+                                            <td><span class="custom-badge status-green">Active</span></td>
+                                            <td>
+                                                <a href="{{ route('my-schedule.edit',['my_schedule'=>$schedule->id] )}}" style="font-size: 20px;" title="Click for edit"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i></a>
+                                                <a href="#" data-toggle="modal" data-id="{{ $schedule->id }}" data-target="#delete_schedule_{{ $schedule->id }}" style="font-size: 25px; color: red;" title="Click for delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                            </td>
+                                        </tr>
+                                        <!-- Delete Confirm Modal -->
+                                        <div id="delete_schedule_{{ $schedule->id }}" class="modal fade delete-modal" role="dialog">
+                                            <div class="modal-dialog modal-dialog-centered">
+                                                <div class="modal-content">
+                                                    <div class="modal-body text-center">
+                                                        <img src="{{ asset('admin_Assets/img/sent.png') }}" alt="" width="50" height="46">
+                                                        <h3>Are you sure want to delete this Schedule?</h3>
+                                                        <div class="m-t-20 d-flex justify-content-center">
+                                                            <a href="#" class="btn btn-white mr-2" data-dismiss="modal">Close</a>
+                                                            <form action="{{ route('my-schedule.destroy',['my_schedule'=>$schedule->id] )}}" method="POST">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </div>
+                                    @endforeach
                                 @endforeach
                             </tbody>
                         </table>

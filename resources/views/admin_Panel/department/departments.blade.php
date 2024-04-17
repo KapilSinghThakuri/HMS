@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-hover custom-table mb-0 datatable">
+                        <table class="table table-hover custom-table mb-0 datatable departmentTable">
                             <thead>
                                 <tr>
                                     <th>S No</th>
@@ -35,7 +35,7 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>
-                                        <a href="{{ route('department.show',['department' => $department->id]) }}" style="text-decoration: none; color: black;">
+                                        <a href="{{ route('department.show',['department' => $department->id]) }}">
                                             {{ $department->department_name }}
                                         </a>
                                     </td>

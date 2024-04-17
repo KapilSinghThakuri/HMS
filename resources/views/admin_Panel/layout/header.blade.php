@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('admin_Assets/css/bootstrap.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin_Assets/css/font-awesome.min.css')}}">
     <link rel="stylesheet" type="text/css" href="{{ asset('admin_Assets/css/style.css')}}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('admin_Assets/css/custom-style.css')}}">
     <!--[if lt IE 9]>
         <script src="assets/js/html5shiv.min.js"></script>
         <script src="assets/js/respond.min.js"></script>
@@ -25,6 +26,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- toastr Session Message -->
     <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <!-- Boxicons CDN -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
 </head>
 
 <body>
@@ -141,7 +144,7 @@
                         <li class="{{ request()->routeIs('department.index') ||  request()->routeIs('department.create') || request()->routeIs('department.edit') || request()->routeIs('department.show') ? 'active' : '' }}">
                             <a href="{{ route('department.index') }}"><i class="fa fa-hospital-o"></i> <span>Departments</span></a>
                         </li>
-                        <li class="{{ request()->routeIs('doctor.index') ||  request()->routeIs('doctor.create') || request()->routeIs('doctor.edit') || request()->routeIs('doctor.show') ? 'active' : '' }}">
+                        <li class="{{ request()->routeIs('doctor.*') ? 'active' : '' }}">
                             <a href="{{ route('doctor.index') }}"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
                         </li>
                         <li class=" {{ request()->routeIs('patient.index') || request()->routeIs('patient.create') || request()->routeIs('patient.edit') ? 'active' : '' }} ">

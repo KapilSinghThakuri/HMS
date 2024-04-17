@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin_Controller;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\DoctorRequst;
+use App\Http\Requests\DoctorRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Department;
@@ -28,7 +28,6 @@ class DoctorController extends Controller
     public function index()
     {
         $doctors = Doctor::with('educations','experiences')->get();
-
         return view('admin_Panel.doctor.doctors',
             compact('doctors'));
     }
@@ -40,11 +39,9 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        $departments = DB::table('departments')->get();
-        $countries = DB::table('countries')->get();
-        $provinces = DB::table('provinces')->get();
-        // $districts = DB::table('districts')->get();
-        // $municipalities = DB::table('municipalities')->get();
+        $departments = Department::get();
+        $countries = Country::get();
+        $provinces = Province::get();
         return view('admin_Panel.doctor.add-doctor',
             compact('departments','countries','provinces'));
     }
@@ -66,24 +63,20 @@ class DoctorController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(DoctorRequst $request)
+    public function store(DoctorRequest $request)
     {
-        $validated_data = $request->validated();
-
+        $validatedData = $request->validated();
         DB::beginTransaction();
         try {
-            $username = $validated_data['first_name'] .' '. $validated_data['middle_name'] .' '. $validated_data['last_name'];
-            $user_address = $validated_data['province'] .'-'. $validated_data['district'] .'-'. $validated_data['municipality'] .'-'. $validated_data['street'];
-            $user = User::create([
-                'role_id' => 2,
-                'username' => $username,
-                'email' => $validated_data['email'],
-                'password' => Hash::make($validated_data['password']),
-                'address' => $user_address,
-                'phone' => $validated_data['phone'],
-            ]);
-            $user_id = $user->id;
+            $username = $validatedData['first_name'] .' '. $validatedData['middle_name'] .' '. $validatedData['last_name'];
+            $user_address = $validatedData['province_id'] .'-'. $validatedData['district_id'] .'-'. $validatedData['municipality_id'] .'-'. $validatedData['street'];
 
+            $validatedData['role_id'] = 2;
+            $validatedData['username'] = $username;
+            $validatedData['password'] = Hash::make($validatedData['password']);
+            $user = User::create($validatedData);
+
+            $user_id = $user->id;
             if ($request->hasFile('profile')) {
                 $file = $request->file('profile');
                 $fileName = time().'.'.$file->getClientOriginalExtension();
@@ -91,53 +84,46 @@ class DoctorController extends Controller
             } else {
                 return back()->with('fail_message', 'Please upload a profile picture!!!');
             }
+            $validatedData['user_id'] = $user_id;
+            $validatedData['profile'] = '/admin_Assets/img/doctors'.'/'.$fileName;
+            $doctor = Doctor::create($validatedData);
 
-            $doctor = Doctor::create([
-                'user_id' => $user_id,
-                'department_id' =>$validated_data['department_id'],
-                'first_name' => $validated_data['first_name'],
-                'middle_name' => $validated_data['middle_name'] == "" ? "" : $validated_data['middle_name'],
-                'last_name' => $validated_data['last_name'],
-                'profile' => '/admin_Assets/img/doctors'.'/'.$fileName,
-                'gender' => $validated_data['gender'],
-                'date_of_birth_BS' => $validated_data['dobBS'],
-                'date_of_birth_AD' => $validated_data['dobAD'],
-                'email' => $validated_data['email'],
-                'phone' => $validated_data['phone'],
-
-                'country_id' => $validated_data['country'],
-                'province_id' => $validated_data['province'],
-                'district_id' => $validated_data['district'],
-                'province_id' => $validated_data['province'],
-                'municipality_id' => $validated_data['municipality'],
-                'street' => $validated_data['street'],
-            ]);
             $doctor_id = $doctor->id;
+            $validatedData['doctor_id'] = $doctor_id;
 
-            Education::create([
-                'doctor_id' => $doctor_id,
-                'institute_name' => $validated_data['institute_name'],
-                'medical_degree' => $validated_data['medical_degree'],
-                'graduation_year_BS' => $validated_data['grad_yearBS'],
-                'graduation_year_AD' => $validated_data['grad_yearAD'],
-                'specialization' => $validated_data['specialization'],
-            ]);
+            if(isset($validatedData['institute_name'])) {
+                foreach ($validatedData['institute_name'] as $key => $value) {
+                    Education::create([
+                        'doctor_id' => $doctor_id,
+                        'institute_name' => $validatedData['institute_name'][$key],
+                        'medical_degree' => $validatedData['medical_degree'][$key], // Access corresponding medical_degree using the same index
+                        'graduation_year_BS' => $validatedData['graduation_year_BS'][$key],
+                        'graduation_year_AD' => $validatedData['graduation_year_AD'][$key],
+                        'specialization' => $validatedData['specialization'][$key],
+                    ]);
+                }
+            }
 
-            Experience::create([
-                'doctor_id' => $doctor_id,
-                'license_no' => $validated_data['license_no'],
-                'org_name' => $validated_data['org_name'],
-                'start_date_BS' => $validated_data['start_dateBS'],
-                'start_date_AD' => $validated_data['start_dateAD'],
-                'end_date_BS' => $validated_data['end_dateBS'],
-                'end_date_AD' => $validated_data['end_dateAD'],
-                'job_description' => $validated_data['jobDescription'],
-            ]);
+            if(isset($validatedData['org_name'])) {
+                foreach ($validatedData['org_name'] as $key => $value) {
+                    Experience::create([
+                        'doctor_id' => $doctor_id,
+                        'license_no' => $validatedData['license_no'],
+                        'org_name' => $validatedData['org_name'][$key],
+                        'start_date_BS' => $validatedData['start_date_BS'][$key],
+                        'start_date_AD' => $validatedData['start_date_AD'][$key],
+                        'end_date_BS' => $validatedData['end_date_BS'][$key],
+                        'end_date_AD' => $validatedData['end_date_AD'][$key],
+                        'job_description' => $validatedData['job_description'][$key],
+                    ]);
+                }
+            }
+
             DB::commit();
-            return redirect()->route('doctor.index')->with('success_message','Doctor Added Successfully !!!');
+            return redirect()->route('doctor.index')->with('message','Doctor Added Successfully !!!');
         } catch (Exception $e) {
             DB::rollback();
-            return $e->getMessage();
+            return redirect()->route('doctor.index')->with('message','Error: '. $e->getMessage());
         }
     }
 
@@ -209,114 +195,76 @@ class DoctorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DoctorRequest $request, $id)
     {
-        $rules = [
-            'first_name' => 'nullable|string|max:255',
-            'middle_name' => 'nullable|string|max:255',
-            'last_name' => 'nullable|string|max:255',
-            'profile' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:3072',
-            'phone' => 'nullable|string|max:255',
-            'department_id' => 'nullable|exists:departments,id',
-            'date_of_birth_BS' => 'nullable|date',
-            'date_of_birth_AD' => 'nullable|date',
-            'gender' => 'nullable|in:Male,Female',
-            'country' => 'nullable|string|max:255',
-            'district' => 'nullable|string|max:255',
-            'province' => 'nullable|string|max:255',
-            'municipality' => 'nullable|string|max:255',
-            'street' => 'nullable|string|max:255',
-            'institute_name' => 'nullable|string|max:255',
-            'medical_degree' => 'nullable|string|max:255',
-            'graduation_year_BS' => 'nullable|date',
-            'graduation_year_AD' => 'nullable|date',
-            'specialization' => 'nullable|string|max:255',
-            'org_name' => 'nullable|string|max:255',
-            'license_no' => 'nullable|string|max:255',
-            'start_date_BS' => 'nullable|date',
-            'start_date_AD' => 'nullable|date',
-            'end_date_BS' => 'nullable|date',
-            'end_date_AD' => 'nullable|date',
-            'job_description' => 'nullable|string',
-            'email' => 'nullable|email|unique:doctors,email,' . $id,
-            'password' => 'nullable|string|min:6|confirmed',
-            'password_confirmation' => 'nullable|string|min:6'
-        ];
+        $validatedData = $request->validated();
+        DB::beginTransaction();
+        try {
+            $doctor = Doctor::findOrFail($id);
+            $doctor_user = User::findOrFail($doctor->user_id);
+            $username = $validatedData['first_name'] .' '. $validatedData['middle_name'] .' '. $validatedData['last_name'];
+            $user_address = $validatedData['province_id'] .'-'. $validatedData['district_id'] .'-'. $validatedData['street'];
+            $validatedData['username'] = $username;
+            $validatedData['address'] = $user_address;
+            $validatedData['password'] = Hash::make($validatedData['password']);
 
-        $validated_data = $request->validate($rules);
+            $doctor_user->update($validatedData);
 
-        $doctors = Doctor::findOrFail($id);
-        $doctor_user = User::findOrFail($doctors->user_id);
-        $doctor_edu = Education::where('doctor_id', $id)->firstOrFail();
-        $doctor_exp = Experience::where('doctor_id', $id)->firstOrFail();
+            if ($request->hasFile('profile')) {
+                $file = $request->file('profile');
+                $fileName = time().'.'.$file->getClientOriginalExtension();
 
-        $username = $validated_data['first_name'] .' '. $validated_data['middle_name'] .' '. $validated_data['last_name'];
-        $user_address = $validated_data['province'] .'-'. $validated_data['district'] .'-'. $validated_data['street'];
-
-        $doctor_user -> update([
-            'username' => $username,
-            'email' => $validated_data['email'],
-            'password' => Hash::make($validated_data['password']),
-            'address' => $user_address,
-            'phone' => $validated_data['phone'],
-        ]);
-
-        if ($request->hasFile('profile')) {
-            $file = $request->file('profile');
-            $fileName = time().'.'.$file->getClientOriginalExtension();
-
-            // Delete the previous image if it exists
-            if ($doctors->profile) {
-                $previousImagePath = public_path($doctors->profile);
-                if (file_exists($previousImagePath)) {
-                    unlink($previousImagePath);
+                // Delete the previous image if it exists
+                if ($doctor->profile) {
+                    $previousImagePath = public_path($doctor->profile);
+                    if (file_exists($previousImagePath)) {
+                        unlink($previousImagePath);
+                    }
                 }
+
+                $file->move(public_path('admin_Assets/img/doctors'), $fileName);
+                $validatedData['profile'] = '/admin_Assets/img/doctors'.'/'.$fileName;
+            }
+            $doctor->update($validatedData);
+
+            // Update education details
+            Education::where('doctor_id', $id)->delete();
+            foreach ($validatedData['institute_name'] as $key => $value) {
+                Education::updateOrCreate(
+                    [
+                        'doctor_id' => $doctor->id,
+                        'institute_name' => $validatedData['institute_name'][$key],
+                        'medical_degree' => $validatedData['medical_degree'][$key],
+                        'graduation_year_BS' => $validatedData['graduation_year_BS'][$key],
+                        'graduation_year_AD' => $validatedData['graduation_year_AD'][$key],
+                        'specialization' => $validatedData['specialization'][$key],
+                    ]
+                );
+            }
+            // Update experience details
+            Experience::where('doctor_id', $id)->delete();
+            foreach ($validatedData['org_name'] as $key => $value) {
+                Experience::updateOrCreate(
+                    [
+                        'doctor_id' => $doctor->id,
+                        'license_no' => $validatedData['license_no'],
+                        'org_name' => $validatedData['org_name'][$key],
+                        'start_date_BS' => $validatedData['start_date_BS'][$key],
+                        'start_date_AD' => $validatedData['start_date_AD'][$key],
+                        'end_date_BS' => $validatedData['end_date_BS'][$key],
+                        'end_date_AD' => $validatedData['end_date_AD'][$key],
+                        'job_description' => $validatedData['job_description'][$key],
+                    ]
+                );
             }
 
-            $file->move(public_path('admin_Assets/img/doctors'), $fileName);
-            $doctors->update([
-                'profile' => '/admin_Assets/img/doctors'.'/'.$fileName,
-            ]);
+            DB::commit();
+            return redirect()->route('doctor.index')->with('message', 'Doctor Updated Successfully !!!');
+        } catch (Exception $e) {
+            DB::rollback();
+            return $e->getMessage();
         }
-
-        $doctors->update([
-            'department_id' =>$validated_data['department_id'],
-            'first_name' => $validated_data['first_name'],
-            'middle_name' => $validated_data['middle_name'],
-            'last_name' => $validated_data['last_name'],
-            'gender' => $validated_data['gender'],
-            'date_of_birth_BS' => $validated_data['date_of_birth_BS'],
-            'date_of_birth_AD' => $validated_data['date_of_birth_AD'],
-            'email' => $validated_data['email'],
-            'phone' => $validated_data['phone'],
-
-            'country_id' => $validated_data['country'] ,
-            'province_id' => $validated_data['province'],
-            'district_id' => $validated_data['district'],
-            'municipality_id' => $validated_data['municipality'],
-            'street' => $validated_data['street'],
-        ]);
-
-        $doctor_edu->update([
-            'institute_name' => $validated_data['institute_name'],
-            'medical_degree' => $validated_data['medical_degree'],
-            'graduation_year_BS' => $validated_data['graduation_year_BS'],
-            'graduation_year_AD' => $validated_data['graduation_year_AD'],
-            'specialization' => $validated_data['specialization'],
-        ]);
-
-        $doctor_exp->update([
-            'license_no' => $validated_data['license_no'],
-            'org_name' => $validated_data['org_name'],
-            'start_date_BS' => $validated_data['start_date_BS'],
-            'start_date_AD' => $validated_data['start_date_AD'],
-            'end_date_BS' => $validated_data['end_date_BS'],
-            'end_date_AD' => $validated_data['end_date_AD'],
-        ]);
-    return redirect()->route('doctor.index')->with('success_message', 'Doctor Updated Successfully !!!');
-}
-
-
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -326,26 +274,12 @@ class DoctorController extends Controller
      */
     public function destroy($id)
     {
-        $doctor_edu = Education::where('doctor_id', $id)->first();
-        if ($doctor_edu) {
-            $doctor_edu->delete();
-        }
-
-        $doctor_exp = Experience::where('doctor_id', $id)->first();
-        if ($doctor_exp) {
-            $doctor_exp->delete();
-        }
+        $doctor_edu = Education::where('doctor_id', $id)->delete();
+        $doctor_exp = Experience::where('doctor_id', $id)->delete();
 
         $doctor_basic = Doctor::where('id', $id)->first();
         if ($doctor_basic) {
             $doctor_basic->delete();
-        }
-
-        if ($doctor_basic->profile) {
-            $imagePath = public_path($doctor_basic->profile);
-            if (file_exists($imagePath)) {
-                unlink($imagePath);
-            }
         }
 
         $user_id = $doctor_basic->user_id;
@@ -355,8 +289,92 @@ class DoctorController extends Controller
                 $doctor->delete();
             }
         }
-
-        return redirect()->route('doctor.index')->with('success_message','Doctor deleted Successfully !!!');
+        return redirect()->route('doctor.index')->with('message','Doctor deleted Successfully !!!');
     }
 
+    public function doctorTrash()
+    {
+
+        $softDeletedDoctors = Doctor::with([
+            // Also load soft deleted departments, educations, experiences
+            'departments' => function ($query) {
+                $query->withTrashed();
+            },
+            'educations' => function ($query) {
+                $query->withTrashed();
+            },
+            'experiences' => function ($query) {
+                $query->withTrashed();
+            },
+            'user' => function ($query) {
+                $query->withTrashed();
+            },
+        ])->onlyTrashed()->get();
+
+        return view('admin_Panel.doctor.doctor-trash', compact('softDeletedDoctors'));
+    }
+    public function doctorRestore($doctorId)
+    {
+        $softDeletedDoctor = Doctor::onlyTrashed()->find($doctorId);
+        if ($softDeletedDoctor) {
+            $user_id = $softDeletedDoctor->user_id;
+            $softDeletedDoctor->restore();
+            User::onlyTrashed()->where('id', $user_id)->restore();
+            Education::onlyTrashed()->where('doctor_id', $doctorId)->restore();
+            Experience::onlyTrashed()->where('doctor_id', $doctorId)->restore();
+        }
+        return redirect()->route('doctor.index')->with('message','Doctor Restored Successfully!!!');
+    }
+
+    public function permanentDelete($doctorId)
+    {
+        DB::beginTransaction();
+        try {
+            $softDeletedDoctor = Doctor::onlyTrashed()->find($doctorId);
+            if ($softDeletedDoctor) {
+                Education::onlyTrashed()->where('doctor_id', $doctorId)->forceDelete();
+                Experience::onlyTrashed()->where('doctor_id', $doctorId)->forceDelete();
+
+                $softDeletedDoctor->forceDelete();
+                if ($softDeletedDoctor) {
+                    if ($softDeletedDoctor->profile) {
+                        $imagePath = public_path($softDeletedDoctor->profile);
+                        if (file_exists($imagePath)) {
+                            unlink($imagePath);
+                        }
+                    }
+                }
+
+                $user_id = $softDeletedDoctor->user_id;
+                User::onlyTrashed()->where('id', $user_id)->forceDelete();
+
+                DB::commit();
+
+                return redirect()->route('doctor.trash')->with('message','Doctor has been permanently deleted Successfully!!!');
+            }
+        }catch (Exception $e) {
+        DB::rollback();
+        return $e->getMessage();
+        }
+    }
+
+    public function emptyDoctor()
+    {
+        Education::onlyTrashed()->forceDelete();
+        Experience::onlyTrashed()->forceDelete();
+        Doctor::onlyTrashed()->forceDelete();
+        $trashedDoctor = Doctor::onlyTrashed()->get();
+        if ($trashedDoctor) {
+            foreach ($trashedDoctor as $doctor) {
+                if ($doctor->profile) {
+                    $imagePath = public_path($doctor->profile);
+                    if (file_exists($imagePath)) {
+                        unlink($imagePath);
+                    }
+                }
+            }
+        }
+        User::onlyTrashed()->forceDelete();
+        return redirect()->route('doctor.index')->with('message','Doctors has been permanently deleted Successfully!!!');
+    }
 }

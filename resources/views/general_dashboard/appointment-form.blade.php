@@ -9,7 +9,7 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-lg-12">
-            <form method="POST" action="{{ route('appointment.store', ['doctorId' => $doctorId, 'scheduleId' => $scheduleId]) }}" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('appointment.store',[ 'scheduleId'=>$scheduleId ])}}" enctype="multipart/form-data">
                 @csrf
                 <div class="row mb-3">
                     <div class="col-lg-6">
@@ -20,17 +20,6 @@
                     </div>
                 </div>
                 <div class="row">
-                    <!-- @if ($errors->any())
-                    <div class="col-sm-12">
-                        <div class="form-group alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li class="">{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                    @endif -->
                     <!-- Form field validations -->
                     <div class="col-sm-12">
                         <div id="inputErrors" class="form-group"></div>
@@ -38,6 +27,8 @@
 
                     <div class="col-lg-12">
                         <div class="row">
+                            <input type="hidden" name="doctor_id" value="{{ $doctor->id }}">
+
                             <div class="col-sm-4 mb-4">
                                 <div class="form-group">
                                     <label>Full Name: <span class="text-danger">*</span></label>

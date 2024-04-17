@@ -16,7 +16,6 @@ class DashboardController extends Controller
     public function index()
     {
         $doctors = Doctor::with('educations')->orderBy('created_at','desc')->take(5)->get();
-        // dd($doctors);
         $patients = Patient::all();
         $appointments = Appointment::all();
         $departments = Department::all();
