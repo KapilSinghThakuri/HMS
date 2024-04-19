@@ -11,6 +11,7 @@
                     <a class="btn btn-danger btn-rounded" href="{{ route('department.index')}}"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</a>
                 </div>
             </div>
+            {{ Breadcrumbs::render() }}
             <div class="row">
                 <div class="col-lg-12">
                     <form action="{{ route('department.update',['department' => $departments->id]) }}" method="POST">

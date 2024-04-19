@@ -11,6 +11,7 @@
                 <a href="{{ route('schedule.index')}}" class="btn btn btn-danger btn-rounded float-right"><i class="fa fa-ban"></i> Cancel</a>
             </div>
         </div>
+        {{ Breadcrumbs::render() }}
         <div class="row">
             <div class="col-lg-12">
                 <form action="{{ route('schedule.update',['schedule'=> $schedule->id])}}" method="POST">

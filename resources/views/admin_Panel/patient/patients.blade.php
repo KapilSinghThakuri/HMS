@@ -11,6 +11,7 @@
                     <!-- <a href="{{ route('patient.create')}}" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Patient</a> -->
                 </div>
             </div>
+            {{ Breadcrumbs::render() }}
 			<div class="row">
 				<div class="col-md-12">
 					<div class="table-responsive">

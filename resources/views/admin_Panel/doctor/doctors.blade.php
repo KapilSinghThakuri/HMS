@@ -13,6 +13,8 @@
                     <a href="{{ route('doctor.create')}}" class="btn btn-primary btn-rounded float-right" title="Click for add doctor"><i class="fa fa-plus"></i> Add Doctor</a>
                 </div>
             </div>
+            {{ Breadcrumbs::render() }}
+
             @if(session('success_message'))
                 <div class="alert alert-success">{{ session('success_message')}}</div>
             @endif

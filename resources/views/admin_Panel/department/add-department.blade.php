@@ -10,6 +10,7 @@
                     <a class="btn btn-danger btn-rounded" href="{{ route('department.index')}}"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
                 </div>
             </div>
+            {{ Breadcrumbs::render() }}
             <div class="row">
                 <div class="col-lg-12">
                     <form method="POST" action="{{ route('department.store') }}">

@@ -72,7 +72,7 @@
                                 @endforeach
                             </ul>
                         </div>
-                        @if(count($adminNotifications) > 1)
+                        @if(count($adminNotifications) >= 1)
                             <div class="topnav-dropdown-footer">
                                 <a href="#" id="mark-all-read">Mark as Read All</a>
                             </div>

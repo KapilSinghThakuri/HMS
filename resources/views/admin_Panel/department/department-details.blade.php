@@ -10,6 +10,7 @@
                     <a class="btn btn-primary btn-rounded" href="{{ route('department.edit', ['department' => $departments->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile</a>
                 </div>
             </div>
+            {{ Breadcrumbs::render() }}
             <div class="row mt-3">
                 <div class="col-md-12">
                     <div class="card">

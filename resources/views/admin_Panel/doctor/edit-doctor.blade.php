@@ -5,7 +5,7 @@
         <div class="content">
             <div class="row">
                 <div class="col-lg-12">
-
+                    {{ Breadcrumbs::render() }}
                     <form method="POST" action="{{ route('doctor.update',['doctor' => $doctor_basic->id ])}}" id="wizardForm" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')

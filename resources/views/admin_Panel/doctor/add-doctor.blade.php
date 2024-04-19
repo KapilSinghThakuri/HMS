@@ -5,6 +5,7 @@
         <div class="content">
             <div class="row">
                 <div class="col-lg-12">
+                    {{ Breadcrumbs::render() }}
                     <form method="POST" action="{{ route('doctor.store')}}" id="wizardForm" enctype="multipart/form-data">
                         @csrf
                         <!-- Basic Details -->

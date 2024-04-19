@@ -45,7 +45,7 @@
 				<div class="col-12 col-md-6 col-lg-8 col-xl-8">
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title d-inline-block">New Added Patients </h4>
+							<h4 class="card-title d-inline-block">Recent Patient Admissions</h4>
 						@if(count($patients) >= 5 )
 							<a href="{{ route('patient.index')}}" class="btn btn-primary float-right">View all</a>
 						@endif
@@ -85,7 +85,7 @@
                 <div class="col-12 col-md-6 col-lg-4 col-xl-4">
 				    <div class="card member-panel">
 				        <div class="card-header bg-white">
-				            <h4 class="card-title mb-0">Newly Added Doctors</h4>
+				            <h4 class="card-title mb-0">Our Newest Doctors</h4>
 				        </div>
 				        <div class="card-body">
 				            <ul class="contact-list">

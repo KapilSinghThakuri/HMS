@@ -11,6 +11,7 @@
                 <a href="{{ route('doctor.index') }}" class="btn btn-danger btn-rounded"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back </a>
             </div>
         </div>
+        {{ Breadcrumbs::render() }}
         <div class="card-box profile-header">
             <div class="row">
                 <div class="col-md-12">
