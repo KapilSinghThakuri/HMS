@@ -53,17 +53,42 @@
                         <div class="drop-scroll">
                             <ul class="notification-list">
                                 @foreach($adminNotifications as $notification)
+
                                 <li class="notification-message">
                                     <a href="#">
                                         <div class="media">
                                             <div class="checkbox-container">
                                                 <input type="checkbox" name="notification_id" value="{{ $notification->id }}"  class="notification-checkbox" data-notification-id="{{ $notification->id }}" title="Mark as Read" data-toggle="tooltip">
                                             </div>
+                                            @if($notification->data['method'] === 'doctor_create' && 'schedule_create' &&  'schedule_update' && 'schedule_delete')
                                             <span class="avatar">
                                                 <img alt="John Doe" src="{{ asset( $notification->data['doctor_profile']) }}" class="img-fluid">
                                             </span>
+                                            @endif
                                             <div class="media-body">
-                                                <p class="noti-details"><span class="noti-title">{{ $notification->data['doctor_name']}}</span> <span class="noti-title">{{ $notification->data['message']}}</span></p>
+                                                <p class="noti-details">
+                                                    <span class="noti-title">
+                                                        @switch($notification->data['method'])
+                                                            @case('doctor_create')
+                                                                <span class="noti-title">{{ $notification->data['doctor_name']}}</span> has scheduled an appointment for {{ $notification->data['scheduled_day']}}.
+                                                                @break
+                                                            @case('schedule_create')
+                                                                <span class="noti-title">{{ $notification->data['doctor_name']}}</span> has scheduled an appointment for {{ $notification->data['scheduled_day']}}.
+                                                                @break
+                                                            @case('schedule_update')
+                                                                <span class="noti-title">{{ $notification->data['doctor_name']}}</span> has updated their appointment schedule.
+                                                                @break
+                                                            @case('schedule_delete')
+                                                                <span class="noti-title">{{ $notification->data['doctor_name']}}</span> has deleted his appointment schedule for {{ $notification->data['scheduled_day']}}.
+                                                                @break
+                                                            @case('appointment_create')
+                                                                <span class="noti-title">{{ $notification->data['patient_name']}}</span> has booked the schedule.
+                                                                @break
+                                                            @default
+                                                                <span class="noti-title">Empty !!!</span>
+                                                        @endswitch
+                                                    </span>
+                                                </p>
                                                 <p class="noti-time"><span class="notification-time">{{ $notification->created_at->diffForHumans() }}</span></p>
                                             </div>
                                         </div>

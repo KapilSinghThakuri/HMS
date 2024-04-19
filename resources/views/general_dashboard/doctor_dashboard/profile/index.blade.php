@@ -3,6 +3,8 @@
 <div class="page-wrapper">
     <div class="content">
 
+        {{ Breadcrumbs::render() }}
+
         <div class="row">
             <div class="col-sm-7 col-6">
                 <h4 class="page-title">My Profile</h4>
@@ -11,6 +13,7 @@
                 <a href="{{ route('doctor.dashboard') }}" class="btn btn-danger btn-rounded"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back </a>
             </div>
         </div>
+
         @if(session('success_message'))
             <div class="alert alert-success">{{ session('success_message')}}</div>
         @endif

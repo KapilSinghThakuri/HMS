@@ -4,6 +4,7 @@
 <div class="main-wrapper">
     <div class="page-wrapper">
         <div class="content">
+            {{ Breadcrumbs::render() }}
             <div class="row">
                 <div class="col-sm-4 col-3">
                     <h4 class="page-title">My Schedule</h4>
@@ -12,6 +13,7 @@
                     <a href="{{ route('my-schedule.create')}}" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Schedule</a>
                 </div>
             </div>
+
             @if(session('success_message'))
                 <div class="alert alert-success">{{ session('success_message')}}</div>
             @endif

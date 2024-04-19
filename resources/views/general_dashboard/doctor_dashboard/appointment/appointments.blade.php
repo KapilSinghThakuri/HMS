@@ -2,6 +2,7 @@
 @section('Main-container')
     <div class="page-wrapper">
         <div class="content">
+            {{ Breadcrumbs::render() }}
             <div class="row">
                 <div class="col-sm-4 col-3">
                     <h4 class="page-title">Appointments</h4>
@@ -16,7 +17,7 @@
                         <table class="table table-striped custom-table">
                             <thead>
                                 <tr>
-                                    <th>Appointment ID</th>
+                                    <th>Sno</th>
                                     <th>Patient Name</th>
                                     <th>Age</th>
                                     <th>Appointment Date</th>
@@ -28,7 +29,7 @@
                             <tbody>
                                 @foreach($appointments as $appointment)
                                 <tr>
-                                    <td>{{ $appointment->id }}</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>
                                         <a href="{{ route('patient.appointment.view',['appointment'=>$appointment->id ]) }}">
                                             <img width="28" height="28" src="assets/img/user.jpg" class="rounded-circle m-r-5" alt=""> {{ $appointment->patient->fullname }}

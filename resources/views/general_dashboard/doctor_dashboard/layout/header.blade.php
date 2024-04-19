@@ -86,8 +86,8 @@
                         <li class="{{ request()->routeIs('patient.appointment') || request()->routeIs('patient.appointment.view') ? 'active' : '' }}">
                             <a href="{{ route('patient.appointment') }}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
                         </li>
-                        <li class=" {{ request()->routeIs('patient.index') || request()->routeIs('patient.create') || request()->routeIs('patient.edit') ? 'active' : '' }} ">
-                            <a href="#"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
+                        <li class="{{ request()->routeIs('patient.dashboard') ? 'active' : '' }} ">
+                            <a href="{{ route('patient.dashboard')}}"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
                         </li>
                     </ul>
                 </div>

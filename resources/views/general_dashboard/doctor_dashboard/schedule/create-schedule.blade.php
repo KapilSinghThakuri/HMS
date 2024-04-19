@@ -3,6 +3,7 @@
 
 <div class="page-wrapper">
     <div class="content">
+        {{ Breadcrumbs::render() }}
         <div class="row">
             <div class="col-sm-4 col-3">
                 <h4 class="page-title">Add Schedule</h4>

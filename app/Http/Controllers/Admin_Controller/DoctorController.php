@@ -121,7 +121,7 @@ class DoctorController extends Controller
             }
             // For sending the doctor created notifications to Admin
             $admin = User::where('role_id', 1)->first();
-            $admin->notify(new DoctorCreatedNotification($doctor));
+            $admin->notify(new DoctorCreatedNotification($doctor, 'doctor_create'));
 
             DB::commit();
             return redirect()->route('doctor.index')->with('message','Doctor Added Successfully !!!');

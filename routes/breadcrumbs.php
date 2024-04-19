@@ -84,3 +84,54 @@ Breadcrumbs::for('schedule.edit', function ($trail, $schedule) {
 });
 
 /////////////////////////           GENERAL DASHBOARD Breadcrumbs           /////////////////////////////////////
+Breadcrumbs::for('doctor.dashboard', function ($trail) {
+    $trail->push('Dashboard', route('doctor.dashboard'));
+});
+
+// Breadcrumbs For DOCTOR PROFILE
+Breadcrumbs::for('doctor.profile', function ($trail) {
+    $trail->parent('doctor.dashboard');
+    $trail->push('My Profile', route('doctor.profile'));
+});
+Breadcrumbs::for('profile.edit', function ($trail) {
+    $trail->parent('doctor.dashboard');
+    $trail->push('My Profile', route('doctor.profile'));
+    $trail->push('Edit Profile', route('profile.edit'));
+});
+
+// Breadcrumbs For DOCTOR SCHEDULE
+Breadcrumbs::for('my-schedule.index', function ($trail) {
+    $trail->parent('doctor.dashboard');
+    $trail->push('My Schedule', route('my-schedule.index'));
+});
+Breadcrumbs::for('my-schedule.create', function ($trail) {
+    $trail->parent('doctor.dashboard');
+    $trail->push('My Schedule', route('my-schedule.index'));
+    $trail->push('Add Schedule', route('my-schedule.create'));
+});
+Breadcrumbs::for('my-schedule.edit', function ($trail, $schedule) {
+    $trail->parent('doctor.dashboard');
+    $trail->push('My Schedule', route('my-schedule.index'));
+    $trail->push('Edit Schedule', route('my-schedule.edit', $schedule));
+});
+
+// Breadcrumbs For DOCTOR APPOINTMENT
+Breadcrumbs::for('patient.appointment', function ($trail) {
+    $trail->parent('doctor.dashboard');
+    $trail->push('Appointments', route('patient.appointment'));
+});
+Breadcrumbs::for('patient.appointment.view', function ($trail, $appointment) {
+    $trail->parent('doctor.dashboard');
+    $trail->push('Appointments', route('patient.appointment'));
+    $trail->push('View Appointment', route('patient.appointment.view',$appointment));
+});
+
+// Breadcrumbs For DOCTOR PATIENT
+Breadcrumbs::for('patient.dashboard', function ($trail) {
+    $trail->parent('doctor.dashboard');
+    $trail->push('Patients', route('patient.dashboard'));
+});
+
+
+
+

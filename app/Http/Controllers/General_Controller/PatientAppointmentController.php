@@ -23,4 +23,12 @@ class PatientAppointmentController extends Controller
         $appointments = Appointment::where('id', $appointmentId)->first();
         return view('general_dashboard.doctor_dashboard.appointment.view-appointment',compact('appointments'));
     }
+
+    public function patientsIndex()
+    {
+        $user = Auth::user();
+        $doctor = $user->doctor;
+        $appointments = $doctor->appointments;
+        return view('general_dashboard.doctor_dashboard.patient.patients',compact('appointments'));
+    }
 }

@@ -104,7 +104,7 @@
                             </div>
                             <div class="col-sm-4 mb-4">
                                 <div class="form-group">
-                                    <label>Medical History:</label>
+                                    <label>Medical Report:</label>
                                     <input type="file" name="medical_history" value="" class="form-control">
                                     @error('medical_history')<span class="text-danger">{{ $message }}</span>@enderror
                                 </div>

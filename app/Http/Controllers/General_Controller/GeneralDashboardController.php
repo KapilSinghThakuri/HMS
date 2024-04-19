@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\General_Controller;
 
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +22,8 @@ use App\Models\Municipality;
 use App\Models\Schedule;
 use App\Models\Appointment;
 use App\Models\Patient;
+use App\Notifications\AppointmentNotification;
+
 
 
 class GeneralDashboardController extends Controller
@@ -50,18 +53,24 @@ class GeneralDashboardController extends Controller
 
         DB::beginTransaction();
         try {
+            if ($request->hasFile('medical_history')) {
+                $file = $request->file('medical_history');
+
+                $fileName = time().'.'.$file->getClientOriginalExtension();
+                $filePath = 'general_Assets/medical-history/';
+                $file->move(public_path($filePath), $fileName);
+                $validatedData['medical_history'] = $filePath . $fileName;
+            }
             $patient = Patient::create($validatedData);
+
             $validatedData['schedule_id'] = $scheduleId;
             $validatedData['patient_id'] = $patient->id;
             $validatedData['status'] = 'pending';
 
-            if ($request->hasFile('medical_history')) {
-                $file = $request->file('medical_history');
-                $fileName = time().'.'.$file->getClientOriginalName();
-                $file->move(public_path('general_Assets/medical-history'), $fileName);
-                $validatedData['medical_history'] = 'general_Assets/medical-history/'. $fileName;
-            }
-            Appointment::create($validatedData);
+            $appointment = Appointment::create($validatedData);
+
+            $admin = User::where('role_id', 1)->first();
+            $admin->notify(new AppointmentNotification($appointment, $patient, 'appointment_create'));
 
             DB::commit();
             return redirect()->route('general.dashboard')->with('message','Your Appointment Send Successfully !!!');

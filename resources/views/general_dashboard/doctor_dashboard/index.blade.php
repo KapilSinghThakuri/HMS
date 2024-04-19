@@ -8,8 +8,8 @@
                     <div class="dash-widget">
                         <span class="dash-widget-bg4"><i class="fa fa-heartbeat" aria-hidden="true"></i></span>
                         <div class="dash-widget-info text-right">
-                            <h3>618</h3>
-                            <span class="widget-title4">Pending<i class="fa fa-check" aria-hidden="true"></i></span>
+                            <h3>{{ $pendingAppointmentsCount }}</h3>
+                            <span class="widget-title4">Pending App<i class="fa fa-check" aria-hidden="true"></i></span>
                         </div>
                     </div>
                 </div>
@@ -17,7 +17,7 @@
                     <div class="dash-widget">
                         <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
                         <div class="dash-widget-info text-right">
-                            <h3>1072</h3>
+                            <h3>{{ $doctor->appointments->count() }}</h3>
                             <span class="widget-title2">Patients <i class="fa fa-check" aria-hidden="true"></i></span>
                         </div>
                     </div>
@@ -45,7 +45,10 @@
                 <div class="col-12 col-md-6 col-lg-8 col-xl-8">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title d-inline-block">Appointments Overview</h4> <a href="appointments.html" class="btn btn-primary float-right">View all</a>
+                            <h4 class="card-title d-inline-block">Recent Appointments</h4>
+                            @if($appointments->count() >= 5)
+                                <a href="{{ route('patient.appointment')}}" class="btn btn-primary float-right">View all</a>
+                            @endif
                         </div>
                         <div class="card-body p-0">
                             <div class="table-responsive">
@@ -59,7 +62,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($appointments as $appointment)
+                                        @foreach($appointments->take(5) as $appointment)
                                         <tr>
                                             <td style="min-width: 200px;">
                                                 <a class="avatar" href="#">P</a>
@@ -109,85 +112,37 @@
                 <div class="col-12 col-md-6 col-lg-4 col-xl-4">
                     <div class="card member-panel">
                         <div class="card-header bg-white">
-                            <h4 class="card-title mb-0">Doctors</h4>
+                            <h4 class="card-title mb-0">Recently Admitted Patients</h4>
                         </div>
                         <div class="card-body">
-                            <ul class="contact-list">
-                                <li>
-                                    <div class="contact-cont">
-                                        <div class="float-left user-img m-r-10">
-                                            <a href="profile.html" title="John Doe"><img src="assets/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
-                                        </div>
-                                        <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">John Doe</span>
-                                            <span class="contact-date">MBBS, MD</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="contact-cont">
-                                        <div class="float-left user-img m-r-10">
-                                            <a href="profile.html" title="Richard Miles"><img src="assets/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status offline"></span></a>
-                                        </div>
-                                        <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">Richard Miles</span>
-                                            <span class="contact-date">MD</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="contact-cont">
-                                        <div class="float-left user-img m-r-10">
-                                            <a href="profile.html" title="John Doe"><img src="assets/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status away"></span></a>
-                                        </div>
-                                        <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">John Doe</span>
-                                            <span class="contact-date">BMBS</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="contact-cont">
-                                        <div class="float-left user-img m-r-10">
-                                            <a href="profile.html" title="Richard Miles"><img src="assets/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status online"></span></a>
-                                        </div>
-                                        <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">Richard Miles</span>
-                                            <span class="contact-date">MS, MD</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="contact-cont">
-                                        <div class="float-left user-img m-r-10">
-                                            <a href="profile.html" title="John Doe"><img src="assets/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status offline"></span></a>
-                                        </div>
-                                        <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">John Doe</span>
-                                            <span class="contact-date">MBBS</span>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="contact-cont">
-                                        <div class="float-left user-img m-r-10">
-                                            <a href="profile.html" title="Richard Miles"><img src="assets/img/user.jpg" alt="" class="w-40 rounded-circle"><span class="status away"></span></a>
-                                        </div>
-                                        <div class="contact-info">
-                                            <span class="contact-name text-ellipsis">Richard Miles</span>
-                                            <span class="contact-date">MBBS, MD</span>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
+                            <table class="table table-striped patient_table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Phone</th>
+                                        <th>Diseases</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($appointments as $appointment)
+                                    <tr>
+                                        <td>{{ $appointment->patient->fullname }}</td>
+                                        <td>{{ $appointment->patient->phone }}</td>
+                                        <td>{{ $appointment->reason }}</td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
+                        @if($appointments->count() >= 5)
                         <div class="card-footer text-center bg-white">
-                            <a href="doctors.html" class="text-muted">View all Doctors</a>
+                            <a href="doctors.html" class="text-muted">View all Appointments</a>
                         </div>
+                        @endif
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <!-- <div class="row">
                 <div class="col-12 col-md-6 col-lg-8 col-xl-8">
                     <div class="card">
                         <div class="card-header">
@@ -239,7 +194,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

@@ -30,7 +30,14 @@ class DoctorDashboardController extends Controller
         $doctorId = $doctor->id;
         $appointments = $doctor->appointments;
 
-        return view('general_dashboard.doctor_dashboard.index',compact('appointments'));
+        $pendingAppointmentsCount = 0;
+        foreach ($appointments as $appointment) {
+            if ($appointment->status === 'pending') {
+                $pendingAppointmentsCount++;
+            }
+        }
+
+        return view('general_dashboard.doctor_dashboard.index',compact('appointments','doctor','pendingAppointmentsCount'));
     }
 
     public function approveAppointment(Request $request, $appointmentId)

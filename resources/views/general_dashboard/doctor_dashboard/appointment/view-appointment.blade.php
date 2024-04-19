@@ -2,37 +2,45 @@
 @section('Main-container')
     <div class="page-wrapper">
         <div class="content">
+            {{ Breadcrumbs::render() }}
             <div class="row">
                 <div class="col-sm-4 col-3">
                     <h4 class="page-title">Appointment Details</h4>
                 </div>
                 <div class="col-sm-8 col-9 text-right m-b-20">
-                    <a href="{{ route('doctor.dashboard')}}" class="btn btn btn-primary btn-rounded float-right">Back Dashboard</a>
+                    <a href="{{ route('patient.appointment')}}" class="btn btn btn-danger btn-rounded float-right"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
                 </div>
             </div>
+
             <div class="row">
-                <div class="col-sm-8">
-                    <div class="defination-card card" style="padding: 25px;">
-                        <dl>
-                          <dt>Patient Name:</dt>
-                          <dd>Black hot drink</dd>
-                          <dt>Gender:</dt>
-                          <dd>{{ $appointments->patient->gender }}</dd>
-                          <dt>Age:</dt>
-                          <dd>{{ $appointments->patient->age }} years</dd>
-                          <dt>Address:</dt>
-                          <dd>{{ $appointments->patient->permanent_address }}</dd>
-                          <dt>Phone:</dt>
-                          <dd>{{ $appointments->patient->phone }}</dd>
-                          <dt>Email:</dt>
-                          <dd>{{ $appointments->patient->email }}</dd>
-                          <dt>Reason:</dt>
-                          <dd>{{ $appointments->reason }}</dd>
-                          <dt>Medical History:</dt>
-                          </dd>
-                            <iframe src="{{ asset($appointments->patient->medical_history) }}" width="300px" height="400px"></iframe>
-                          <dd>
-                        </dl>
+                <div class="col-md-8">
+                    <div class="card appointment-card">
+                        <div class="card-body">
+                            <h5 class="card-title">Patient Information</h5>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <p class="card-text"><strong>Patient Name:</strong> {{ $appointments->patient->fullname }}</p>
+                                    <p class="card-text"><strong>Gender:</strong> {{ $appointments->patient->gender }}</p>
+                                    <p class="card-text"><strong>Address:</strong> {{ $appointments->patient->permanent_address }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p class="card-text"><strong>Phone:</strong> {{ $appointments->patient->phone }}</p>
+                                    <p class="card-text"><strong>Email:</strong> {{ $appointments->patient->email }}</p>
+                                </div>
+                            </div>
+                            <p class="card-text"><strong>Reason for Appointment:</strong> {{ $appointments->reason }}</p>
+                            <p class="card-text"><strong>Appointment Date:</strong> January 20, 2024</p>
+                            <p class="card-text"><strong>Doctor:</strong> Dr. Smith</p>
+                            <p class="card-text"><strong>Department:</strong> Cardiology</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" style="margin: 0;">Medical Report</h5>
+                            <iframe class="medical_report" src="{{ asset( $appointments->patient->medical_history )}}"></iframe>
+                        </div>
                     </div>
                 </div>
             </div>

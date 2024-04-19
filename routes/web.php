@@ -92,6 +92,8 @@ Route::prefix('Healwave')->group(function(){
 
         Route::get('doctor/appointment',[PatientAppointmentController::class,'index'])->name('patient.appointment');
         Route::get('doctor/appointment/view/{appointment}',[PatientAppointmentController::class,'show'])->name('patient.appointment.view');
+
+        Route::get('doctor/patients',[PatientAppointmentController::class,'patientsIndex'])->name('patient.dashboard');
     });
     Route::controller(GeneralDashboardController::class)->group(function ()
     {

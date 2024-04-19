@@ -7,17 +7,20 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class DoctorCreatedNotification extends Notification
+class ScheduleCreatedNotification extends Notification
 {
     use Queueable;
+    public $schedule;
     public $doctor;
+
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($doctor, $method)
+    public function __construct($schedule, $doctor, $method)
     {
+        $this->schedule = $schedule;
         $this->doctor = $doctor;
         $this->method = $method;
     }
@@ -34,29 +37,6 @@ class DoctorCreatedNotification extends Notification
     }
 
     /**
-     * Get the mail representation of the notification.
-     *
-     * @param  mixed  $notifiable
-     * @return \Illuminate\Notifications\Messages\MailMessage
-     */
-    public function toMail($notifiable)
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
-
-    // public function toDatabase($notifiable)
-    // {
-    //     return [
-    //         'type' => 'doctor_created',
-    //         'message' => 'A new doctor has been added !',
-    //         'action' => '/doctor',
-    //     ];
-    // }
-
-    /**
      * Get the array representation of the notification.
      *
      * @param  mixed  $notifiable
@@ -65,8 +45,10 @@ class DoctorCreatedNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            'message' => 'A new doctor has been added!',
             'method' => $this->method,
+            'scheduled_day' => $this->schedule['in'],
+            'scheduled_time_from' => $this->schedule['from'],
+            'scheduled_time_to' => $this->schedule['to'],
             'doctor_name' => $this->doctor['first_name'].$this->doctor['middle_name'].$this->doctor['last_name'],
             'doctor_email' => $this->doctor['emai'],
             'doctor_phone' => $this->doctor['phone'],

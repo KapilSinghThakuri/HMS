@@ -11,6 +11,8 @@ use App\Http\Requests\ScheduleRequest;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
 use App\Models\Schedule;
+use App\Models\User;
+use App\Notifications\ScheduleCreatedNotification;
 
 
 class ScheduleController extends Controller
@@ -53,7 +55,11 @@ class ScheduleController extends Controller
         $doctor = $user->doctor;
         $doctor_id = $doctor->id;
         $validatedData['doctor_id'] = $doctor_id;
-        Schedule::create($validatedData);
+        $schedule = Schedule::create($validatedData);
+
+        $admin = User::where('role_id', 1)->first();
+        $admin->notify(new ScheduleCreatedNotification($schedule, $doctor, 'schedule_create'));
+
         return redirect()->route('my-schedule.index')->with('message','Your Schedule has been set successfully !!!');
     }
 
@@ -91,7 +97,15 @@ class ScheduleController extends Controller
     public function update(ScheduleRequest $request, $id)
     {
         $validatedData = $request->validated();
-        Schedule::where('id', $id)->update($validatedData);
+        $schedule = Schedule::findOrFail($id);
+        $schedule->update();
+        // $schedule = Schedule::where('id', $id)->update($validatedData);
+
+        $user = Auth::user();
+        $doctor = $user->doctor;
+        $admin = User::where('role_id', 1)->first();
+        $admin->notify(new ScheduleCreatedNotification($schedule, $doctor, 'schedule_update'));
+
         return redirect()->route('my-schedule.index')->with('message','Your Schedule has been updated successfully !!!');
     }
 
@@ -103,7 +117,14 @@ class ScheduleController extends Controller
      */
     public function destroy($id)
     {
-        Schedule::findOrFail($id)->delete();
+        $schedule = Schedule::findOrFail($id);
+        $schedule->delete();
+
+        $user = Auth::user();
+        $doctor = $user->doctor;
+        $admin = User::where('role_id', 1)->first();
+        $admin->notify(new ScheduleCreatedNotification($schedule, $doctor, 'schedule_delete'));
+
         return redirect()->route('my-schedule.index')->with('message','Your Schedule has been deleted successfully !!!');
     }
 }

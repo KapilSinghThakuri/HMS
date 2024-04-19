@@ -5,7 +5,7 @@
         <div class="content">
             <div class="row">
                 <div class="col-lg-12">
-
+                    {{ Breadcrumbs::render() }}
                     <form method="POST" action="{{ route('profile.update')}}" id="wizardForm" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
@@ -16,7 +16,7 @@
                                     <h4 class="page-title">My Profile</h4>
                                 </div>
                                 <div class="col-lg-6 text-right">
-                                    <a class="btn btn-primary btn-lg btn-rounded" style="font-size: 1rem;" href="{{ route('doctor.profile')}}">Back</a>
+                                    <a class="btn btn-danger btn-lg btn-rounded" style="font-size: 1rem;" href="{{ route('doctor.profile')}}"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
                                 </div>
                             </div>
                              <div class="row">
