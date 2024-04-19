@@ -51,5 +51,30 @@
 .w-40.rounded-circle:hover {
 opacity: 0.6;
 }
+/* Notifications checkbox */
+.checkbox-container {
+    margin-right: 10px;
+}
 
+.notification-checkbox {
+    position: relative;
+    top: 7px;
+}
+/* Department detail style */
+.counter-box {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
 
+.counter-box:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.counter {
+    font-size: 36px;
+    color: #333;
+    margin-bottom: 10px;
+}

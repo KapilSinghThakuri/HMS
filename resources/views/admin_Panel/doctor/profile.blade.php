@@ -178,10 +178,10 @@
                                         <div class="address-title">Temporary Address</div>
                                         <div class="address-info">
                                             <p>Country : {{ $doctor_basic->country->english_name }}</p>
-                                            <p>Province : {{ $doctor_basic->province->province_name_nep }} </p>
-                                            <p>District : {{ $doctor_basic->district->{'district_name[nep]'} }}</p>
-                                            <p>Municipality : {{ $doctor_basic->municipality->{'municipality_name[nep]'} }}</p>
-                                            <p>Street : {{ $doctor_basic->street }}</p>
+                                            <p>Province : {{ $temp_province->province_name_nep }} </p>
+                                            <p>District : {{ $temp_district->{'district_name[nep]'} }}</p>
+                                            <p>Municipality : {{ $temp_municipality->{'municipality_name[nep]'} }}</p>
+                                            <p>Street : {{ $doctor_basic->temp_street }}</p>
                                         </div>
                                     </div>
                                 </div>

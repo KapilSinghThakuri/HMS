@@ -8,7 +8,7 @@
                 <h4 class="page-title">Add Schedule</h4>
             </div>
             <div class="col-sm-8 col-9 text-right m-b-20">
-                <a href="{{ route('my-schedule.index')}}" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-ban"></i> Cancel</a>
+                <a href="{{ route('my-schedule.index')}}" class="btn btn btn-danger btn-rounded float-right"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
             </div>
         </div>
         <div class="row">

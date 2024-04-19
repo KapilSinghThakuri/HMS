@@ -254,6 +254,44 @@
         }
         toastr.warning("{{ session('warning') }}");
     @endif
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+
+    $(document).ready(function() {
+
+        $('#mark-all-read').on('click', function(e) {
+            e.preventDefault();
+            $.ajax({
+                url: '/Healwave/admin/mark-all-as-read',
+                method: 'GET',
+                success: function(response) {
+                    console.log(response.success);
+                },
+                error: function(xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+
+        $('.notification-checkbox').change(function() {
+            var notificationId = $(this).data('notification-id');
+            console.log(notificationId);
+
+            $.ajax({
+                url: '/Healwave/admin/notifications/mark-as-read/' + notificationId,
+                method: 'GET',
+                success: function(response) {
+                    console.log(response.message);
+                },
+                error: function(xhr, status, error) {
+                    console.error('There was a problem with the request:', error);
+                }
+            });
+        });
+    });
+
   </script>
 </body>
 </html>

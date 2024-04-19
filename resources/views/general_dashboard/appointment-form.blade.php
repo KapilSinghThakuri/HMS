@@ -28,7 +28,7 @@
                     <div class="col-lg-12">
                         <div class="row">
                             <input type="hidden" name="doctor_id" value="{{ $doctor->id }}">
-
+                            <input type="hidden" name="time_interval" value="{{ $timeInterval }}">
                             <div class="col-sm-4 mb-4">
                                 <div class="form-group">
                                     <label>Full Name: <span class="text-danger">*</span></label>

@@ -8,7 +8,7 @@
                 <h4 class="page-title">My Profile</h4>
             </div>
             <div class="col-sm-5 col-6 text-right m-b-30">
-                <a href="{{ route('profile.edit') }}" class="btn btn-primary btn-rounded"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile </a>
+                <a href="{{ route('doctor.dashboard') }}" class="btn btn-danger btn-rounded"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back </a>
             </div>
         </div>
         @if(session('success_message'))
@@ -31,9 +31,9 @@
                                 <div class="col-md-5">
                                     <div class="profile-info-left">
                                         <h3 class="user-name m-t-0 mb-0">{{ $doctor_basic->first_name }} {{ $doctor_basic->last_name }}</h3>
-                                        <small class="text-muted">{{ $doctor_edu ->specialization }}</small>
-                                        <div class="staff-id">License ID : {{ $doctor_exp -> license_no}}</div>
-                                        <!-- <div class="staff-msg"><a href="#" class="btn btn-primary">Send Message</a></div> -->
+                                        <small class="text-muted">{{ $doctor_basic->educations[0]->specialization }}</small>
+                                        <div class="staff-id">License ID : {{$doctor_basic->experiences[0]->license_no}}</div>
+                                        <div class="staff-msg"><a href="{{ route('profile.edit') }}" class="btn btn-primary"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile</a></div>
                                     </div>
                                 </div>
                                 <div class="col-md-7">
@@ -68,9 +68,9 @@
         </div>
         <div class="profile-tabs">
             <ul class="nav nav-tabs nav-tabs-bottom">
-                <li class="nav-item"><a class="nav-link active" href="#about-cont" data-toggle="tab">About</a></li>
-                <li class="nav-item"><a class="nav-link" href="#bottom-tab2" data-toggle="tab">Profile</a></li>
-                <li class="nav-item"><a class="nav-link" href="#bottom-tab3" data-toggle="tab">Messages</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#about-cont" data-toggle="tab">Basic Details</a></li>
+                <li class="nav-item"><a class="nav-link" href="#bottom-tab2" data-toggle="tab">Academic Details</a></li>
+                <li class="nav-item"><a class="nav-link" href="#bottom-tab3" data-toggle="tab">Address Details</a></li>
             </ul>
 
             <div class="tab-content">
@@ -78,61 +78,122 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card-box">
-                                <h3 class="card-title">Education Informations</h3>
-                                <div class="experience-box">
-                                    <ul class="experience-list">
-                                        <li>
-                                            <div class="experience-user">
-                                                <div class="before-circle"></div>
-                                            </div>
-                                            <div class="experience-content">
-                                                <div class="timeline-content">
-                                                    <a href="#/" class="name">{{ $doctor_edu->institute_name }} College of Medical Science</a>
-                                                    <div>{{ $doctor_edu->medical_degree }}</div>
-                                                    <span class="time">{{ $doctor_edu->graduation_year_BS }}BS - {{ $doctor_edu->graduation_year_AD }}AD</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="card-box mb-0">
-                                <h3 class="card-title">Experience</h3>
-                                <div class="experience-box">
-                                    <ul class="experience-list">
-                                        <li>
-                                            <div class="experience-user">
-                                                <div class="before-circle"></div>
-                                            </div>
-                                            <div class="experience-content">
-                                                <div class="timeline-content">
-                                                    <a href="#/" class="name">{!! $doctor_exp -> job_description !!}</a>
-                                                    <span class="time">{{ $doctor_exp -> start_date_BS}} - {{ $doctor_exp -> end_date_BS}}</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="experience-user">
-                                                <div class="before-circle"></div>
-                                            </div>
-                                            <div class="experience-content">
-                                                <div class="timeline-content">
-                                                    <a href="#/" class="name">Consultant Gynecologist</a>
-                                                    <span class="time">Jan 2009 - Present (6 years 1 month)</span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <h3 class="card-title">Basic Informations</h3>
+                                <div class="basic-info">
+                                    <div class="info-item">
+                                        <span class="info-label">Name:</span>
+                                        <span class="info-value">Dr. {{ $doctor_basic->first_name }} {{ $doctor_basic->middle_name }} {{ $doctor_basic->last_name }}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Gender:</span>
+                                        <span class="info-value">{{ $doctor_basic->gender }}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Date of Birth:</span>
+                                        <span class="info-value">{{ $doctor_basic -> date_of_birth_AD }}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Email:</span>
+                                        <span class="info-value">{{ $doctor_basic->email }}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Liscense No:</span>
+                                        <span class="info-value">{{$doctor_basic->experiences[0]->license_no}}</span>
+                                    </div>
+                                    <div class="info-item">
+                                        <span class="info-label">Specialization:</span>
+                                        <span class="info-value">{{ $doctor_basic->educations[0]->specialization }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
                 <div class="tab-pane" id="bottom-tab2">
-                    Tab content 2
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card-box">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="experience-box">
+                                            <h4 class="box-title">Education Informations</h4>
+                                            <ul class="experience-list">
+                                                @foreach($doctor_basic->educations as $education)
+                                                <li>
+                                                    <div class="experience-user">
+                                                        <div class="before-circle"></div>
+                                                    </div>
+                                                    <div class="experience-content">
+                                                        <div class="timeline-content">
+                                                            <a href="#" class="name">{{ $education->institute_name }} College of Medical Science</a>
+                                                            <div>{{ $education->medical_degree }}</div>
+                                                            <span class="time">{{ $education->graduation_year_BS }}BS - {{ $education->graduation_year_AD }}AD</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="experience-box">
+                                            <h4 class="box-title">Experience Informations</h4>
+                                            <ul class="experience-list">
+                                                @foreach($doctor_basic->experiences as $experience)
+                                                <li>
+                                                    <div class="experience-user">
+                                                        <div class="before-circle"></div>
+                                                    </div>
+                                                    <div class="experience-content">
+                                                        <div class="timeline-content">
+                                                            <a href="#" class="name">{!! $experience -> job_description !!}</a>
+                                                            <span class="time">{{ $experience -> start_date_BS}} - {{ $experience -> end_date_BS}}</span>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
                 <div class="tab-pane" id="bottom-tab3">
-                    Tab content 3
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" style="margin-bottom: 12px;">Address Details</h5>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="address-section">
+                                        <div class="address-title">Permanent Address</div>
+                                        <div class="address-info">
+                                            <p>Country : {{ $doctor_basic->country->english_name }}</p>
+                                            <p>Province : {{ $doctor_basic->province->province_name_nep }}</p>
+                                            <p>District : {{ $doctor_basic->district->{'district_name[nep]'} }}</p>
+                                            <p>Municipality : {{ $doctor_basic->municipality->{'municipality_name[nep]'} }}</p>
+                                            <p>Street : {{ $doctor_basic->street }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="address-section">
+                                        <div class="address-title">Temporary Address</div>
+                                        <div class="address-info">
+                                            <p>Country : {{ $doctor_basic->country->english_name }}</p>
+                                            <p>Province : {{ $temp_province->province_name_nep }} </p>
+                                            <p>District : {{ $temp_district->{'district_name[nep]'} }}</p>
+                                            <p>Municipality : {{ $temp_municipality->{'municipality_name[nep]'} }}</p>
+                                            <p>Street : {{ $doctor_basic->temp_street }}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\DoctorScheduleRequest;
 use Carbon\CarbonPeriod;
+use App\Models\User;
 use App\Models\Schedule;
 use App\Models\Doctor;
 

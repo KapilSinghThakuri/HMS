@@ -45,16 +45,25 @@
 				<div class="col-12 col-md-6 col-lg-8 col-xl-8">
 					<div class="card">
 						<div class="card-header">
-							<h4 class="card-title d-inline-block">New Patients </h4> <a href="{{ route('patient.index')}}" class="btn btn-primary float-right">View all</a>
+							<h4 class="card-title d-inline-block">New Added Patients </h4>
+						@if(count($patients) >= 5 )
+							<a href="{{ route('patient.index')}}" class="btn btn-primary float-right">View all</a>
+						@endif
 						</div>
 						<div class="card-block">
 							<div class="table-responsive">
 								<table class="table mb-0 new-patient-table" style="border-spacing: 0;">
+									<thead>
+										<tr>
+											<th>Full Name</th>
+											<th>Age</th>
+											<th>Permanent Address</th>
+											<th>Phone</th>
+											<th>Disease</th>
+										</tr>
+									</thead>
 									<tbody>
-										@foreach($patients as $index => $patient)
-										@if($index >= 5)
-					                        @break
-					                    @endif
+										@foreach($patients->take(6) as $patient)
 										<tr>
 											<td>
 												<img width="28" height="28" class="rounded-circle" src="assets/img/user.jpg" alt="">
@@ -63,7 +72,7 @@
 											<td>{{$patient->age}} years</td>
 											<td>{{$patient->permanent_address}}</td>
 											<td>{{$patient->phone}}</td>
-											<td><button class="btn btn-primary btn-primary-one float-right">Fever</button></td>
+											<td>{{ $patient->appointment->reason }}</td>
 										</tr>
 										@endforeach
 									</tbody>
@@ -85,7 +94,7 @@
 				                    <div class="contact-cont">
 				                        <div class="float-left user-img m-r-10">
 				                            <a href="{{ route('doctor.show', ['doctor' => $doctor->id]) }}" title="Click to view profile">
-				                                <img src="{{ asset($doctor->profile)}}" alt="" class="w-40 rounded-circle">
+				                                <img src="{{ asset($doctor->profile)}}" alt="" width="34" height="34" class="rounded-circle">
 				                                <span class="status online"></span>
 				                            </a>
 				                        </div>
@@ -108,119 +117,10 @@
 				    </div>
 				</div>
 			</div>
-
-			<div class="row">
-				<div class="col-12 col-md-6 col-lg-8 col-xl-8">
-					<div class="card">
-						<div class="card-header">
-							<h4 class="card-title d-inline-block">Upcoming Appointments</h4> <a href="{{ route('appointment.index') }}" class="btn btn-primary float-right">View all</a>
-						</div>
-						<div class="card-body p-0">
-							<div class="table-responsive">
-								<table class="table mb-0">
-									<thead class="d-none">
-										<tr>
-											<th>Patient Name</th>
-											<th>Doctor Name</th>
-											<th>Timing</th>
-											<th class="text-right">Status</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<td style="min-width: 200px;">
-												<a class="avatar" href="profile.html">B</a>
-												<h2><a href="profile.html">Bernardo Galaviz <span>New York, USA</span></a></h2>
-											</td>
-											<td>
-												<h5 class="time-title p-0">Appointment With</h5>
-												<p>Dr. Cristina Groves</p>
-											</td>
-											<td>
-												<h5 class="time-title p-0">Timing</h5>
-												<p>7.00 PM</p>
-											</td>
-											<td class="text-right">
-												<a href="appointments.html" class="btn btn-outline-primary take-btn">Take up</a>
-											</td>
-										</tr>
-										<tr>
-											<td style="min-width: 200px;">
-												<a class="avatar" href="profile.html">B</a>
-												<h2><a href="profile.html">Bernardo Galaviz <span>New York, USA</span></a></h2>
-											</td>
-											<td>
-												<h5 class="time-title p-0">Appointment With</h5>
-												<p>Dr. Cristina Groves</p>
-											</td>
-											<td>
-												<h5 class="time-title p-0">Timing</h5>
-												<p>7.00 PM</p>
-											</td>
-											<td class="text-right">
-												<a href="appointments.html" class="btn btn-outline-primary take-btn">Take up</a>
-											</td>
-										</tr>
-										<tr>
-											<td style="min-width: 200px;">
-												<a class="avatar" href="profile.html">B</a>
-												<h2><a href="profile.html">Bernardo Galaviz <span>New York, USA</span></a></h2>
-											</td>
-											<td>
-												<h5 class="time-title p-0">Appointment With</h5>
-												<p>Dr. Cristina Groves</p>
-											</td>
-											<td>
-												<h5 class="time-title p-0">Timing</h5>
-												<p>7.00 PM</p>
-											</td>
-											<td class="text-right">
-												<a href="appointments.html" class="btn btn-outline-primary take-btn">Take up</a>
-											</td>
-										</tr>
-										<tr>
-											<td style="min-width: 200px;">
-												<a class="avatar" href="profile.html">B</a>
-												<h2><a href="profile.html">Bernardo Galaviz <span>New York, USA</span></a></h2>
-											</td>
-											<td>
-												<h5 class="time-title p-0">Appointment With</h5>
-												<p>Dr. Cristina Groves</p>
-											</td>
-											<td>
-												<h5 class="time-title p-0">Timing</h5>
-												<p>7.00 PM</p>
-											</td>
-											<td class="text-right">
-												<a href="appointments.html" class="btn btn-outline-primary take-btn">Take up</a>
-											</td>
-										</tr>
-										<tr>
-											<td style="min-width: 200px;">
-												<a class="avatar" href="profile.html">B</a>
-												<h2><a href="profile.html">Bernardo Galaviz <span>New York, USA</span></a></h2>
-											</td>
-											<td>
-												<h5 class="time-title p-0">Appointment With</h5>
-												<p>Dr. Cristina Groves</p>
-											</td>
-											<td>
-												<h5 class="time-title p-0">Timing</h5>
-												<p>7.00 PM</p>
-											</td>
-											<td class="text-right">
-												<a href="appointments.html" class="btn btn-outline-primary take-btn">Take up</a>
-											</td>
-										</tr>
-									</tbody>
-								</table>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- <div class="col-12 col-md-6 col-lg-4 col-xl-4">
+			<!-- <div class="row">
+				<div class="col-12 col-md-6 col-lg-4 col-xl-4">
 					<div class="hospital-barchart">
-						<h4 class="card-title d-inline-block">Hospital Management</h4>
+						<h4 class="card-title d-inline-block">Departments</h4>
 					</div>
 					<div class="bar-chart">
 						<div class="legend">
@@ -281,8 +181,8 @@
 							</div>
 						</div>
 					</div>
-				</div> -->
-			</div>
+				</div>
+			</div> -->
         </div>
         <div class="notification-box">
             <div class="msg-sidebar notifications msg-noti">

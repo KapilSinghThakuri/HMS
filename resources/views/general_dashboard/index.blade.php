@@ -304,7 +304,7 @@
                           <div class="profile-details">
                             <div class="profile-name">{{ $doctor->first_name }}{{ $doctor->middle_name }} {{ $doctor->last_name }}</div>
                             @foreach($doctor->educations as $education)
-                            <div class="profile-specialization">{{ $education->specialization }}</div>
+                              <div class="profile-specialization">{{ $education->specialization }}</div>
                             @endforeach
                           </div>
                         </div>
@@ -336,25 +336,7 @@
                                 <h5 class="modal-title" id="scheduleModalLabel-{{ $doctor->id }}">Select your suitable schedule</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                               </div>
-                              <!-- <div class="modal-body">
-                                @foreach($schedules as $schedule)
 
-                                  @if($schedule->doctor_id == $doctor->id)
-                                    @php
-                                      $timeIntervals = $schedule->time_intervals;
-                                    @endphp
-
-                                    @foreach($timeIntervals as $interval)
-                                      <a href="#">
-                                        <span class="custom-badge status-blue">{{ $interval }}</span>
-                                      </a>
-                                    @endforeach
-                                  @else
-                                    <p class="alert alert-danger">No Schedule</p>
-                                  @endif
-
-                                @endforeach
-                              </div> -->
                               @php
                                 $doctor_schedules = collect([]);
                                 foreach($schedules as $schedule) {
@@ -365,7 +347,7 @@
                               @endphp
 
                               @if($doctor_schedules->isEmpty())
-                                <p class="alert alert-danger">No Schedule</p>
+                                <p class="alert alert-danger">No Schedule !!! </p>
                               @else
                                   @foreach($doctor_schedules as $schedule)
                                       @php
@@ -375,12 +357,16 @@
                                         <div class="row">
                                           <p>{{ $schedule->in }}'s Schedules</p>
                                           @foreach($timeIntervals as $interval)
-                                            <!-- Check if the interval is exist in schedule or not -->
-                                            <div class="col p-3">
-                                              <a href="{{ route('appointment.create',['schedule'=>$schedule->id])}}">
-                                                  <span class="custom-badge status-blue">{{ $interval }}</span>
-                                              </a>
-                                            </div>
+
+                                            <!-- Check if the schedule time_interval is exist in interval or not -->
+                                              @if (!$doctor->appointments->where('schedule_id', $schedule->id)->pluck('time_interval')->contains($interval))
+                                                <div class="col-4 p-2">
+                                                  <a href="{{ route('appointment.create',['schedule'=>$schedule->id, 'interval' => $interval])}}">
+                                                      <span class="custom-badge status-blue">{{ $interval }}</span>
+                                                  </a>
+                                                </div>
+                                              @endif
+
                                           @endforeach
                                         </div>
                                       </div>

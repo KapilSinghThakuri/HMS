@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin_Controller\DepartmentController;
 use App\Http\Controllers\Admin_Controller\AppointmentController;
 use App\Http\Controllers\Admin_Controller\DoctorScheduleController;
 use App\Http\Controllers\Admin_Controller\PatientController;
+use App\Http\Controllers\Admin_Controller\NotificationController;
+
 use App\Http\Controllers\General_Controller\GeneralDashboardController;
 use App\Http\Controllers\General_Controller\DoctorDashboardController;
 use App\Http\Controllers\General_Controller\ProfileController;
@@ -49,6 +51,8 @@ Route::prefix('Healwave/admin')->group(function(){
         Route::DELETE('/trash/permanent-delete/{doctor}',[DoctorController::class,'permanentDelete'])->name('doctor.permanentDelete');
         Route::get('/trashDoctor/empty',[DoctorController::class,'emptyDoctor'])->name('trash.empty');
 
+        Route::get('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
+        Route::get('/notifications/mark-as-read/{notificationId}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
 
 
         Route::get('doctor/create/district/{provinceId}',[DoctorController::class,'getDistrictByProvince'])->name('province.add');
@@ -92,9 +96,7 @@ Route::prefix('Healwave')->group(function(){
     Route::controller(GeneralDashboardController::class)->group(function ()
     {
         Route::get('dashboard','index')->name('general.dashboard');
-        Route::get('dashboard/get-doctors/{department}','getDoctorsByDepartment');
-        Route::get('dashboard/get-schedules/{doctor}','getSchedulesByDoctor');
-        Route::get('dashboard/appointment-form/{schedule}','appointment')->name('appointment.create');
+        Route::get('dashboard/appointment-form/{schedule}/{interval}','appointment')->name('appointment.create');
         Route::post('dashboard/appointment-form/store/{scheduleId}','appointmentStore')->name('appointment.store');
     });
 });

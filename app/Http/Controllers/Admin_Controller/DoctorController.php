@@ -17,6 +17,7 @@ use App\Models\Country;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Municipality;
+use App\Notifications\DoctorCreatedNotification;
 
 class DoctorController extends Controller
 {
@@ -118,6 +119,9 @@ class DoctorController extends Controller
                     ]);
                 }
             }
+            // For sending the doctor created notifications to Admin
+            $admin = User::where('role_id', 1)->first();
+            $admin->notify(new DoctorCreatedNotification($doctor));
 
             DB::commit();
             return redirect()->route('doctor.index')->with('message','Doctor Added Successfully !!!');
@@ -138,9 +142,11 @@ class DoctorController extends Controller
         $doctor_basic = Doctor::findOrFail($id);
         $doctor_edu = Education::where('doctor_id',$id)->get();
         $doctor_exp = Experience::where('doctor_id',$id)->get();
-
+        $temp_province = Province::where('id', $doctor_basic->temp_province_id)->first();
+        $temp_district = District::where('id', $doctor_basic->temp_district_id)->first();
+        $temp_municipality = Municipality::where('id', $doctor_basic->temp_municipality_id)->first();
         return view('admin_Panel.doctor.profile',
-            compact('doctor_basic','doctor_exp','doctor_edu'));
+            compact('doctor_basic','doctor_exp','doctor_edu','temp_province','temp_district','temp_municipality'));
     }
 
     /**

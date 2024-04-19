@@ -25,13 +25,13 @@ class ProfileController extends Controller
     {
         $users = Auth::user();
         $id = $users->id;
-        $doctor_basic = Doctor::where('user_id', $id)->firstOrFail();
-        $doctor_id = $doctor_basic->id;
-        $doctor_edu = Education::where('doctor_id',$doctor_id)->first();
-        $doctor_exp = Experience::where('doctor_id',$doctor_id)->first();
+        $doctor_basic = Doctor::where('user_id', $id)->with('educations','experiences')->firstOrFail();
+        $temp_province = Province::where('id', $doctor_basic->temp_province_id)->first();
+        $temp_district = District::where('id', $doctor_basic->temp_district_id)->first();
+        $temp_municipality = Municipality::where('id', $doctor_basic->temp_municipality_id)->first();
 
         return view('general_dashboard.doctor_dashboard.profile.index',
-            compact('doctor_basic','doctor_edu','doctor_exp'));
+            compact('doctor_basic','temp_province','temp_district','temp_municipality'));
     }
 ////////////////////////           PROFILE EDIT PART               ///////////////////////////////
     public function edit()

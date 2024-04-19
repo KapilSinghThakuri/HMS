@@ -71,7 +71,7 @@
                                             </td>
                                             <td>
                                                 <h5 class="time-title p-0">Timing</h5>
-                                                <p>{{ $appointment->schedule->from }} - {{ $appointment->schedule->to }}</p>
+                                                <p>{{ $appointment->time_interval }}</p>
                                             </td>
                                             <td class="text-right">
                                                 @if($appointment->status == 'pending')

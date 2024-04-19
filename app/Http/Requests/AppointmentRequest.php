@@ -25,6 +25,7 @@ class AppointmentRequest extends FormRequest
     {
         return [
             'doctor_id' => 'required',
+            'time_interval' => 'required',
             'fullname' => 'required|string|max:255',
             'date_of_birth' => 'required|date',
             'gender' => 'required|in:Male,Female,Other',

@@ -35,7 +35,7 @@
 									<td>Dr. {{ $appointment->doctor->first_name }} {{ $appointment->doctor->middle_name }} {{ $appointment->doctor->last_name }}</td>
 									<td>{{ $appointment->doctor->departments->department_name }}</td>
 									<td>{{ $appointment->schedule->in }}</td>
-									<td>{{ $appointment->schedule->from }} - {{ $appointment->schedule->to }}</td>
+									<td>{{ $appointment->time_interval }}</td>
 									<td>
                                         @if($appointment->status === 'approved')
                                         <span class="custom-badge status-green">Approved</span>

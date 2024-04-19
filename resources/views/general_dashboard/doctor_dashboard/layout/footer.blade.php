@@ -43,6 +43,10 @@
             }
             toastr.warning("{{ session('warning') }}");
         @endif
+
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
     </script>
 </body>
 </html>

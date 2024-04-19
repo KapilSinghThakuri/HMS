@@ -28,4 +28,8 @@ class Patient extends Model
     {
         return $this->date_of_birth->diffInYears(now());
     }
+    public function appointment()
+    {
+        return $this->hasOne(Appointment::class,'patient_id','id');
+    }
 }

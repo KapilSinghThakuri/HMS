@@ -5,7 +5,12 @@ namespace App\Http\Controllers\Admin_Controller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\DepartmentRequest;
+use App\Models\User;
+use App\Models\Patient;
+use App\Models\Doctor;
 use App\Models\Department;
+use App\Models\Appointment;
+
 
 class DepartmentController extends Controller
 {
@@ -51,8 +56,17 @@ class DepartmentController extends Controller
      */
     public function show($id)
     {
+        $doctors = Doctor::where('department_id',$id)->get();
+        $patientCount = 0;
+        foreach ($doctors as $doctor) {
+            $doctor = Doctor::withCount('appointments')->find($doctor->id);
+            $patientCount += $doctor->appointments_count;
+        }
+        // dd($patientCount);
+
+        $doctorCount = $doctors->count();
         $departments = Department::where('id',$id)->first();
-        return view('admin_Panel.department.department-details',compact('departments'));
+        return view('admin_Panel.department.department-details',compact('departments','doctorCount','patientCount'));
     }
 
     /**
