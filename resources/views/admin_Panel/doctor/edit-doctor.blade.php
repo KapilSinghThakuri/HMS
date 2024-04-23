@@ -3,22 +3,21 @@
 
     <div class="page-wrapper">
         <div class="content">
+            <div class="row align-items-center justify-content-between mb-4 breadcrumbs-div">
+                <div class="col-sm-6">
+                    {{ Breadcrumbs::render() }}
+                </div>
+                <div class="col-sm-6 text-right">
+                    <a class="btn btn-danger btn-lg btn-rounded" href="{{ route('doctor.index')}}"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-lg-12">
-                    {{ Breadcrumbs::render() }}
                     <form method="POST" action="{{ route('doctor.update',['doctor' => $doctor_basic->id ])}}" id="wizardForm" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <!-- Basic Details -->
                         <div id="step1" class="step">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <h4 class="page-title">Doctor Edit</h4>
-                                </div>
-                                <div class="col-lg-6 text-right">
-                                    <a class="btn btn-danger btn-lg btn-rounded" style="font-size: 1rem;" href="{{ route('doctor.index')}}"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</a>
-                                </div>
-                            </div>
                              <div class="row">
                                 <div class="col-lg-8 offset-lg-2">
                                     <h4 class="page-title text-center border-bottom">Basic Details</h4>
@@ -367,7 +366,7 @@
                             </div>
                         </div>
 
-                    <!-- User & password details -->
+                        <!-- User & password details -->
                         <div id="step5" class="step" style="display:none;">
                             <div class="row">
                                 <div class="col-lg-8 offset-lg-2">
@@ -410,7 +409,7 @@
     </div>
 </div>
 <script type="text/javascript">
-// New Input Fields For Addresses
+    // New Input Fields For Addresses
     let isCloned = false;
     let tempProvinceId = '';
     let tempDistrictId = '';
@@ -558,7 +557,7 @@
     }
 
 
-// New Input fields for Educations
+    // New Input fields for Educations
     // intializing the degree counter for how we should add our education degree
     let degreeCounter = 0;
     const degreeTitles = ["+2 Degree", "Bachelor's Degree","Master's Degree(Optional)"];
@@ -640,7 +639,7 @@
 
     // New Input fields for Experience
     let experienceCounter = 0;
-    const experienceTitles = ["A Experience", "B Experience","C Experience(Optional)"];
+    const experienceTitle = ["A Experience", "B Experience","C Experience(Optional)"];
     function nextExperience() {
         if (experienceCounter<3) {
 
@@ -675,7 +674,7 @@
 
             // Creating title for new experience div
             var temTitle = document.createElement('h4');
-            temTitle.textContent = experienceTitles[experienceCounter];
+            temTitle.textContent = experienceTitle[experienceCounter];
             temTitle.classList.add('page-title','float-left');
             tempDiv.appendChild(temTitle);
             // Creating remove button for new experience div

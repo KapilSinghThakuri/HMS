@@ -52,7 +52,7 @@
 						</div>
 						<div class="card-block">
 							<div class="table-responsive">
-								<table class="table mb-0 new-patient-table" style="border-spacing: 0;">
+								<table class="table mb-0 table-striped new-patient-table" style="border-spacing: 0;">
 									<thead>
 										<tr>
 											<th>Full Name</th>

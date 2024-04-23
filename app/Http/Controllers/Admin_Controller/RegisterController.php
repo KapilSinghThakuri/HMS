@@ -12,8 +12,4 @@ class RegisterController extends Controller
     {
         return view('admin_Panel.registration.register');
     }
-    public function countries(){
-        $countries = Countries::all();
-        dd($countries);
-    }
 }

@@ -88,6 +88,7 @@
   <script src="{{ asset('general_Assets/js/main.js') }}"></script>
   <!-- toastr JS Link  -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <script type="text/javascript">
     @if (Session::has('message'))
         toastr.options = {

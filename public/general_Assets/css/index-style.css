@@ -32,6 +32,74 @@
   margin-bottom: 2px;
 }
 
-.profile-specialization {
-  font-size: 14px;
-}
+  .profile-specialization {
+    font-size: 14px;
+  }
+  .dash-widget-bg4 {
+    width: 70px;
+    float: left;
+    color: #fff;
+    display: block;
+    font-size: 50px;
+    text-align: center;
+    line-height: 70px;
+    background: #ffbc35;
+    border-radius: 50%;
+    font-size: 40px;
+    height: 70px;
+  }
+  .dash-widget-bg2 {
+    width: 70px;
+    float: left;
+    color: #fff;
+    display: block;
+    font-size: 50px;
+    text-align: center;
+    line-height: 70px;
+    background: #55ce63;
+    border-radius: 50%;
+    font-size: 40px;
+    height: 70px;
+  }
+  .dash-widget-bg3 {
+      width: 70px;
+      float: left;
+      color: #fff;
+      display: block;
+      font-size: 50px;
+      text-align: center;
+      line-height: 70px;
+      background: red;
+      border-radius: 50%;
+      font-size: 40px;
+      height: 70px;
+    }
+  .text-right {
+    text-align: right!important;
+    }
+  .dash-widget-info > h3 {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    }
+  .dash-widget-info > span.widget-title2 {
+    background: #55ce63;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+  }
+  .dash-widget-info > span.widget-title3 {
+    background: red;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    }
+  .dash-widget-info > span.widget-title4 {
+    background: #ffbc35;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+  }

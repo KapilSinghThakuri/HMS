@@ -23,7 +23,7 @@
                                     <th>Appointment Date</th>
                                     <th>Appointment Time</th>
                                     <th>Status</th>
-                                    <th class="text-right">Action</th>
+                                    <!-- <th class="text-right">Action</th> -->
                                 </tr>
                             </thead>
                             <tbody>
@@ -67,7 +67,7 @@
                                             </div>
                                         </div>
                                         @else
-                                        <a href="#" data-toggle="modal" data-target="#delete_appointment" style="font-size: 25px; color: red;"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                        <!-- <a href="#" data-toggle="modal" data-target="#delete_appointment" style="font-size: 25px; color: red;"><i class="fa fa-trash-o" aria-hidden="true"></i></a> -->
                                         @endif
                                     </td>
                                 </tr>

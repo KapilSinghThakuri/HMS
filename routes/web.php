@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin_Controller\AppointmentController;
 use App\Http\Controllers\Admin_Controller\DoctorScheduleController;
 use App\Http\Controllers\Admin_Controller\PatientController;
 use App\Http\Controllers\Admin_Controller\NotificationController;
+use App\Http\Controllers\Admin_Controller\AccountSettingController;
 
 use App\Http\Controllers\General_Controller\GeneralDashboardController;
 use App\Http\Controllers\General_Controller\DoctorDashboardController;
@@ -23,13 +24,23 @@ Route::get('/', function () {
 });
 
 // Register-Signin Routing
-Route::middleware(['guest','throttle:5,1'])->group(function () {
-    Route::get('Healwave/login',[LoginController::class,'index'])->name('login.index');
-    Route::post('Healwave/login/authenticate',[LoginController::class,'authenticateUser'])->name('login.authenticate');
+// Route::middleware('guest')->group(function () {
+    // Route::get('Healwave/login',[LoginController::class,'index'])->name('login.index');
+    // Route::post('Healwave/login/authenticate',[LoginController::class,'authenticateUser'])->name('login.authenticate')->middleware('throttle:5,1');
 
-    Route::get('Healwave/register',[RegisterController::class,'index'])->name('register.index');
-    Route::get('Healwave/register/store',[RegisterController::class,'countries']);
-});
+    // Route::get('Healwave/register',[RegisterController::class,'index'])->name('register.index');
+    // Route::get('Healwave/register/store',[RegisterController::class,'countries']);
+
+
+    // Route::get('Healwave/user/forgot-password',[LoginController::class,'forgotPassword'])
+    //     ->name('user.forgot_password');
+    // Route::post('Healwave/user/forgot-password',[LoginController::class,'forgotPasswordPost'])
+    //     ->name('user.forgot_password.create');
+    // Route::get('Healwave/user/reset-password/{token}',[LoginController::class,'resetPassword'])
+    //     ->name('user.resetPassword');
+    // Route::post('Healwave/user/reset-password',[LoginController::class,'resetPasswordPost'])
+    //     ->name('user.resetPassword.create');
+// });
 
 // Admin User Routing
 Route::prefix('Healwave/admin')->group(function(){
@@ -68,6 +79,8 @@ Route::prefix('Healwave/admin')->group(function(){
         Route::get('appointment',[AppointmentController::class,'index'])->name('appointment.index');
         Route::view('appointment/create','admin_Panel.appointment.add-appointment')->name('appointment.create');
         Route::view('appointment/edit','admin_Panel.appointment.edit-appointment')->name('appointment.edit');
+
+        Route::get('settings',[AccountSettingController::class,'settings'])->name('admin.setting');
     });
 });
 

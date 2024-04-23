@@ -1,52 +1,41 @@
-<!DOCTYPE html>
-<html lang="en">
-
-
-<!-- forgot-password24:03-->
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
-    <title>Preclinic - Medical & Hospital - Bootstrap 4 Admin Template</title>
-    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/font-awesome.min.css">
-    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
-    <!--[if lt IE 9]>
-		<script src="assets/js/html5shiv.min.js"></script>
-		<script src="assets/js/respond.min.js"></script>
-	<![endif]-->
-</head>
-
-<body>
+@extends('admin_Panel.registration.layout.main')
+@section('content')
     <div class="main-wrapper account-wrapper">
         <div class="account-page">
 			<div class="account-center">
+
+                <div class="row">
+                    @error('email')
+                    <div class="col-md-12 d-flex justify-content-center">
+                        <span class="form-group alert alert-danger">Email not found! Please Provide correct email address.</span>
+                    </div>
+                    @enderror
+                    @if (session('status'))
+                        <div class="alert alert-success" role="alert">
+                            {{ session('status') }}
+                        </div>
+                    @endif
+                </div>
+
                 <div class="account-box">
-                    <form class="form-signin" action="#">
+                    <form class="form-signin" action="{{ route('password.email')}}" method="POST">
+                        @csrf
 						<div class="account-logo">
-                            <a href="index-2.html"><img src="assets/img/logo-dark.png" alt=""></a>
+                            <a href="{{ route('password.request')}}"><img src="{{ asset('admin_Assets/img/logo-dark.png')}}" alt=""></a>
                         </div>
                         <div class="form-group">
                             <label>Enter Your Email</label>
-                            <input type="text" class="form-control" autofocus>
+                            <input type="text" name="email" class="form-control" autofocus>
                         </div>
                         <div class="form-group text-center">
                             <button class="btn btn-primary account-btn" type="submit">Reset Password</button>
                         </div>
                         <div class="text-center register-link">
-                            <a href="login.html">Back to Login</a>
+                            <a href="{{ route('login') }}">Back to Login</a>
                         </div>
                     </form>
                 </div>
 			</div>
         </div>
     </div>
-    <script src="assets/js/jquery-3.2.1.min.js"></script>
-	<script src="assets/js/popper.min.js"></script>
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/app.js"></script>
-</body>
-
-
-<!-- forgot-password24:03-->
-</html>
+@endsection

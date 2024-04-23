@@ -21,7 +21,9 @@ class RoleCheck
         $user_role_id = $users->role_id;
         if ($user_role_id === 1) {
             return $next($request);
-        }else{
+        }elseif($user_role_id === 2) {
+                return redirect()->route('doctor.dashboard');
+            }else{
             return back();
         }
     }

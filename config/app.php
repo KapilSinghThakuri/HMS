@@ -175,6 +175,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        App\Providers\FortifyServiceProvider::class,
+
         // For redering the notifications for every view page
         App\Providers\NotificationsServiceProvider::class,
 

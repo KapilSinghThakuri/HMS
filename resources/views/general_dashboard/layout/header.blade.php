@@ -40,6 +40,7 @@
   <!-- toastr Session Message -->
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
 
 <body>
@@ -93,7 +94,7 @@
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav>
-      <a href="#appointment" class="appointment-btn scrollto"><span class="d-none d-md-inline">Make an</span> Appointment</a>
+      <a href="#departments" class="appointment-btn scrollto"><span class="d-none d-md-inline">Make an</span> Appointment</a>
       <!-- <a href="{{ route('doctor.dashboard')}}" class="appointment-btn scrollto"><span class="d-none d-md-inline">My</span>Profile</a> -->
     </div>
   </header>

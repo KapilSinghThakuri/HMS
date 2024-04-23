@@ -3,15 +3,15 @@
 
     <div class="page-wrapper">
         <div class="content">
-            <div class="row">
-                <div class="col-sm-5 col-5">
-                    <h4 class="page-title">Departments</h4>
+            <div class="row align-items-center justify-content-between mb-4 breadcrumbs-div">
+                <div class="col-sm-6">
+                    {{ Breadcrumbs::render() }}
                 </div>
-                <div class="col-sm-7 col-7 text-right m-b-30">
+                <div class="col-sm-6 text-right">
                     <a href="{{ route('department.create') }}" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Add Department</a>
                 </div>
             </div>
-            {{ Breadcrumbs::render() }}
+
             @if(session('success_message'))
                 <div class="alert alert-success">{{ session('success_message')}}</div>
             @endif

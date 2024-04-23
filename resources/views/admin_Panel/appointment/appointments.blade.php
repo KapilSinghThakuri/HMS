@@ -2,15 +2,15 @@
 @section('Main-container')
     <div class="page-wrapper">
         <div class="content">
-            <div class="row">
-                <div class="col-sm-4 col-3">
-                    <h4 class="page-title">Appointments</h4>
+        	<div class="row align-items-center justify-content-between mb-4 breadcrumbs-div">
+                <div class="col-sm-6">
+                    {{ Breadcrumbs::render() }}
                 </div>
-                <div class="col-sm-8 col-9 text-right m-b-20">
-                    <!-- <a href="#" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Appointment</a> -->
+                <div class="col-sm-6 text-right">
+					<a class="btn btn-danger btn-rounded" href="{{ route('admin.dashboard')}}"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
                 </div>
             </div>
-            {{ Breadcrumbs::render() }}
+
 			<div class="row">
 				<div class="col-md-12">
 					<div class="table-responsive">

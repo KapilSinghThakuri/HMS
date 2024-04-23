@@ -227,10 +227,13 @@
                                         </div>
                                     </div>
                                 </div>
+
                             </div>
                             <div class="m-t-20 text-center" id="addTempAddressBtn">
                                 <button  type="button" onclick="tempAddress()" class="btn btn-success"> <i class="fa fa-plus" aria-hidden="true"></i> Add Temporary Address</button>
                             </div>
+                            <input type="hidden" id="hasTemporaryAddress" value="{{ $doctor_basic->temp_district_id }}">
+
                             <div id="doctor_temporary_address">
                                 <!-- here newly added temporary address ia placed... -->
                             </div>
@@ -364,7 +367,7 @@
                             </div>
                         </div>
 
-                    <!-- User & password details -->
+                        <!-- User & password details -->
                         <div id="step5" class="step" style="display:none;">
                             <div class="row">
                                 <div class="col-lg-8 offset-lg-2">
@@ -419,6 +422,13 @@
             removeBtn.innerHTML = '<i class="fa fa-times"></i> Remove Temporary Address';
             removeBtn.classList.add('btn', 'btn-danger', 'float-right');
             tempDiv.appendChild(removeBtn);
+
+            clonedAddress.querySelectorAll('input').forEach(function(input) {
+                input.value = '';
+            });
+            clonedAddress.querySelectorAll('select').forEach(function(select) {
+                select.selectedIndex = 0;
+            });
 
             doctor_temporary_address.appendChild(tempDiv);
             doctor_temporary_address.appendChild(clonedAddress);
@@ -533,6 +543,12 @@
             console.log('Parent node has already been cloned.');
         }
     }
+    const hasTemporaryAddress = document.getElementById('hasTemporaryAddress').value;
+        console.log('Temporary District Id: '+ hasTemporaryAddress);
+        if (hasTemporaryAddress) {
+            tempAddress();
+        }
+
 
 
 // New Input fields for Educations
@@ -661,14 +677,14 @@
             removeBtn.classList.add('btn', 'btn-danger', 'float-right');
             tempDiv.appendChild(removeBtn);
 
+            // Making empty the newly cloned input fields
+            clonedExperience.querySelectorAll('input, textarea').forEach(function(input) {
+                input.value = '';
+            });
+
             addNextExperience.appendChild(tempDiv);
             addNextExperience.appendChild(clonedExperience);
             experienceCounter++;
-
-            // Making empty the newly cloned input fields
-            clonedExperience.querySelectorAll('input').forEach(function(input) {
-                input.value = '';
-            });
 
             if (experienceCounter === 3) {
                 var addNewExperienceBtn = document.getElementById('addNewExperienceBtn');

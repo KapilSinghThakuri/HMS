@@ -4,15 +4,15 @@
 <div class="main-wrapper">
     <div class="page-wrapper">
         <div class="content">
-            <div class="row">
-                <div class="col-sm-4 col-3">
-                    <h4 class="page-title">Doctor Schedules</h4>
+            <div class="row align-items-center justify-content-between mb-4 breadcrumbs-div">
+                <div class="col-sm-6">
+                    {{ Breadcrumbs::render() }}
                 </div>
-                <div class="col-sm-8 col-9 text-right m-b-20">
+                <div class="col-sm-6 text-right">
                     <a href="{{ route('schedule.create')}}" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Schedule</a>
                 </div>
             </div>
-            {{ Breadcrumbs::render() }}
+
 			<div class="row">
 				<div class="col-md-12">
 					<div class="table-responsive">
@@ -42,12 +42,14 @@
                                             <td>{{ $interval }}</td>
                                             <td>
                                                 @if($schedule->appointment)
-                                                    @if($schedule->appointment->status === 'approved')
-                                                        <span class="custom-badge status-green">Approved</span>
-                                                    @elseif($schedule->appointment->status === 'pending')
+                                                    @if($schedule->appointment->time_interval === $interval && $schedule->appointment->status === 'approved')
+                                                        <span class="custom-badge status-green"> Approved </span>
+                                                    @elseif($schedule->appointment->time_interval === $interval && $schedule->appointment->status === 'pending')
                                                         <span class="custom-badge status-purple">Pending</span>
-                                                    @else
+                                                    @elseif($schedule->appointment->time_interval === $interval && $schedule->appointment->status === 'cancelled')
                                                         <span class="custom-badge status-red">Cancelled</span>
+                                                    @else
+                                                        <span class="custom-badge status-grey">Opened</span>
                                                     @endif
                                                 @else
                                                     <span class="custom-badge status-grey">Opened</span>

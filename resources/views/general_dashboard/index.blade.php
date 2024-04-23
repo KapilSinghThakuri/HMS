@@ -204,7 +204,7 @@
     </section><!-- End Services Section -->
 
     <!-- ======= Appointment Section ======= -->
-    <section id="appointment" class="appointment section-bg">
+    <!-- <section id="appointment" class="appointment section-bg">
       <div class="container">
 
         <div class="section-title">
@@ -265,7 +265,7 @@
         </form>
 
       </div>
-    </section><!-- End Appointment Section -->
+    </section> --><!-- End Appointment Section -->
 
     <!-- ======= Departments Section ======= -->
     <section id="departments" class="departments">
@@ -303,9 +303,7 @@
                           </div>
                           <div class="profile-details">
                             <div class="profile-name">{{ $doctor->first_name }}{{ $doctor->middle_name }} {{ $doctor->last_name }}</div>
-                            @foreach($doctor->educations as $education)
-                              <div class="profile-specialization">{{ $education->specialization }}</div>
-                            @endforeach
+                              <div class="profile-specialization">{{ $doctor->educations[0]->specialization }}</div>
                           </div>
                         </div>
 

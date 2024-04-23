@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('admin_Assets/css/style.css')}}">
     <!-- Custom Style Link -->
     <link rel="stylesheet" type="text/css" href="{{ asset('admin_Assets/css/custom-style.css')}}">
+
     <!--[if lt IE 9]>
         <script src="assets/js/html5shiv.min.js"></script>
         <script src="assets/js/respond.min.js"></script>
@@ -21,6 +22,8 @@
 
     <!-- jQuery CDN -->
     <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <!-- Nepali Date Picker -->
     <link href="https://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/css/nepali.datepicker.v4.0.1.min.css" rel="stylesheet" type="text/css"/>
     <!-- Include Flatpickr CSS -->
@@ -70,22 +73,22 @@
                                                     <span class="noti-title">
                                                         @switch($notification->data['method'])
                                                             @case('doctor_create')
-                                                                <span class="noti-title">{{ $notification->data['doctor_name']}}</span> has scheduled an appointment for {{ $notification->data['scheduled_day']}}.
+                                                                <strong style="color: #3498db; font-weight: 400;"> Dr. {{ $notification->data['doctor_name']}}</strong> has added to our hospital!.
                                                                 @break
                                                             @case('schedule_create')
-                                                                <span class="noti-title">{{ $notification->data['doctor_name']}}</span> has scheduled an appointment for {{ $notification->data['scheduled_day']}}.
+                                                                <strong style="color: #3498db; font-weight: 400;"> {{ $notification->data['doctor_name']}}</strong> has scheduled an appointment for {{ $notification->data['scheduled_day']}}.
                                                                 @break
                                                             @case('schedule_update')
-                                                                <span class="noti-title">{{ $notification->data['doctor_name']}}</span> has updated their appointment schedule.
+                                                                <strong style="color: #3498db; font-weight: 400;"> {{ $notification->data['doctor_name']}}</strong> has updated their appointment schedule.
                                                                 @break
                                                             @case('schedule_delete')
-                                                                <span class="noti-title">{{ $notification->data['doctor_name']}}</span> has deleted his appointment schedule for {{ $notification->data['scheduled_day']}}.
+                                                                <strong style="color: #3498db; font-weight: 400;"> {{ $notification->data['doctor_name']}}</strong> has deleted his appointment schedule for {{ $notification->data['scheduled_day']}}.
                                                                 @break
                                                             @case('appointment_create')
-                                                                <span class="noti-title">{{ $notification->data['patient_name']}}</span> has booked the schedule.
+                                                                <strong style="color: #3498db; font-weight: 400;">New appointment alert:</strong> <span class="noti-title">{{ $notification->data['patient_name']}}</span> has booked the schedule for {{ $notification->data['appointment_time_interval']}}.
                                                                 @break
                                                             @default
-                                                                <span class="noti-title">Empty !!!</span>
+                                                                <strong style="color: #3498db; font-weight: 400;">Notice: </strong> <span class="noti-title"> No new notifications.</span>
                                                         @endswitch
                                                     </span>
                                                 </p>
@@ -120,36 +123,9 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="profile.html">My Profile</a>
                         <a class="dropdown-item" href="edit-profile.html">Edit Profile</a>
-                        <a class="dropdown-item" href="settings.html">Settings</a>
+                        <a class="dropdown-item" href="{{ route('admin.setting')}}">Settings</a>
                         <a class="dropdown-item" href="{{ route('logout')}}">Logout</a>
                     </div>
                 </li>
             </ul>
-        </div>
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-inner slimscroll">
-                <div id="sidebar-menu" class="sidebar-menu">
-                    <ul>
-                        <li class="menu-title">Main</li>
-                        <li class="{{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" >
-                            <a href="{{ route('admin.dashboard')}}"><i class="fa fa-dashboard"></i> <span>Dashboard</span></a>
-                        </li>
-                        <li class="{{ request()->routeIs('department.index') ||  request()->routeIs('department.create') || request()->routeIs('department.edit') || request()->routeIs('department.show') ? 'active' : '' }}">
-                            <a href="{{ route('department.index') }}"><i class="fa fa-hospital-o"></i> <span>Departments</span></a>
-                        </li>
-                        <li class="{{ request()->routeIs('doctor.*') ? 'active' : '' }}">
-                            <a href="{{ route('doctor.index') }}"><i class="fa fa-user-md"></i> <span>Doctors</span></a>
-                        </li>
-                        <li class=" {{ request()->routeIs('patient.index') || request()->routeIs('patient.create') || request()->routeIs('patient.edit') ? 'active' : '' }} ">
-                            <a href="{{ route('patient.index') }}"><i class="fa fa-wheelchair"></i> <span>Patients</span></a>
-                        </li>
-                        <li class="{{ request()->routeIs('appointment.index') || request()->routeIs('appointment.create') || request()->routeIs('appointment.edit') ? 'active' : '' }}">
-                            <a href="{{ route('appointment.index')}}"><i class="fa fa-calendar"></i> <span>Appointments</span></a>
-                        </li>
-                        <li class="{{ request()->routeIs('schedule.index') || request()->routeIs('schedule.create') || request()->routeIs('schedule.edit') ? 'active' : '' }} ">
-                            <a href="{{ route('schedule.index') }}"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
         </div>

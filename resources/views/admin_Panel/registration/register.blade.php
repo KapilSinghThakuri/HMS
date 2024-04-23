@@ -4,25 +4,35 @@
         <div class="account-page">
             <div class="account-center">
                 <div class="account-box">
-                    <form action="http://dreamguys.co.in/preclinic/template/index.html" class="form-signin">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    <form action="{{route('register')}}" method="POST" class="form-signin">
+                        @csrf
 						<div class="account-logo">
-                            <a href="{{ route('register.index') }}"><img src="{{ asset('admin_Assets/img/logo-dark.png') }}" alt=""></a>
+                            <a href="{{ route('register') }}"><img src="{{ asset('admin_Assets/img/logo-dark.png') }}" alt=""></a>
                         </div>
                         <div class="form-group">
                             <label>Username</label>
-                            <input type="text" class="form-control">
+                            <input type="text" name="username" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Email Address</label>
-                            <input type="email" class="form-control">
+                            <input type="email" name="email" class="form-control">
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" class="form-control">
+                            <input type="password" name="password" class="form-control">
                         </div>
                         <div class="form-group">
-                            <label>Mobile Number</label>
-                            <input type="text" class="form-control">
+                            <label>Cofirm Password</label>
+                            <input type="password" name="password_confirmation" class="form-control">
                         </div>
                         <div class="form-group checkbox">
                             <label>
@@ -33,7 +43,7 @@
                             <button class="btn btn-primary account-btn" type="submit">Signup</button>
                         </div>
                         <div class="text-center login-link">
-                            Already have an account? <a href="{{ route('login.index')}}">Login</a>
+                            Already have an account? <a href="{{ route('login')}}">Login</a>
                         </div>
                     </form>
                 </div>

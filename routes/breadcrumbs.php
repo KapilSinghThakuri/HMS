@@ -83,6 +83,12 @@ Breadcrumbs::for('schedule.edit', function ($trail, $schedule) {
     $trail->push('Edit Schedule', route('schedule.edit', $schedule));
 });
 
+Breadcrumbs::for('admin.setting', function ($trail) {
+    $trail->parent('admin.dashboard');
+    $trail->push('Profile Settings', route('admin.setting'));
+});
+
+
 /////////////////////////           GENERAL DASHBOARD Breadcrumbs           /////////////////////////////////////
 Breadcrumbs::for('doctor.dashboard', function ($trail) {
     $trail->push('Dashboard', route('doctor.dashboard'));

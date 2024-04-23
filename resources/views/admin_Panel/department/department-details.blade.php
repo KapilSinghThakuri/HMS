@@ -2,15 +2,15 @@
 @section('Main-container')
     <div class="page-wrapper">
         <div class="content">
-            <div class="row">
-                <div class="col-lg-6">
-                    <h4 class="page-title">Department Details</h4>
+            <div class="row align-items-center justify-content-between mb-4 breadcrumbs-div">
+                <div class="col-sm-6">
+                    {{ Breadcrumbs::render() }}
                 </div>
-                <div class="col-lg-6 text-right">
-                    <a class="btn btn-primary btn-rounded" href="{{ route('department.edit', ['department' => $departments->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Profile</a>
+                <div class="col-sm-6 text-right">
+                    <a class="btn btn-primary btn-rounded" href="{{ route('department.edit', ['department' => $departments->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Department</a>
                 </div>
             </div>
-            {{ Breadcrumbs::render() }}
+
             <div class="row mt-3">
                 <div class="col-md-12">
                     <div class="card">

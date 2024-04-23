@@ -72,7 +72,7 @@
         <div class="profile-tabs">
             <ul class="nav nav-tabs nav-tabs-bottom">
                 <li class="nav-item"><a class="nav-link active" href="#about-cont" data-toggle="tab">Basic Details</a></li>
-                <li class="nav-item"><a class="nav-link" href="#bottom-tab2" data-toggle="tab">Academic Details</a></li>
+                <li class="nav-item"><a class="nav-link" href="#bottom-tab2" data-toggle="tab">Education & Experiences</a></li>
                 <li class="nav-item"><a class="nav-link" href="#bottom-tab3" data-toggle="tab">Address Details</a></li>
             </ul>
 

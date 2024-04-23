@@ -2,15 +2,14 @@
 @section('Main-container')
     <div class="page-wrapper">
         <div class="content">
-            <div class="row">
-                <div class="col-lg-6">
-                    <h4 class="page-title">Add Department</h4>
+            <div class="row align-items-center justify-content-between mb-4 breadcrumbs-div">
+                <div class="col-sm-6">
+                    {{ Breadcrumbs::render() }}
                 </div>
-                <div class="col-lg-6 text-right">
+                <div class="col-sm-6 text-right">
                     <a class="btn btn-danger btn-rounded" href="{{ route('department.index')}}"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
                 </div>
             </div>
-            {{ Breadcrumbs::render() }}
             <div class="row">
                 <div class="col-lg-12">
                     <form method="POST" action="{{ route('department.store') }}">
