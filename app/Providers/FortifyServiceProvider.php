@@ -33,6 +33,8 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::registerView('admin_Panel.registration.register');
         Fortify::requestPasswordResetLinkView('admin_Panel.registration.forgot-password');
         Fortify::resetPasswordView('admin_Panel.registration.new-password');
+        Fortify::confirmPasswordView('admin_Panel.setting.2faConfirmPassword');
+        Fortify::twoFactorChallengeView('admin_Panel.setting.2faChallengeView');
 
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);

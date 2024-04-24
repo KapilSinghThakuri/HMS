@@ -116,11 +116,25 @@
                 <div class="tab-pane" id="security" aria-labelledby="securityTab">
                     <h5>SECURITY SETTINGS</h5>
                     <hr>
-                    @if (session('status'))
-                        <div class="alert alert-success">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+
+                    <div class="row">
+                      <div class="col-md-12 col-lg-12">
+                        @if (session('status') == 'two-factor-authentication-enabled')
+                          <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <h5 class="alert-heading">Two-Factor Authentication Enabled</h5>
+                            <p class="mb-1">Your Two-Factor Authentication has been successfully enabled!</p>
+                            <p class="font-medium text-sm">Please complete the configuration below by scanning the QR code to ensure your account's security.</p>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                        @endif
+                        @if (session('status') == 'two-factor-authentication-disabled')
+                          <span class="alert alert-danger">Your Two-Factor Authentication Has Been Disabled !!!<span>
+                        @endif
+                      </div>
+                    </div>
+
                     <div id="success_message"></div>
                     <ul id="saveForm_errlist"> </ul>
 
@@ -141,29 +155,44 @@
                       </form>
 
                     <hr>
-                    <form>
+                    @if(auth()->user()->two_factor_secret)
+                    <form method="POST" action="{{ route('two-factor.disable')}}" id="twoFactorAuthenticationButton">
+                      @csrf
+                      @method('DELETE')
                         <div class="form-group">
                             <label class="d-block">Two Factor Authentication</label>
-                            <button class="btn btn-info" type="button">Enable two-factor authentication</button>
+                            <button class="btn btn-danger" type="submit">Disable two-factor authentication</button>
                             <p class="small text-muted mt-2">Two-factor authentication adds an additional layer of security to your account by requiring more than just a password to log in.</p>
                         </div>
                     </form>
-                    <!-- <hr>
-                    <form>
-                        <div class="form-group mb-0">
-                            <label class="d-block">Sessions</label>
-                            <p class="font-size-sm text-secondary">This is a list of devices that have logged into your account. Revoke any sessions that you do not recognize.</p>
-                            <ul class="list-group list-group-sm">
-                              <li class="list-group-item has-icon">
-                                <div>
-                                  <h5 class="mb-0">San Francisco City 190.24.335.55</h5>
-                                  <small class="text-muted">Your current session seen in United States</small>
-                                </div>
-                                <button class="btn btn-light btn-sm ml-auto" type="button">More info</button>
-                              </li>
-                            </ul>
+                    @else
+                    <form method="POST" action="{{ route('two-factor.enable')}}" id="twoFactorAuthenticationButton">
+                      @csrf
+                        <div class="form-group">
+                            <label class="d-block">Two Factor Authentication</label>
+                            <button class="btn btn-info" type="submit">Enable two-factor authentication</button>
+                            <p class="small text-muted mt-2">Two-factor authentication adds an additional layer of security to your account by requiring more than just a password to log in.</p>
                         </div>
-                    </form> -->
+                    </form>
+                    @endif
+
+                    @if(auth()->user()->two_factor_secret)
+                    <div class="mb-3">
+                      <h4>QR Codes: </h4>
+                      {!! auth()->user()->twoFactorQrCodeSvg() !!}
+                    </div>
+                    <div>
+                      @php
+                         $recoveryCodes = json_decode(decrypt(auth()->user()->two_factor_recovery_codes));
+                      @endphp
+                      <h4>Recovery Codes: </h4>
+                      <ul>
+                        @foreach( $recoveryCodes as $recoveryCode)
+                        <li>{{ $recoveryCode }}</li>
+                        @endforeach
+                      </ul>
+                    </div>
+                    @endif
                 </div>
 
 
