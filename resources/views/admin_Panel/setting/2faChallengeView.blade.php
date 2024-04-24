@@ -1,6 +1,7 @@
-@include('admin_Panel.layout.header')
+@extends('admin_Panel.registration.layout.main')
+@section('content')
 
-<div class="setting-wrapper">
+<div class="main-wrapper account-wrapper">
     <div class="content">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -74,4 +75,4 @@
         </div>
     </div>
 </div>
-@include('admin_Panel.layout.footer')
+@endsection

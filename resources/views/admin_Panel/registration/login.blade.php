@@ -19,14 +19,15 @@
 						<div class="account-logo">
                             <a href="{{ route('login') }}"><img src="{{ asset('admin_Assets/img/logo-dark.png') }}" alt=""></a>
                         </div>
+
                         <div class="form-group">
                             <label>Username or Email</label>
-                            <input type="text" name="email" autofocus="" class="form-control">
+                            <input type="text" name="email" placeholder="{{ uppercase('hello user!')}}" autofocus="" class="form-control">
                             @error('email')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" name="password" class="form-control">
+                            <input type="password" name="password" placeholder="{{ uppercase('password')}}" class="form-control">
                             @error('password')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                         <div class="form-group d-flex justify-content-between align-items-center">
