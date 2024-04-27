@@ -21,6 +21,14 @@ use App\Notifications\DoctorCreatedNotification;
 
 class DoctorController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view doctor', ['only' => ['index','show','doctorTrash']]);
+        $this->middleware('permission:create doctor', ['only' => ['create','store']]);
+        $this->middleware('permission:edit doctor', ['only' => ['edit','update']]);
+        $this->middleware('permission:delete doctor', ['only' => ['destroy','doctorRestore','permanentDelete','emptyDoctor']]);
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -40,11 +48,10 @@ class DoctorController extends Controller
      */
     public function create()
     {
-        $departments = Department::get();
         $countries = Country::get();
         $provinces = Province::get();
         return view('admin_Panel.doctor.add-doctor',
-            compact('departments','countries','provinces'));
+            compact('countries','provinces'));
     }
 
     public function getDistrictByProvince($provinceId)

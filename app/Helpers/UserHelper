@@ -1,0 +1,21 @@
+<?php
+
+namespace App\Helpers;
+
+use App\Models\User;
+
+/**
+ *
+ */
+class UserHelper
+{
+     public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
+    public function dropdown()
+    {
+        $userName = $this->user->orderBy('id', 'desc')->pluck('name','id');
+        return $userName;
+    }
+}

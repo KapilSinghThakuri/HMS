@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
-use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationsServiceProvider extends ServiceProvider
 {
@@ -26,8 +26,10 @@ class NotificationsServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('*', function ($view) {
-            $admin = User::where('role_id', 1)->first();
-            $adminNotifications = $admin->unreadNotifications;
+            $user = Auth::user();
+            $isAdmin = $user && $user->hasRole('Superadmin');
+
+            $adminNotifications = $isAdmin ? $user->unreadNotifications : collect();
             $view->with('adminNotifications', $adminNotifications);
         });
     }

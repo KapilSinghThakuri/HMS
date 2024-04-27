@@ -22,4 +22,15 @@ class NotificationController extends Controller
         $admin->notifications()->where('id', $notificationId)->first()->markAsRead();
         return response()->json(['message' => 'Notification marked as read']);
     }
+
+    public function unreadNotificationsCount()
+    {
+        $admin = User::where('role_id', 1)->first();
+        $unreadNotificationsCount = $admin->unreadNotifications->count();
+
+        return response()->json([
+            'message' => 'Unread notifications count is : ' . $unreadNotificationsCount,
+            'unreadNotificationsCount' => $unreadNotificationsCount,
+        ]);
+    }
 }

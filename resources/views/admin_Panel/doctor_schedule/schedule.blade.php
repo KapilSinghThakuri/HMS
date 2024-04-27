@@ -8,9 +8,11 @@
                 <div class="col-sm-6">
                     {{ Breadcrumbs::render() }}
                 </div>
+                @can('create schedule')
                 <div class="col-sm-6 text-right">
                     <a href="{{ route('schedule.create')}}" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Schedule</a>
                 </div>
+                @endcan
             </div>
 
 			<div class="row">
@@ -56,8 +58,12 @@
                                                 @endif
                                             </td>
                                             <td>
+                                                @can('edit schedule')
                                                 <a href="{{ route('schedule.edit',['schedule' => $schedule->id ])}}" style="font-size: 20px;" title="Click for edit"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i></a>
+                                                @endcan
+                                                @can('delete schedule')
                                                 <a href="#" data-toggle="modal" data-target="#delete_schedule_{{ $schedule->id }}" style="font-size: 25px; color: red;" title="Click for delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                                @endcan
                                                 <!-- Delete Modal -->
                                                 <div id="delete_schedule_{{ $schedule->id }}" class="modal fade delete-modal" role="dialog">
                                                     <div class="modal-dialog modal-dialog-centered">

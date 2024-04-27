@@ -692,6 +692,23 @@
                 input.value = '';
             });
 
+            // Ensuring unique ID and clear field
+            var jobDescription = clonedExperience.querySelector('#job_description');
+            var uniqueId = 'job_description_' + experienceCounter;
+            jobDescription.id = uniqueId; // Assign unique ID
+            jobDescription.value = ''; // Clear Content
+
+            // Reinitialize CKEditor for the newly cloned job description field
+            ClassicEditor
+                .create(document.querySelector(`#${uniqueId}`))
+                .then(editor => {
+                    console.log('Editor reinitialized:', editor);
+                })
+                .catch(error => {
+                    console.error('Error initializing CKEditor:', error);
+                });
+
+
             if (experienceCounter === 3) {
                 var addNewExperienceBtn = document.getElementById('addNewExperienceBtn');
                 addNewExperienceBtn.style.display = 'none';

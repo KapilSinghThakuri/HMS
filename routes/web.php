@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin_Controller\DoctorScheduleController;
 use App\Http\Controllers\Admin_Controller\PatientController;
 use App\Http\Controllers\Admin_Controller\NotificationController;
 use App\Http\Controllers\Admin_Controller\AccountSettingController;
+use App\Http\Controllers\Admin_Controller\RoleController;
+use App\Http\Controllers\Admin_Controller\UserController;
 
 use App\Http\Controllers\General_Controller\GeneralDashboardController;
 use App\Http\Controllers\General_Controller\DoctorDashboardController;
@@ -46,41 +48,50 @@ Route::get('/', function () {
 Route::prefix('Healwave/admin')->group(function(){
     Route::get('/logout',[LoginController::class,'logoutUser'])->name('logout');
 
-    Route::middleware(['auth','role_check'])->group(function () {
+    Route::group(['middleware' => ['role_check']], function () {
+        // Using Spatie Roles & Permissions Middleware
+        // Route::group(['middleware' => ['role:Super Admin|Administrator']], function () {
+            Route::controller(DashboardController::class)->group(function(){
+                Route::get('dashboard','index')->name('admin.dashboard');
+            });
 
-        Route::controller(DashboardController::class)->group(function(){
-            Route::get('dashboard','index')->name('admin.dashboard');
-        });
+            Route::resources([
+                    'doctor' => DoctorController::class,
+                    'department' => DepartmentController::class,
+                    'schedule' => DoctorScheduleController::class,
+                    'role' => RoleController::class,
+                    'user' => UserController::class,
+                ]);
 
-        Route::resources([
-                'doctor' => DoctorController::class,
-                'department' => DepartmentController::class,
-                'schedule' => DoctorScheduleController::class,
-            ]);
-        Route::get('/trash',[DoctorController::class,'doctorTrash'])->name('doctor.trash');
-        Route::get('/trash/{doctor}',[DoctorController::class,'doctorRestore'])->name('doctor.restore');
-        Route::DELETE('/trash/permanent-delete/{doctor}',[DoctorController::class,'permanentDelete'])->name('doctor.permanentDelete');
-        Route::get('/trashDoctor/empty',[DoctorController::class,'emptyDoctor'])->name('trash.empty');
+            Route::get('/trash',[DoctorController::class,'doctorTrash'])->name('doctor.trash');
+            Route::get('/trash/{doctor}',[DoctorController::class,'doctorRestore'])->name('doctor.restore');
+            Route::DELETE('/trash/permanent-delete/{doctor}',[DoctorController::class,'permanentDelete'])->name('doctor.permanentDelete');
+            Route::get('/trashDoctor/empty',[DoctorController::class,'emptyDoctor'])->name('trash.empty');
 
-        Route::get('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])->name('notifications.markAllAsRead');
-        Route::get('/notifications/mark-as-read/{notificationId}', [NotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+            Route::get('/mark-all-as-read', [NotificationController::class, 'markAllAsRead'])
+                    ->name('notifications.markAllAsRead');
+            Route::get('/notifications/mark-as-read/{notificationId}', [NotificationController::class, 'markAsRead'])
+                    ->name('notifications.markAsRead');
+            Route::get('/notifications/unreadNotificationsCount', [NotificationController::class,'unreadNotificationsCount'])
+                    ->name('notifications.countUnreadNotifications');
 
 
-        Route::get('doctor/create/district/{provinceId}',[DoctorController::class,'getDistrictByProvince'])->name('province.add');
-        Route::get('doctor/create/municipality/{districtId}',[DoctorController::class,'getMunicipalityByDistrict'])->name('district.add');
+            Route::get('doctor/create/district/{provinceId}',[DoctorController::class,'getDistrictByProvince'])->name('province.add');
+            Route::get('doctor/create/municipality/{districtId}',[DoctorController::class,'getMunicipalityByDistrict'])->name('district.add');
 
-        Route::get('doctor/edit/district/{provinceId}',[DoctorController::class,'getDistrictByProvinceEdit'])->name('province.edit');
-        Route::get('doctor/edit/municipality/{districtId}',[DoctorController::class,'getMunicipalityByDistrictEdit'])->name('district.edit');
+            Route::get('doctor/edit/district/{provinceId}',[DoctorController::class,'getDistrictByProvinceEdit'])->name('province.edit');
+            Route::get('doctor/edit/municipality/{districtId}',[DoctorController::class,'getMunicipalityByDistrictEdit'])->name('district.edit');
 
-        Route::get('patient',[PatientController::class,'index'])->name('patient.index');
-        Route::view('patient/create','admin_Panel.patient.add-patient')->name('patient.create');
-        Route::view('patient/edit','admin_Panel.patient.edit-patient')->name('patient.edit');
+            Route::get('patient',[PatientController::class,'index'])->name('patient.index');
+            Route::view('patient/create','admin_Panel.patient.add-patient')->name('patient.create');
+            Route::view('patient/edit','admin_Panel.patient.edit-patient')->name('patient.edit');
 
-        Route::get('appointment',[AppointmentController::class,'index'])->name('appointment.index');
-        Route::view('appointment/create','admin_Panel.appointment.add-appointment')->name('appointment.create');
-        Route::view('appointment/edit','admin_Panel.appointment.edit-appointment')->name('appointment.edit');
+            Route::get('appointment',[AppointmentController::class,'index'])->name('appointment.index');
+            Route::view('appointment/create','admin_Panel.appointment.add-appointment')->name('appointment.create');
+            Route::view('appointment/edit','admin_Panel.appointment.edit-appointment')->name('appointment.edit');
 
-        Route::get('settings',[AccountSettingController::class,'settings'])->name('admin.setting');
+            Route::get('settings',[AccountSettingController::class,'settings'])->name('admin.setting');
+        // });
     });
 });
 

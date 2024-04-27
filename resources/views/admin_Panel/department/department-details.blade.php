@@ -6,9 +6,11 @@
                 <div class="col-sm-6">
                     {{ Breadcrumbs::render() }}
                 </div>
+                @can('edit department')
                 <div class="col-sm-6 text-right">
                     <a class="btn btn-primary btn-rounded" href="{{ route('department.edit', ['department' => $departments->id])}}"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Edit Department</a>
                 </div>
+                @endcan
             </div>
 
             <div class="row mt-3">

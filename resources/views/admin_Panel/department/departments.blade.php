@@ -7,9 +7,11 @@
                 <div class="col-sm-6">
                     {{ Breadcrumbs::render() }}
                 </div>
+                @can('create department')
                 <div class="col-sm-6 text-right">
                     <a href="{{ route('department.create') }}" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Add Department</a>
                 </div>
+                @endcan
             </div>
 
             @if(session('success_message'))
@@ -43,8 +45,12 @@
 									<td>{{ $department->department_code }}</td>
                                     <td>{!! Str::limit($department->department_desc, 30, '...'  ) !!}</td>
                                     <td>
+                                        @can('edit department')
                                         <a href="{{ route('department.edit', ['department' => $department->id]) }}" style="font-size: 20px;" title="Click For Edit"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i></a>
+                                        @endcan
+                                        @can('delete department')
                                         <a href="#" data-id="{{ $department->id }}" data-toggle="modal" data-target="#delete_department" style="font-size: 25px; color: red;" title="Click For Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                        @endcan
                                     </td>
                                 </tr>
                                 @endforeach

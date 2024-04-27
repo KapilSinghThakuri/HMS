@@ -1,5 +1,6 @@
 @extends('admin_Panel.layout.main')
 @section('Main-container')
+@inject('department_helper','App\Helpers\DepartmentHelper')
 
     <div class="page-wrapper">
         <div class="content">
@@ -135,13 +136,7 @@
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label>Department<span class="text-danger">*</span></label>
-                                        <select class="form-control select" name="department_id" id="department_id">
-                                            <option disabled selected> Chose departments </option>
-                                            @foreach($departments as $department)
-                                            <option value="{{ $department->id  }}">{{ $department->department_name }}</option>
-                                            @endforeach
-                                        </select>
-                                        @error('department_id')<span class="text-danger">{{ $message }}</span>@enderror
+                                        {!! Form::select('department_id', $department_helper->dropdown(), null, ['class'=>'form-select form-control','placeholder' => 'Select Department','id' => 'department_id']) !!}
                                     </div>
                                 </div>
 
@@ -244,7 +239,7 @@
                             </div>
                             <div class="row mt-2">
                                 <div class="col-lg-12">
-                                    <h4 class="page-title">Medical Address </h4>
+                                    <h4 class="page-title">Medical Degree </h4>
                                 </div>
                             </div>
                             <div class="row" id="medical_degree">

@@ -88,6 +88,32 @@ Breadcrumbs::for('admin.setting', function ($trail) {
     $trail->push('Profile Settings', route('admin.setting'));
 });
 
+Breadcrumbs::for('user.index', function ($trail) {
+    $trail->parent('admin.dashboard');
+    $trail->push('Users', route('user.index'));
+});
+Breadcrumbs::for('user.create', function ($trail) {
+    $trail->parent('user.index');
+    $trail->push('Create User', route('user.create'));
+});
+Breadcrumbs::for('user.edit', function ($trail, $user) {
+    $trail->parent('user.index');
+    $trail->push('Edit User', route('user.edit', $user));
+});
+
+Breadcrumbs::for('role.index', function ($trail) {
+    $trail->parent('admin.dashboard');
+    $trail->push('Roles & Permissions', route('role.index'));
+});
+Breadcrumbs::for('role.create', function ($trail) {
+    $trail->parent('role.index');
+    $trail->push('Create Role', route('role.create'));
+});
+Breadcrumbs::for('role.edit', function ($trail, $role) {
+    $trail->parent('role.index');
+    $trail->push('Edit Role & Permissions', route('role.edit', $role));
+});
+
 
 /////////////////////////           GENERAL DASHBOARD Breadcrumbs           /////////////////////////////////////
 Breadcrumbs::for('doctor.dashboard', function ($trail) {

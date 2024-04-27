@@ -11,6 +11,11 @@ use App\Models\User;
 
 class AppointmentController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view appointment', ['only' => ['index']]);
+    }
+
     public function index()
     {
         $appointments = Appointment::orderBy('created_at','desc')->simplePaginate(8);

@@ -41,30 +41,36 @@
       })
     });
   });
-  $(document).ready(function () {
-    // When a nav-link is clicked, save its href in local storage
-    $('.nav-link').click(function () {
-        localStorage.setItem('activeTab', $(this).attr('href'));
+
+  const currentUrl = window.location.href;
+  if (currentUrl === 'http://127.0.0.1:8000/Healwave/admin/settings') {
+    $(document).ready(function () {
+
+      // When a nav-link is clicked, save its href in local storage
+      $('.nav-link').click(function () {
+          localStorage.setItem('activeTab', $(this).attr('href'));
+      });
+
+      // On page load, retrieve the saved tab from local storage
+      const savedTab = localStorage.getItem('activeTab');
+      console.log(savedTab);
+
+      if (savedTab) {
+          console.log('reload');
+          // If there's a saved tab, deactivate all active tabs and their content
+          $('.nav-link.active').removeClass('active');
+          $('.tab-pane.active').removeClass('active show');
+
+          // Activate the saved tab
+          $('.nav-link[href="' + savedTab + '"]').addClass('active');
+          $(savedTab).addClass('active show');
+      } else {
+          console.log('default');
+          // If there's no saved tab, ensure the first tab and its content are active
+          $('.nav-link').first().addClass('active');
+          $('.tab-pane').first().addClass('active show');
+      }
     });
+  }
 
-    // On page load, retrieve the saved tab from local storage
-    const savedTab = localStorage.getItem('activeTab');
-    console.log(savedTab);
-
-    if (savedTab) {
-        console.log('reload');
-        // If there's a saved tab, deactivate all active tabs and their content
-        $('.nav-link.active').removeClass('active');
-        $('.tab-pane.active').removeClass('active show');
-
-        // Activate the saved tab
-        $('.nav-link[href="' + savedTab + '"]').addClass('active');
-        $(savedTab).addClass('active show');
-    } else {
-        console.log('default');
-        // If there's no saved tab, ensure the first tab and its content are active
-        $('.nav-link').first().addClass('active');
-        $('.tab-pane').first().addClass('active show');
-    }
-  });
 

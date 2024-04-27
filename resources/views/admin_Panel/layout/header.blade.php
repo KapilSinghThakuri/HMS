@@ -48,7 +48,13 @@
 
                 <!-- Notifications - Message Box -->
                 <li class="nav-item dropdown d-none d-sm-block">
-                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" title="Notifications"><i class="fa fa-bell-o"></i> <span class="badge badge-pill bg-danger float-right">{{ $adminNotifications->count() }}</span></a>
+                    <a href="#" class="dropdown-toggle nav-link" data-toggle="dropdown" title="Notifications">
+                        <i class="fa fa-bell-o"></i>
+                        <span id="unreadNotificationsCount" class="badge badge-pill bg-danger float-right">
+                            0
+                        </span>
+                    </a>
+
                     <div class="dropdown-menu notifications">
                         <div class="topnav-dropdown-header">
                             <span>Notifications</span>
@@ -107,9 +113,9 @@
                         @endif
                     </div>
                 </li>
-                <li class="nav-item dropdown d-none d-sm-block">
+                <!-- <li class="nav-item dropdown d-none d-sm-block">
                     <a href="javascript:void(0);" id="open_msg_box" class="hasnotifications nav-link" title="Message" data-toggle="tooltip"><i class="fa fa-comment-o"></i> <span class="badge badge-pill bg-danger float-right">8</span></a>
-                </li>
+                </li> -->
 
 
                 <li class="nav-item dropdown has-arrow">
@@ -118,7 +124,7 @@
                             <img class="rounded-circle" src="{{ asset('admin_Assets/img/user.jpg') }}" width="24" alt="Admin">
                             <span class="status online"></span>
                         </span>
-                        <span>Admin</span>
+                        <span>{{ auth()->user()->getRoleNames()->first() }}</span>
                     </a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="profile.html">My Profile</a>

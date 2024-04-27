@@ -12,6 +12,14 @@ use App\Models\Doctor;
 
 class DoctorScheduleController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:view schedule', ['only' => ['index']]);
+        $this->middleware('permission:create schedule', ['only' => ['create','store']]);
+        $this->middleware('permission:edit schedule', ['only' => ['edit','update']]);
+        $this->middleware('permission:delete schedule', ['only' => ['destroy']]);
+    }
+
     /**
      * Display a listing of the resource.
      *

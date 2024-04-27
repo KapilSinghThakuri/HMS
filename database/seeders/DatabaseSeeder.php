@@ -23,6 +23,7 @@ class DatabaseSeeder extends Seeder
             DistrictSeeder::class,
             MunicipalityTypeSeeder::class,
             MunicipalitySeeder::class,
+            PermissionSeeder::class,
         ]);
     }
 }

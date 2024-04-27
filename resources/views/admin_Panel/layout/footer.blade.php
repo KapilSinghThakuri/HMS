@@ -1,214 +1,5 @@
-<!-- <div class="notification-box">
-    <div class="msg-sidebar notifications msg-noti">
-        <div class="topnav-dropdown-header">
-            <span>Messages</span>
-        </div>
-        <div class="drop-scroll msg-list-scroll" id="msg_list">
-            <ul class="list-box">
-                <li>
-                    <a href="chat.html">
-                        <div class="list-item">
-                            <div class="list-left">
-                                <span class="avatar">R</span>
-                            </div>
-                            <div class="list-body">
-                                <span class="message-author">Richard Miles </span>
-                                <span class="message-time">12:28 AM</span>
-                                <div class="clearfix"></div>
-                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="chat.html">
-                        <div class="list-item new-message">
-                            <div class="list-left">
-                                <span class="avatar">J</span>
-                            </div>
-                            <div class="list-body">
-                                <span class="message-author">John Doe</span>
-                                <span class="message-time">1 Aug</span>
-                                <div class="clearfix"></div>
-                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="chat.html">
-                        <div class="list-item">
-                            <div class="list-left">
-                                <span class="avatar">T</span>
-                            </div>
-                            <div class="list-body">
-                                <span class="message-author"> Tarah Shropshire </span>
-                                <span class="message-time">12:28 AM</span>
-                                <div class="clearfix"></div>
-                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="chat.html">
-                        <div class="list-item">
-                            <div class="list-left">
-                                <span class="avatar">M</span>
-                            </div>
-                            <div class="list-body">
-                                <span class="message-author">Mike Litorus</span>
-                                <span class="message-time">12:28 AM</span>
-                                <div class="clearfix"></div>
-                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="chat.html">
-                        <div class="list-item">
-                            <div class="list-left">
-                                <span class="avatar">C</span>
-                            </div>
-                            <div class="list-body">
-                                <span class="message-author"> Catherine Manseau </span>
-                                <span class="message-time">12:28 AM</span>
-                                <div class="clearfix"></div>
-                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="chat.html">
-                        <div class="list-item">
-                            <div class="list-left">
-                                <span class="avatar">D</span>
-                            </div>
-                            <div class="list-body">
-                                <span class="message-author"> Domenic Houston </span>
-                                <span class="message-time">12:28 AM</span>
-                                <div class="clearfix"></div>
-                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="chat.html">
-                        <div class="list-item">
-                            <div class="list-left">
-                                <span class="avatar">B</span>
-                            </div>
-                            <div class="list-body">
-                                <span class="message-author"> Buster Wigton </span>
-                                <span class="message-time">12:28 AM</span>
-                                <div class="clearfix"></div>
-                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="chat.html">
-                        <div class="list-item">
-                            <div class="list-left">
-                                <span class="avatar">R</span>
-                            </div>
-                            <div class="list-body">
-                                <span class="message-author"> Rolland Webber </span>
-                                <span class="message-time">12:28 AM</span>
-                                <div class="clearfix"></div>
-                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="chat.html">
-                        <div class="list-item">
-                            <div class="list-left">
-                                <span class="avatar">C</span>
-                            </div>
-                            <div class="list-body">
-                                <span class="message-author"> Claire Mapes </span>
-                                <span class="message-time">12:28 AM</span>
-                                <div class="clearfix"></div>
-                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="chat.html">
-                        <div class="list-item">
-                            <div class="list-left">
-                                <span class="avatar">M</span>
-                            </div>
-                            <div class="list-body">
-                                <span class="message-author">Melita Faucher</span>
-                                <span class="message-time">12:28 AM</span>
-                                <div class="clearfix"></div>
-                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="chat.html">
-                        <div class="list-item">
-                            <div class="list-left">
-                                <span class="avatar">J</span>
-                            </div>
-                            <div class="list-body">
-                                <span class="message-author">Jeffery Lalor</span>
-                                <span class="message-time">12:28 AM</span>
-                                <div class="clearfix"></div>
-                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="chat.html">
-                        <div class="list-item">
-                            <div class="list-left">
-                                <span class="avatar">L</span>
-                            </div>
-                            <div class="list-body">
-                                <span class="message-author">Loren Gatlin</span>
-                                <span class="message-time">12:28 AM</span>
-                                <div class="clearfix"></div>
-                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-                <li>
-                    <a href="chat.html">
-                        <div class="list-item">
-                            <div class="list-left">
-                                <span class="avatar">T</span>
-                            </div>
-                            <div class="list-body">
-                                <span class="message-author">Tarah Shropshire</span>
-                                <span class="message-time">12:28 AM</span>
-                                <div class="clearfix"></div>
-                                <span class="message-content">Lorem ipsum dolor sit amet, consectetur adipiscing</span>
-                            </div>
-                        </div>
-                    </a>
-                </li>
-            </ul>
-        </div>
-        <div class="topnav-dropdown-footer">
-            <a href="chat.html">See all messages</a>
-        </div>
-    </div>
-</div> -->
 
-<div class="sidebar-overlay" data-reff=""></div>
+    <div class="sidebar-overlay" data-reff=""></div>
     <script src="{{ asset('admin_assets/js/jquery-3.2.1.min.js')}}"></script>
     <script src="{{ asset('admin_assets/js/popper.min.js')}}"></script>
     <script src="{{ asset('admin_assets/js/bootstrap.min.js')}}"></script>
@@ -224,7 +15,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <!-- Doctor JS Link -->
     <script src="{{ asset('admin_assets/custom-js/doctor.js') }}"></script>
-<script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
     <script src="{{ asset('admin_assets/custom-js/setting.js') }}"></script>
 
 
@@ -270,11 +61,14 @@
 
         $('#mark-all-read').on('click', function(e) {
             e.preventDefault();
+
             $.ajax({
                 url: '/Healwave/admin/mark-all-as-read',
                 method: 'GET',
                 success: function(response) {
                     console.log(response.success);
+                    $('.notification-list').empty();
+                    notificationCount();
                 },
                 error: function(xhr, status, error) {
                     console.error(error);
@@ -285,18 +79,36 @@
         $('.notification-checkbox').change(function() {
             var notificationId = $(this).data('notification-id');
             console.log(notificationId);
+            var listItem = $(this).closest('.notification-message');
 
             $.ajax({
                 url: '/Healwave/admin/notifications/mark-as-read/' + notificationId,
                 method: 'GET',
                 success: function(response) {
                     console.log(response.message);
+                    listItem.remove();
+                    notificationCount();
                 },
                 error: function(xhr, status, error) {
                     console.error('There was a problem with the request:', error);
                 }
             });
         });
+
+        function notificationCount() {
+            $.ajax({
+                url: '/Healwave/admin/notifications/unreadNotificationsCount',
+                method: 'GET',
+                success: function(response){
+                    console.log(response);
+                    $('#unreadNotificationsCount').text(response.unreadNotificationsCount);
+                },
+                error: function(error){
+                    console.log(error);
+                }
+            })
+        }
+        notificationCount();
     });
 
   </script>

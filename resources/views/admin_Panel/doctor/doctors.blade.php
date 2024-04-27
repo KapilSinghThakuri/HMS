@@ -11,7 +11,9 @@
                 <div class="col-sm-6 text-right">
                    <a href="{{ route('doctor.trash')}}" class="btn btn-danger btn-rounded float-right ml-3" title="Trash"><i class="fa fa-trash-o" aria-hidden="true"></i> Trash</a>
 
+                   @can('create doctor')
                     <a href="{{ route('doctor.create')}}" class="btn btn-primary btn-rounded float-right" title="Click for add doctor"><i class="fa fa-plus"></i> Add Doctor</a>
+                    @endcan
                 </div>
             </div>
 
@@ -41,8 +43,12 @@
                     </div>
                     <div class="profile-action card">
                         <div class="btn-group" role="group" aria-label="Doctor actions">
+                            @can('edit doctor')
                             <a href="{{ route('doctor.edit', ['doctor' => $doctor->id]) }}" class="btn btn-outline-primary"><i class="fa fa-pencil m-r-5"></i>Edit</a>
+                            @endcan
+                            @can('delete doctor')
                             <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#delete_doctor_{{ $doctor->id }}"><i class="fa fa-trash-o m-r-5"></i>Delete</button>
+                            @endcan
                             <div id="delete_doctor_{{ $doctor->id }}" class="modal fade delete-modal" role="dialog">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">

@@ -44,8 +44,13 @@
                                         <td>{{ $doctor->departments->department_name }}</td>
                                         <td>{{ $doctor->educations[0]->specialization }}</td>
                                         <td class="d-flex">
+                                            @can('delete doctor')
                                             <a href="{{ route('doctor.restore',['doctor'=>$doctor->id])}}" class="text-primary mr-3" style="font-size: 20px;" title="Restore"> <i class="fa fa-undo" aria-hidden="true"></i> </a>
+                                            @endcan
+
+                                            @can('delete doctor')
                                             <a href="#" data-id="{{ $doctor->id }}" data-toggle="modal" data-target="#delete_doctor-{{ $doctor->id }}" style="font-size: 20px; color: red;" title="Permanent Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                            @endcan
                                         </td>
                                         <div id="delete_doctor-{{ $doctor->id }}" class="modal fade delete-modal" role="dialog">
                                             <div class="modal-dialog modal-dialog-centered">
@@ -71,7 +76,9 @@
                         </table>
                         @if(!$softDeletedDoctors->isEmpty())
                         <div class="empty_all text-center mt-3">
+                            @can('delete doctor')
                             <a href="{{ route('trash.empty') }}" class="btn btn-lg btn-danger rounded"><i class="fa fa-trash-o" aria-hidden="true"></i> Empty</a>
+                            @endcan
                         </div>
                         @endif
                     </div>
