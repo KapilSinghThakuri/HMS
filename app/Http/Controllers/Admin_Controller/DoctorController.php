@@ -219,7 +219,6 @@ class DoctorController extends Controller
             $user_address = $validatedData['province_id'] .'-'. $validatedData['district_id'] .'-'. $validatedData['street'];
             $validatedData['username'] = $username;
             $validatedData['address'] = $user_address;
-            $validatedData['password'] = Hash::make($validatedData['password']);
 
             $doctor_user->update($validatedData);
 

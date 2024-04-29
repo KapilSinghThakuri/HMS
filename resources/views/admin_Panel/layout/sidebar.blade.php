@@ -22,13 +22,36 @@
                     <a href="{{ route('schedule.index') }}"><i class="fa fa-calendar-check-o"></i> <span>Doctor Schedule</span></a>
                 </li>
                 <li class="{{ request()->routeIs('user.*') ? 'active' : '' }} ">
-                    <a href="{{ route('user.index')}}"><i class="fa fa-user-plus" aria-hidden="true"></i><span>Users</span></a>
+                    <a href="{{ route('user.index')}}"><i class="fa fa-users" aria-hidden="true"></i><span>Users</span></a>
                 </li>
                 @role('Super Admin')
                 <li class="{{ request()->routeIs('role.*') ? 'active' : '' }} ">
-                    <a href="{{ route('role.index') }}"><i class="fa fa-users" aria-hidden="true"></i> <span>Roles</span></a>
+                    <a href="{{ route('role.index') }}"><i class="fa fa-key" aria-hidden="true"></i> <span>Roles & Permissions</span></a>
                 </li>
                 @endrole
+
+                <li class="dropdown {{ request()->routeIs('page.*') || request()->routeIs('faq.*') || request()->routeIs('gallery.*') || request()->routeIs('feedback.*') ? 'active' : '' }}">
+                    <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#pages-dropdown">
+                        <i class="fa fa-list-alt" aria-hidden="true"></i><span>Pages</span>
+                    </a>
+                    <ul id="pages-dropdown" class="collapse">
+                        <li class="{{ request()->routeIs('page.*') ? 'active' : '' }} ">
+                            <a href="{{ route('page.index')}}"> <i class="fa fa-file-o" aria-hidden="true"></i> <span> Pages</span></a>
+                        </li>
+                        <li class="{{ request()->routeIs('faq.*') ? 'active' : '' }} ">
+                            <a href="{{ route('faq.index')}}"><i class="fa fa-question-circle-o" aria-hidden="true"></i><span> FAQ Page</span></a>
+                        </li>
+                        <li>
+                            <a href=""><i class="fa fa-file-image-o" aria-hidden="true"></i> <span> Gallery </span></a>
+                        </li>
+                        <li class="{{ request()->routeIs('feedback.*') ? 'active' : '' }} ">
+                            <a href="{{ route('feedback.index')}}"><i class="fa fa-comments" aria-hidden="true"></i><span> Feedback </span></a>
+                        </li>
+                        <li>
+                            <a href=""><span>Banner</span></a>
+                        </li>
+                    </ul>
+                </li>
             </ul>
         </div>
     </div>

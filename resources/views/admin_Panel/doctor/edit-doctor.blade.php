@@ -362,12 +362,13 @@
                             </div>
                             <div class="m-t-20 d-flex justify-content-between">
                                 <button type="button" class="btn btn-lg mr-auto btn-outline-primary prevBtn" style="width: 130px; letter-spacing: 2px; font-size: 1.15rem;">Previous</button>
-                                <button type="button" class="btn btn-lg ml-auto btn-primary nextBtn" style="width: 120px; letter-spacing: 2px; font-size: 1.15rem;">Next</button>
+                                <!-- <button type="button" class="btn btn-lg ml-auto btn-primary nextBtn" style="width: 120px; letter-spacing: 2px; font-size: 1.15rem;">Next</button> -->
+                                <button type="submit" class="btn btn-primary ml-auto btn-lg" style="width: 120px; letter-spacing: 2px; font-size: 1.15rem;">Update</button>
                             </div>
                         </div>
 
                         <!-- User & password details -->
-                        <div id="step5" class="step" style="display:none;">
+                        <!-- <div id="step5" class="step" style="display:none;">
                             <div class="row">
                                 <div class="col-lg-8 offset-lg-2">
                                     <h4 class="page-title text-center border-bottom">Account Credentials</h4>
@@ -399,9 +400,8 @@
                             <div class="m-t-20 d-flex justify-content-between">
                                 <button type="button" class="btn btn-outline-primary mr-auto btn-lg prevBtn" style="width: 130px; letter-spacing: 2px; font-size: 1.15rem;">Previous</button>
                                 <button type="submit" class="btn btn-primary ml-auto btn-lg" style="width: 120px; letter-spacing: 2px; font-size: 1.15rem;">Update</button>
-                                <!-- <button class="btn btn-primary submit-btn">Create Doctor</button> -->
                             </div>
-                        </div>
+                        </div> -->
                     </form>
                 </div>
             </div>

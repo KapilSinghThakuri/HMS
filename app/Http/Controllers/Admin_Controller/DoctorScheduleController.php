@@ -9,6 +9,7 @@ use Carbon\CarbonPeriod;
 use App\Models\User;
 use App\Models\Schedule;
 use App\Models\Doctor;
+use App\Models\Appointment;
 
 class DoctorScheduleController extends Controller
 {
@@ -31,7 +32,8 @@ class DoctorScheduleController extends Controller
         // dd($scheduleInterval->time_intervals);
         $schedules = Schedule::with('appointment')->orderBy('created_at','desc')->simplePaginate(10);
         $schedules->withPath('');
-        return view('admin_Panel.doctor_schedule.schedule',compact('schedules'));
+        $appointments = Appointment::get();
+        return view('admin_Panel.doctor_schedule.schedule',compact('schedules','appointments'));
     }
 
     /**

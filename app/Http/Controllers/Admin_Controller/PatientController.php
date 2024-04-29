@@ -20,4 +20,10 @@ class PatientController extends Controller
         $patients->withPath('');
         return view('admin_Panel.patient.patients',compact('patients'));
     }
+
+    public function searchPatient(Request $request)
+    {
+        $searchedValue = $request->searchedInput;
+        return response()->json($searchedValue);
+    }
 }

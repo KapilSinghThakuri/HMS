@@ -24,7 +24,7 @@ class RoleCheck
         }elseif($users->hasRole('Doctor')) {
                 return redirect()->route('doctor.dashboard');
             }else{
-            return back();
+            return redirect()->route('login');
         }
     }
 }

@@ -41,6 +41,7 @@
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
 
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -48,10 +49,28 @@
   <!-- ======= Top Bar ======= -->
   <div id="topbar" class="d-flex align-items-center fixed-top">
     <div class="container d-flex justify-content-between">
-      <div class="contact-info d-flex align-items-center">
-        <i class="bi bi-envelope"></i> <a href="mailto:contact@example.com">info@healwave.com</a>
+      <div class="contact-info d-flex align-items-center mr-3">
+        <i class="bi bi-envelope"></i> <a href="">info@healwave.com</a>
         <i class="bi bi-phone"></i> +1 5589 55488 55
       </div>
+
+      <div>
+        <div class="d-flex align-items-center">
+            <p class="language">English</p>
+            <form action="{{ url('/language') }}" method="GET" id="language-form">
+                <div class="toggle-switch m-2">
+                    <input
+                        type="checkbox"
+                        id="language"
+                        onchange="document.getElementById('language-form').submit()"
+                    >
+                    <label for="language"></label>
+                </div>
+            </form>
+            <p class="language">नेपाली</p>
+        </div>
+      </div>
+
       <div class="d-none d-lg-flex social-links align-items-center">
         <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
         <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>

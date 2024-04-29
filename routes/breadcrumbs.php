@@ -47,7 +47,7 @@ Breadcrumbs::for('doctor.edit', function ($trail, $doctor) {
 Breadcrumbs::for('doctor.show', function ($trail, $doctor) {
     $trail->parent('admin.dashboard');
     $trail->push('Doctors', route('doctor.index'));
-    $trail->push('View Doctor Profile', route('doctor.show', $doctor));
+    $trail->push('Doctor Profile', route('doctor.show', $doctor));
 });
 Breadcrumbs::for('doctor.trash', function ($trail) {
     $trail->parent('admin.dashboard');
@@ -155,7 +155,7 @@ Breadcrumbs::for('patient.appointment', function ($trail) {
 Breadcrumbs::for('patient.appointment.view', function ($trail, $appointment) {
     $trail->parent('doctor.dashboard');
     $trail->push('Appointments', route('patient.appointment'));
-    $trail->push('View Appointment', route('patient.appointment.view',$appointment));
+    $trail->push('Appointment Details', route('patient.appointment.view',$appointment));
 });
 
 // Breadcrumbs For DOCTOR PATIENT

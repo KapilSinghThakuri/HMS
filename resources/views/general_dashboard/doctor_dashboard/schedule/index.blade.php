@@ -4,13 +4,12 @@
 <div class="main-wrapper">
     <div class="page-wrapper">
         <div class="content">
-            {{ Breadcrumbs::render() }}
-            <div class="row">
-                <div class="col-sm-4 col-3">
-                    <h4 class="page-title">My Schedule</h4>
+            <div class="row align-items-center justify-content-between mb-4 breadcrumbs-div">
+                <div class="col-sm-6">
+                    {{ Breadcrumbs::render() }}
                 </div>
-                <div class="col-sm-8 col-9 text-right m-b-20">
-                    <a href="{{ route('my-schedule.create')}}" class="btn btn btn-primary btn-rounded float-right"><i class="fa fa-plus"></i> Add Schedule</a>
+                <div class="col-sm-6 text-right">
+                    <a href="{{ route('my-schedule.create') }}" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Add Schedule</a>
                 </div>
             </div>
 

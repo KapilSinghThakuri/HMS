@@ -13,6 +13,10 @@ use App\Http\Controllers\Admin_Controller\NotificationController;
 use App\Http\Controllers\Admin_Controller\AccountSettingController;
 use App\Http\Controllers\Admin_Controller\RoleController;
 use App\Http\Controllers\Admin_Controller\UserController;
+use App\Http\Controllers\Admin_Controller\PageController;
+use App\Http\Controllers\Admin_Controller\FeedbackController;
+use App\Http\Controllers\Admin_Controller\FAQController;
+
 
 use App\Http\Controllers\General_Controller\GeneralDashboardController;
 use App\Http\Controllers\General_Controller\DoctorDashboardController;
@@ -61,7 +65,11 @@ Route::prefix('Healwave/admin')->group(function(){
                     'schedule' => DoctorScheduleController::class,
                     'role' => RoleController::class,
                     'user' => UserController::class,
+                    'page' => PageController::class,
+                    'feedback' => FeedbackController::class,
+                    'faq' => FAQController::class,
                 ]);
+            Route::resource('feedback', FeedbackController::class)->only(['index','store', 'show']);
 
             Route::get('/trash',[DoctorController::class,'doctorTrash'])->name('doctor.trash');
             Route::get('/trash/{doctor}',[DoctorController::class,'doctorRestore'])->name('doctor.restore');
@@ -83,6 +91,8 @@ Route::prefix('Healwave/admin')->group(function(){
             Route::get('doctor/edit/municipality/{districtId}',[DoctorController::class,'getMunicipalityByDistrictEdit'])->name('district.edit');
 
             Route::get('patient',[PatientController::class,'index'])->name('patient.index');
+            Route::get('patient/search',[PatientController::class,'searchPatient'])->name('patient.search');
+
             Route::view('patient/create','admin_Panel.patient.add-patient')->name('patient.create');
             Route::view('patient/edit','admin_Panel.patient.edit-patient')->name('patient.edit');
 

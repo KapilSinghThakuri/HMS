@@ -15,8 +15,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
     <!-- Doctor JS Link -->
     <script src="{{ asset('admin_assets/custom-js/doctor.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <!-- patients JS Link -->
+    <script src="{{ asset('admin_assets/custom-js/patients.js') }}"></script>
+    <!-- Setting JS Link -->
     <script src="{{ asset('admin_assets/custom-js/setting.js') }}"></script>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
 
 
