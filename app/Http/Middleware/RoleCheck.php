@@ -19,11 +19,15 @@ class RoleCheck
     public function handle(Request $request, Closure $next)
     {
         $users = Auth::user();
-        if ($users->hasRole(['Super Admin', 'Administrator'])) {
-            return $next($request);
-        }elseif($users->hasRole('Doctor')) {
+        if ($users) {
+            if ($users->hasRole(['Super Admin', 'Administrator'])) {
+                return $next($request);
+            }elseif($users->hasRole('Doctor')) {
                 return redirect()->route('doctor.dashboard');
             }else{
+                return redirect()->route('login');
+            }
+        }else{
             return redirect()->route('login');
         }
     }

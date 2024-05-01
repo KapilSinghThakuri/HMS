@@ -17,6 +17,38 @@
                 </div>
             </div>
 
+            <div class="row mb-3" id="searchbar">
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input
+                            type="text"
+                            class="form-control"
+                            placeholder="Search by name, email, or license no.."
+                            aria-label="Search"
+                            id="doctorSearchInput"
+                        />
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" type="button" id="doctorSearchInput">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control">
+                        <option value="" selected>Search By Department</option>
+                        <option value="cardiology">Cardiology</option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control">
+                        <option value="" selected>Search By Specialty</option>
+                        <option value="pediatrics">Pediatrics</option>
+                        <option value="orthopedics">Orthopedics</option>
+                    </select>
+                </div>
+            </div>
+
             @if(session('success_message'))
                 <div class="alert alert-success">{{ session('success_message')}}</div>
             @endif

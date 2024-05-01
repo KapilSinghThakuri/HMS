@@ -389,4 +389,31 @@ class DoctorController extends Controller
         User::onlyTrashed()->forceDelete();
         return redirect()->route('doctor.index')->with('message','Doctors has been permanently deleted Successfully!!!');
     }
+
+    public function searchDoctor(Request $request)
+    {
+        $searchedInput = $request->searchedInput;
+        $outputData = Doctor::with(['educations', 'experiences'])
+            ->where('first_name', 'LIKE', '%' . $searchedInput . '%')
+            ->orWhere('middle_name', 'LIKE', '%' . $searchedInput . '%')
+            ->orWhere('last_name', 'LIKE', '%' . $searchedInput . '%')
+            ->orWhere('email', 'LIKE', '%' . $searchedInput . '%')
+            ->whereHas('experiences', function ($query) use ($searchedInput) {
+                    $query->where('license_no', 'LIKE', '%' . $searchedInput . '%');
+                })->get();
+
+        // $outputData = Doctor::with(['educations', 'experiences'])
+        //     ->where(function ($query) use ($searchedInput) {
+        //         $query->where('first_name', 'LIKE', '%' . $searchedInput . '%')
+        //             ->orWhere('middle_name', 'LIKE', '%' . $searchedInput . '%')
+        //             ->orWhere('last_name', 'LIKE', '%' . $searchedInput . '%')
+        //             ->orWhere('email', 'LIKE', '%' . $searchedInput . '%');
+        //     })
+        //     ->whereHas('experiences', function ($query) use ($searchedInput) {
+        //         $query->where('license_no', 'LIKE', '%' . $searchedInput . '%');
+        //     })
+        //     ->get();
+
+        return response()->json(['searchOutput' => $outputData], 200);
+    }
 }

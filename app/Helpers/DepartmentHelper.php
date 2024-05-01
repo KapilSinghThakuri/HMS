@@ -9,7 +9,7 @@ use App\Models\Department;
  */
 class DepartmentHelper
 {
-     public function __construct(Department $department)
+    public function __construct(Department $department)
     {
         $this->department = $department;
     }

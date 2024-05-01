@@ -229,3 +229,57 @@ opacity: 0.6;
 .toggle-switch input:checked + label::before {
   transform: translateX(25px);  /* Move the sliding part to the right when checked */
 }
+
+#gallery_album {
+    transition: transform 0.2s;
+}
+#gallery_album:hover {
+  transform: scale(1.05);
+}
+.album-title{
+    margin: 10px 0;
+    font-size: 1rem;
+    font-weight: 400;
+}
+.album-title:hover{
+    text-decoration: underline;
+    color: #009efb;
+}
+
+.photo-card {
+    overflow: hidden;
+    height: 150px;
+    width: 150px;
+}
+
+.photo-card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.add-photo-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    cursor: pointer;
+    height: 100px;
+    width: 220px;
+    background-color: #f7f7f7;
+}
+
+.add-photo-card p{
+    margin: 0;
+}
+
+.add-photo-card:hover {
+    background-color: #e0e0e0;
+}
+.add-photo-card input[type='file'] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+}

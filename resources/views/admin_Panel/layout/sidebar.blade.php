@@ -30,25 +30,25 @@
                 </li>
                 @endrole
 
-                <li class="dropdown {{ request()->routeIs('page.*') || request()->routeIs('faq.*') || request()->routeIs('gallery.*') || request()->routeIs('feedback.*') ? 'active' : '' }}">
+                <li class="dropdown {{ request()->routeIs('page.*') || request()->routeIs('faq.*') || request()->routeIs('album.*') || request()->routeIs('gallery.*') || request()->routeIs('feedback.*') ? 'active' : '' }}">
                     <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#pages-dropdown">
                         <i class="fa fa-list-alt" aria-hidden="true"></i><span>Pages</span>
                     </a>
                     <ul id="pages-dropdown" class="collapse">
                         <li class="{{ request()->routeIs('page.*') ? 'active' : '' }} ">
-                            <a href="{{ route('page.index')}}"> <i class="fa fa-file-o" aria-hidden="true"></i> <span> Pages</span></a>
+                            <a href="{{ route('page.index')}}"> <i class="fa fa-file-o" aria-hidden="true"></i> <span> Pages </span></a>
                         </li>
                         <li class="{{ request()->routeIs('faq.*') ? 'active' : '' }} ">
-                            <a href="{{ route('faq.index')}}"><i class="fa fa-question-circle-o" aria-hidden="true"></i><span> FAQ Page</span></a>
+                            <a href="{{ route('faq.index')}}"><i class="fa fa-question-circle-o" aria-hidden="true"></i><span> FAQ </span></a>
                         </li>
-                        <li>
-                            <a href=""><i class="fa fa-file-image-o" aria-hidden="true"></i> <span> Gallery </span></a>
+                        <li class="{{ request()->routeIs('album.*') ? 'active' : '' }}">
+                            <a href="{{ route('album.index')}}"><i class="fa fa-file-image-o" aria-hidden="true"></i> <span> Gallery </span></a>
                         </li>
                         <li class="{{ request()->routeIs('feedback.*') ? 'active' : '' }} ">
                             <a href="{{ route('feedback.index')}}"><i class="fa fa-comments" aria-hidden="true"></i><span> Feedback </span></a>
                         </li>
                         <li>
-                            <a href=""><span>Banner</span></a>
+                            <a href=""><i class="fa fa-picture-o" aria-hidden="true"></i> <span>Banner</span></a>
                         </li>
                     </ul>
                 </li>

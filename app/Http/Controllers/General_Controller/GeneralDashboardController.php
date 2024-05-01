@@ -23,6 +23,7 @@ use App\Models\Schedule;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Notifications\AppointmentNotification;
+use Spatie\Permission\Models\Role;
 
 
 
@@ -69,8 +70,10 @@ class GeneralDashboardController extends Controller
 
             $appointment = Appointment::create($validatedData);
 
-            $admin = User::where('role_id', 1)->first();
-            $admin->notify(new AppointmentNotification($appointment, $patient, 'appointment_create'));
+            $users = User::role(['Super Admin', 'Administrator'])->get();
+            foreach ($users as $user) {
+                $user->notify(new AppointmentNotification($appointment, $patient, 'appointment_create'));
+            }
 
             DB::commit();
             return redirect()->route('general.dashboard')->with('message','Your Appointment Send Successfully !!!');

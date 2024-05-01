@@ -16,21 +16,21 @@
 				<div class="col-md-12">
 					<div class="mb-2 d-flex justify-content-between">
 				      <h6 style="font-weight: 400; font-size: 1.3rem;">Patients List</h6>
-				      <div class="input-group" style="max-width: 300px;">
+				      <div class="input-group" style="max-width: 350px;">
 				        <input
 				          type="text"
 				          class="form-control"
-				          placeholder="Search by name, email, or address..."
+				          placeholder="Search by name, email, or address.."
 				          aria-label="Search"
 				          id="tableSearchInput"
 				        />
 				        <div class="input-group-append">
-				          <button class="btn btn-primary" type="button" id="tableSearchButton">Search</button>
+				          <button class="btn btn-primary" type="button" id="tableSearchButton"><i class="fa fa-search" aria-hidden="true"></i></button>
 				        </div>
 				      </div>
 				    </div>
 					<div class="table-responsive">
-						<table class="table table-border table-striped custom-table datatable mb-0">
+						<table class="table table-border table-striped custom-table datatable mb-0" id="patientsTable">
 							<thead>
 								<tr>
 									<th>Sno.</th>

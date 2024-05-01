@@ -16,6 +16,8 @@ use App\Http\Controllers\Admin_Controller\UserController;
 use App\Http\Controllers\Admin_Controller\PageController;
 use App\Http\Controllers\Admin_Controller\FeedbackController;
 use App\Http\Controllers\Admin_Controller\FAQController;
+use App\Http\Controllers\Admin_Controller\AlbumsController;
+use App\Http\Controllers\Admin_Controller\GalleryController;
 
 
 use App\Http\Controllers\General_Controller\GeneralDashboardController;
@@ -68,6 +70,8 @@ Route::prefix('Healwave/admin')->group(function(){
                     'page' => PageController::class,
                     'feedback' => FeedbackController::class,
                     'faq' => FAQController::class,
+                    'album' => AlbumsController::class,
+                    'gallery' => GalleryController::class,
                 ]);
             Route::resource('feedback', FeedbackController::class)->only(['index','store', 'show']);
 
@@ -89,6 +93,8 @@ Route::prefix('Healwave/admin')->group(function(){
 
             Route::get('doctor/edit/district/{provinceId}',[DoctorController::class,'getDistrictByProvinceEdit'])->name('province.edit');
             Route::get('doctor/edit/municipality/{districtId}',[DoctorController::class,'getMunicipalityByDistrictEdit'])->name('district.edit');
+
+            Route::get('/doctor-search',[DoctorController::class,'searchDoctor'])->name('doctor.search');
 
             Route::get('patient',[PatientController::class,'index'])->name('patient.index');
             Route::get('patient/search',[PatientController::class,'searchPatient'])->name('patient.search');

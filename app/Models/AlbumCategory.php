@@ -5,15 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Gallery extends Model
+class AlbumCategory extends Model
 {
     use HasFactory;
-    protected $table = 'gallery_photos';
+
+    protected $table = 'gallery_categories';
     protected $fillable = [
         'display_order',
-        'gallery_category_id',
-        'file',
-        'file_type',
+        'album_title',
+        'album_cover',
         'status',
     ];
 }

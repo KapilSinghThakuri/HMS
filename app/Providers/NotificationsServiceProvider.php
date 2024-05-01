@@ -27,7 +27,7 @@ class NotificationsServiceProvider extends ServiceProvider
     {
         View::composer('*', function ($view) {
             $user = Auth::user();
-            $isAdmin = $user && $user->hasRole('Superadmin');
+            $isAdmin = $user && $user->hasRole(['Super Admin', 'Administrator']);
 
             $adminNotifications = $isAdmin ? $user->unreadNotifications : collect();
             $view->with('adminNotifications', $adminNotifications);

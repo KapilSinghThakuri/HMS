@@ -23,7 +23,28 @@ class PatientController extends Controller
 
     public function searchPatient(Request $request)
     {
-        $searchedValue = $request->searchedInput;
-        return response()->json($searchedValue);
+        $searchedInput = $request->searchedInput;
+        $outputData = Patient::where('fullname','LIKE', '%' . $searchedInput . '%')
+            ->orWhere('email', 'LIKE', '%' . $searchedInput . '%')
+            ->orWhere('permanent_address', 'LIKE', '%' . $searchedInput . '%')->get();
+
+        $searchOuput = '';
+        if (!empty($outputData)) {
+            $index = 1;
+            foreach ($outputData as $patients) {
+                $searchOuput .= '
+                <tr>
+                    <td>' . $index . '</td>
+                    <td>' . $patients->fullname . '</td>
+                    <td>' . $patients->age . '</td>
+                    <td>' . $patients->permanent_address . '</td>
+                    <td>' . $patients->phone . '</td>
+                    <td>' . $patients->email . '</td>
+                </tr>
+                ';
+                $index++;
+            }
+        }
+        return response()->json(['data' => $searchOuput], 200);
     }
 }

@@ -699,4 +699,27 @@
                 $('#end_date_AD').val(englishDate);
             }
         });
+////////////////////////////        DOCTOR SEARCH FUNCTIONALITY         ////////////////////////////////
+
     });
+
+    $(document).ready(function () {
+        console.log('kapil did');
+        $("#doctorSearchInput").on("keyup", function (event) {
+            event.preventDefault();
+            var searchedInput = $(this).val();
+            console.log(searchedInput);
+
+            $.ajax({
+                url: "/Healwave/admin/doctor-search",
+                method: 'GET',
+                data: {'searchedInput': searchedInput},
+                success: function (response) {
+                    console.log(response.searchOutput);
+                },
+                error: function(error, xhr) {
+                    console.log(error);
+                }
+            })
+        })
+    })
