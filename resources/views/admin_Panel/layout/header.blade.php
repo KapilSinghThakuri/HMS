@@ -93,6 +93,9 @@
                                                             @case('appointment_create')
                                                                 <strong style="color: #3498db; font-weight: 400;">New appointment alert:</strong> <span class="noti-title">{{ $notification->data['patient_name']}}</span> has booked the schedule for {{ $notification->data['appointment_time_interval']}}.
                                                                 @break
+                                                            @case('feedback_alert')
+                                                                <strong style="color: #3498db; font-weight: 400;">{{ $notification->data['subject']}}:</strong> <span class="noti-title">{{ $notification->data['fullname']}} </span>has send feedback on {{ $notification->data['feedback_subject']}} subject.
+                                                                @break
                                                             @default
                                                                 <strong style="color: #3498db; font-weight: 400;">Notice: </strong> <span class="noti-title"> No new notifications.</span>
                                                         @endswitch

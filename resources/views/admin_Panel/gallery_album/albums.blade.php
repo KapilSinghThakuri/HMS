@@ -25,8 +25,25 @@
                                 <h4 class="card-title album-title">{{ $album->album_title }}</h4>
                             </a>
                             <div>
-                                <a href="#" style="font-size: 18px;" title="Click For Edit"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i></a>
-                                <a href="#" data-id="{{ $album->id }}" data-toggle="modal" data-target="#delete_album" style="font-size: 22px; color: red;" title="Click For Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                <a href="{{ route('album.edit',['album'=>$album->id])}}" style="font-size: 18px;" title="Click For Edit"><i class="fa fa-pencil-square-o mr-2" aria-hidden="true"></i></a>
+                                <a href="#" data-id="{{ $album->id }}" data-toggle="modal" data-target="#delete_album_{{ $album->id }}" style="font-size: 22px; color: red;" title="Click For Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="delete_album_{{ $album->id }}" class="modal fade delete-modal" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body text-center">
+                                <img src="{{ asset('admin_Assets/img/sent.png')}}" alt="" width="50" height="46">
+                                <h3>Are you sure want to delete this Album?</h3>
+                                <div class="m-t-20 d-flex justify-content-center"> <a href="#" class="btn btn-white mr-2" data-dismiss="modal">Close</a>
+                                    <form action="{{ route('album.destroy', ['album' => $album->id]) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -36,4 +53,5 @@
         </div>
     </div>
 </div>
+
 @endsection

@@ -30,7 +30,7 @@
                 </li>
                 @endrole
 
-                <li class="dropdown {{ request()->routeIs('page.*') || request()->routeIs('faq.*') || request()->routeIs('album.*') || request()->routeIs('gallery.*') || request()->routeIs('feedback.*') ? 'active' : '' }}">
+                <li class="dropdown {{ request()->routeIs('page.*') || request()->routeIs('faq.*') || request()->routeIs('album.*') || request()->routeIs('gallery.*') || request()->routeIs('feedback.*') || request()->routeIs('banner.*') ? 'active' : '' }}">
                     <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#pages-dropdown">
                         <i class="fa fa-list-alt" aria-hidden="true"></i><span>Pages</span>
                     </a>
@@ -47,8 +47,8 @@
                         <li class="{{ request()->routeIs('feedback.*') ? 'active' : '' }} ">
                             <a href="{{ route('feedback.index')}}"><i class="fa fa-comments" aria-hidden="true"></i><span> Feedback </span></a>
                         </li>
-                        <li>
-                            <a href=""><i class="fa fa-picture-o" aria-hidden="true"></i> <span>Banner</span></a>
+                        <li class="{{ request()->routeIs('banner.*') ? 'active' : '' }}">
+                            <a href="{{ route('banner.index')}}"><i class="fa fa-picture-o" aria-hidden="true"></i> <span>Banner</span></a>
                         </li>
                     </ul>
                 </li>

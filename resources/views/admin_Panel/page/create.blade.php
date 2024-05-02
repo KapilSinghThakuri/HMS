@@ -22,7 +22,7 @@
                     </style>
                     {!! Form::open(['route' => 'page.store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
 
-                        {{ Form::token() }}
+                        @csrf
 
                         <div class="row">
                             <div class="col-lg-4">

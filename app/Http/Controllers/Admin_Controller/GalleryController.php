@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin_Controller;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Http\Requests\GalleryRequest;
 use App\Models\Gallery;
 
 
@@ -41,9 +42,21 @@ class GalleryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(GalleryRequest $request)
     {
-        dd($request->all());
+        $validatedData = $request->validated();
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time().'.'.$file->getClientOriginalExtension();
+            $destinationPath = public_path('admin_Assets/img/album-cover/photos');
+
+            $file->move($destinationPath, $fileName);
+            $validatedData['file'] = '/admin_Assets/img/album-cover/photos'.'/'.$fileName;
+        }
+        // dd($validatedData);
+        $this->galleries->create($validatedData);
+        return redirect()->back()->with('message', "New {$validatedData['file_type']} Added Successfully!!!");
     }
 
     /**

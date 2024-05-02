@@ -5,7 +5,11 @@ namespace App\Http\Controllers\Admin_Controller;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\UserFeedback;
+use App\Models\User;
 use App\Http\Requests\UserFeedbackRequest;
+use App\Notifications\FeedbackNotification;
+use Illuminate\Support\Facades\Notification;
+use Spatie\Permission\Models\Role;
 
 class FeedbackController extends Controller
 {
@@ -26,6 +30,12 @@ class FeedbackController extends Controller
         $validatedData = $request->validated();
 
         $this->userfeedback->create($validatedData);
+
+        $admins = User::role(['Super Admin', 'Administrator'])->get();
+        foreach ($admins as $admin) {
+           $admin->notify(new FeedbackNotification($validatedData));
+        }
+
         return response()->json([
             'message' => 'Your message has been sent. Thank you!',
             'data' => $validatedData

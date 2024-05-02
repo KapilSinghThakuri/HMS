@@ -4,9 +4,14 @@ namespace App\Http\Controllers\Admin_Controller;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\FAQ;
 
 class FAQController extends Controller
 {
+    public function __construct(FAQ $faqs)
+    {
+        $this->faqs = $faqs;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +19,8 @@ class FAQController extends Controller
      */
     public function index()
     {
-        return view('admin_Panel.FAQ.index');
+        $faqs = $this->faqs->get();
+        return view('admin_Panel.FAQ.index',compact('faqs'));
     }
 
     /**
@@ -24,7 +30,7 @@ class FAQController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin_Panel.FAQ.create');
     }
 
     /**
@@ -35,7 +41,13 @@ class FAQController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'subject' => 'required|string',
+            'faq_question' => 'required|string',
+            'faq_answer' => 'required',
+        ]);
+        $this->faqs->create($validatedData);
+        return redirect()->route('faq.index')->with('message','New FAQ added successfully !!!');
     }
 
     /**
@@ -46,7 +58,8 @@ class FAQController extends Controller
      */
     public function show($id)
     {
-        //
+        $faq = $this->faqs->where('id', $id)->first();
+        return view('admin_Panel.FAQ.faq-details',compact('faq'));
     }
 
     /**
@@ -57,7 +70,8 @@ class FAQController extends Controller
      */
     public function edit($id)
     {
-        //
+        $faq = $this->faqs->where('id', $id)->first();
+        return view('admin_Panel.FAQ.edit',compact('faq'));
     }
 
     /**
@@ -69,7 +83,14 @@ class FAQController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'subject' => 'required|string',
+            'faq_question' => 'required|string',
+            'faq_answer' => 'required',
+        ]);
+        $faq = $this->faqs->where('id', $id)->first();
+        $faq->update($validatedData);
+        return redirect()->route('faq.index')->with('message','New FAQ updated successfully !!!');
     }
 
     /**
@@ -80,6 +101,8 @@ class FAQController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $faq = $this->faqs->where('id', $id)->first();
+        $faq->delete($faq);
+        return redirect()->route('faq.index')->with('message','New FAQ deleted successfully !!!');
     }
 }

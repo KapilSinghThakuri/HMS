@@ -18,6 +18,7 @@ use App\Http\Controllers\Admin_Controller\FeedbackController;
 use App\Http\Controllers\Admin_Controller\FAQController;
 use App\Http\Controllers\Admin_Controller\AlbumsController;
 use App\Http\Controllers\Admin_Controller\GalleryController;
+use App\Http\Controllers\Admin_Controller\BannerController;
 
 
 use App\Http\Controllers\General_Controller\GeneralDashboardController;
@@ -72,6 +73,7 @@ Route::prefix('Healwave/admin')->group(function(){
                     'faq' => FAQController::class,
                     'album' => AlbumsController::class,
                     'gallery' => GalleryController::class,
+                    'banner' => BannerController::class,
                 ]);
             Route::resource('feedback', FeedbackController::class)->only(['index','store', 'show']);
 

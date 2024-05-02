@@ -30,6 +30,7 @@ class NotificationsServiceProvider extends ServiceProvider
             $isAdmin = $user && $user->hasRole(['Super Admin', 'Administrator']);
 
             $adminNotifications = $isAdmin ? $user->unreadNotifications : collect();
+            // dd($adminNotifications);
             $view->with('adminNotifications', $adminNotifications);
         });
     }
