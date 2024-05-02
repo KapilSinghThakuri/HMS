@@ -66,12 +66,24 @@
 
         <div class="row">
           <div class="col-xl-5 col-lg-6 video-box d-flex justify-content-center align-items-stretch position-relative">
-            <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox play-btn mb-4"></a>
+            <img src="{{ asset( $pages->image )}}">
+            <!-- <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox play-btn mb-4"></a> -->
           </div>
 
           <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5">
-            <h3>Enim quis est voluptatibus aliquid consequatur fugiat</h3>
-            <p>Esse voluptas cumque vel exercitationem. Reiciendis est hic accusamus. Non ipsam et sed minima temporibus laudantium. Soluta voluptate sed facere corporis dolores excepturi. Libero laboriosam sint et id nulla tenetur. Suscipit aut voluptate.</p>
+            <!-- <h3>Enim quis est voluptatibus aliquid consequatur fugiat</h3> -->
+            <!-- <p>Esse voluptas cumque vel exercitationem. Reiciendis est hic accusamus. Non ipsam et sed minima temporibus laudantium. Soluta voluptate sed facere corporis dolores excepturi. Libero laboriosam sint et id nulla tenetur. Suscipit aut voluptate.</p> -->
+            @if($langValue === 'en')
+              <h3>{{ $pages['title']['en'] }}</h3>
+            @elseif($langValue === 'np')
+                <h3>{{ $pages['title']['np'] }}</h3>
+            @endif
+
+            @if($langValue === 'en')
+              <p>{!! $pages['content']['en'] !!}</p>
+            @elseif($langValue === 'np')
+              <p>{!! $pages['content']['np'] !!}</p>
+            @endif
 
             <div class="icon-box">
               <div class="icon"><i class="bx bx-fingerprint"></i></div>

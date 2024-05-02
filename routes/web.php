@@ -142,6 +142,7 @@ Route::prefix('Healwave')->group(function(){
         Route::get('dashboard','index')->name('general.dashboard');
         Route::get('dashboard/appointment-form/{schedule}/{interval}','appointment')->name('appointment.create');
         Route::post('dashboard/appointment-form/store/{scheduleId}','appointmentStore')->name('appointment.store');
+        Route::get('dashboard/{locale}', 'setLocale')->name('set-locale');
     });
 });
 

@@ -57,18 +57,43 @@
       <div>
         <div class="d-flex align-items-center">
             <p class="language">English</p>
-            <form action="{{ url('/language') }}" method="GET" id="language-form">
+
+            <form method="GET" id="language-form">
                 <div class="toggle-switch m-2">
                     <input
                         type="checkbox"
-                        id="language"
-                        onchange="document.getElementById('language-form').submit()"
+                        id="language-toggle"
+                        onchange="toggleLanguage()"
+                        {{ $langValue === 'np' ? 'checked' : '' }}
                     >
-                    <label for="language"></label>
+                    <label for="language-toggle"></label>
                 </div>
             </form>
+
             <p class="language">नेपाली</p>
         </div>
+      </div>
+
+      <!-- JavaScript function to toggle language -->
+      <script>
+      function toggleLanguage() {
+          const toggleSwitch = document.getElementById('language-toggle');
+          const form = document.getElementById('language-form');
+
+          // Set route based on the toggle state
+          if (toggleSwitch.checked) {
+              // If checked, set to Nepali route
+              form.action = "{{ route('set-locale', ['locale' => 'np']) }}";
+          } else {
+              // If not checked, set to English route
+              form.action = "{{ route('set-locale', ['locale' => 'en']) }}";
+          }
+
+          // Submit the form
+          form.submit();
+      }
+      </script>
+
       </div>
 
       <div class="d-none d-lg-flex social-links align-items-center">

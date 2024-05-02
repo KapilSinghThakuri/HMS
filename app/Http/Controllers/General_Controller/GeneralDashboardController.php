@@ -24,13 +24,21 @@ use App\Models\Appointment;
 use App\Models\Patient;
 use App\Notifications\AppointmentNotification;
 use Spatie\Permission\Models\Role;
-
+use Illuminate\Support\Facades\App;
+use App\Models\DynamicPage;
 
 
 class GeneralDashboardController extends Controller
 {
+    public function __construct(DynamicPage $pages)
+    {
+        $this->pages = $pages;
+    }
+
     public function index()
     {
+        $langValue = session('locale');
+
         $departments = Department::all();
         // dd(Doctor::findOrFail(49)->educations[0]);
         $dept_related_doctor = Department::with('doctors')->first();
@@ -38,7 +46,19 @@ class GeneralDashboardController extends Controller
         $doctors = Doctor::with('appointments')->get();
         $schedules = Schedule::all();
         $appointments = Appointment::get();
-        return view('general_dashboard.index',compact('departments','doctors','first_dept_doctors','schedules','appointments'));
+
+        $pages = $this->pages->first();
+        // dd($pages);
+        return view('general_dashboard.index',
+            compact(
+                'departments',
+                'doctors',
+                'first_dept_doctors',
+                'schedules',
+                'appointments',
+                'langValue',
+                'pages'
+            ));
     }
 
 
@@ -81,5 +101,15 @@ class GeneralDashboardController extends Controller
             DB::rollback();
             return $e->getMessage();
         }
+    }
+
+    public function setLocale($locale)
+    {
+
+        App::setLocale($locale);
+
+        session()->put('locale', $locale);
+
+        return redirect()->route('general.dashboard',compact('locale'));
     }
 }
