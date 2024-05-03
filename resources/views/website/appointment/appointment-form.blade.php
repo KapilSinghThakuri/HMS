@@ -1,4 +1,4 @@
-@extends('general_dashboard.layout.main')
+@extends('website.layout.main')
 @section('Main-container')
 <section class="section-bg">
     <div class="container p-3" style="margin-top: 100px;">

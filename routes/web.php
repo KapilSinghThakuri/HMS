@@ -19,14 +19,16 @@ use App\Http\Controllers\Admin_Controller\FAQController;
 use App\Http\Controllers\Admin_Controller\AlbumsController;
 use App\Http\Controllers\Admin_Controller\GalleryController;
 use App\Http\Controllers\Admin_Controller\BannerController;
+use App\Http\Controllers\Admin_Controller\MenuController;
 
-
-use App\Http\Controllers\General_Controller\GeneralDashboardController;
 use App\Http\Controllers\General_Controller\DoctorDashboardController;
 use App\Http\Controllers\General_Controller\ProfileController;
 use App\Http\Controllers\General_Controller\ScheduleController;
 use App\Http\Controllers\General_Controller\PatientAppointmentController;
 
+use App\Http\Controllers\Website\GeneralDashboardController;
+use App\Http\Controllers\Website\WebsiteDepartmentController;
+use App\Http\Controllers\Website\WebsiteGalleryController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -74,6 +76,7 @@ Route::prefix('Healwave/admin')->group(function(){
                     'album' => AlbumsController::class,
                     'gallery' => GalleryController::class,
                     'banner' => BannerController::class,
+                    'menu' => MenuController::class,
                 ]);
             Route::resource('feedback', FeedbackController::class)->only(['index','store', 'show']);
 
@@ -96,7 +99,7 @@ Route::prefix('Healwave/admin')->group(function(){
             Route::get('doctor/edit/district/{provinceId}',[DoctorController::class,'getDistrictByProvinceEdit'])->name('province.edit');
             Route::get('doctor/edit/municipality/{districtId}',[DoctorController::class,'getMunicipalityByDistrictEdit'])->name('district.edit');
 
-            Route::get('/doctor-search',[DoctorController::class,'searchDoctor'])->name('doctor.search');
+            Route::post('/doctor-search',[DoctorController::class,'searchDoctor'])->name('doctor.search');
 
             Route::get('patient',[PatientController::class,'index'])->name('patient.index');
             Route::get('patient/search',[PatientController::class,'searchPatient'])->name('patient.search');
@@ -113,7 +116,7 @@ Route::prefix('Healwave/admin')->group(function(){
     });
 });
 
-// General User Routing
+// Doctor User Routing
 Route::prefix('Healwave')->group(function(){
     Route::get('doctor/logout',[LoginController::class,'logoutUser'])->name('doctor.logout');
     Route::middleware('auth')->group(function(){
@@ -137,6 +140,8 @@ Route::prefix('Healwave')->group(function(){
 
         Route::get('doctor/patients',[PatientAppointmentController::class,'patientsIndex'])->name('patient.dashboard');
     });
+
+    // Website Routing
     Route::controller(GeneralDashboardController::class)->group(function ()
     {
         Route::get('dashboard','index')->name('general.dashboard');
@@ -144,6 +149,9 @@ Route::prefix('Healwave')->group(function(){
         Route::post('dashboard/appointment-form/store/{scheduleId}','appointmentStore')->name('appointment.store');
         Route::get('dashboard/{locale}', 'setLocale')->name('set-locale');
     });
+
+    Route::get('department',[WebsiteDepartmentController::class,'index'])->name('website.department');
+    Route::get('gallery',[WebsiteGalleryController::class,'index'])->name('website.gallery');
 });
 
 

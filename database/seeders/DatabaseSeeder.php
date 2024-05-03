@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             MunicipalitySeeder::class,
             PermissionSeeder::class,
             AlbumSeeder::class,
+            ModuleSeeder::class,
         ]);
     }
 }

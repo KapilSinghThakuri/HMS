@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\General_Controller;
+namespace App\Http\Controllers\Website;
 
 use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
@@ -47,9 +47,9 @@ class GeneralDashboardController extends Controller
         $schedules = Schedule::all();
         $appointments = Appointment::get();
 
-        $pages = $this->pages->first();
+        $pages = $this->pages->get();
         // dd($pages);
-        return view('general_dashboard.index',
+        return view('website.index',
             compact(
                 'departments',
                 'doctors',
@@ -66,7 +66,7 @@ class GeneralDashboardController extends Controller
     {
         $schedule = Schedule::findOrFail($scheduleId);
         $doctor = $schedule->doctor;
-        return view('general_dashboard.appointment-form',compact('scheduleId','doctor', 'timeInterval'));
+        return view('website.appointment.appointment-form',compact('scheduleId','doctor', 'timeInterval'));
     }
     public function appointmentStore(AppointmentRequest $request, $scheduleId)
     {

@@ -29,6 +29,9 @@
                     <a href="{{ route('role.index') }}"><i class="fa fa-key" aria-hidden="true"></i> <span>Roles & Permissions</span></a>
                 </li>
                 @endrole
+                <li class="{{ request()->routeIs('menu.*') ? 'active' : '' }} ">
+                    <a href="{{ route('menu.index')}}"><i class="fa fa-bars" aria-hidden="true"></i><span>Menu</span></a>
+                </li>
 
                 <li class="dropdown {{ request()->routeIs('page.*') || request()->routeIs('faq.*') || request()->routeIs('album.*') || request()->routeIs('gallery.*') || request()->routeIs('feedback.*') || request()->routeIs('banner.*') ? 'active' : '' }}">
                     <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#pages-dropdown">

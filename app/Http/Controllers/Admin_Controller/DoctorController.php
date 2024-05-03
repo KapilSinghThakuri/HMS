@@ -392,28 +392,59 @@ class DoctorController extends Controller
 
     public function searchDoctor(Request $request)
     {
-        $searchedInput = $request->searchedInput;
-        $outputData = Doctor::with(['educations', 'experiences'])
-            ->where('first_name', 'LIKE', '%' . $searchedInput . '%')
-            ->orWhere('middle_name', 'LIKE', '%' . $searchedInput . '%')
-            ->orWhere('last_name', 'LIKE', '%' . $searchedInput . '%')
-            ->orWhere('email', 'LIKE', '%' . $searchedInput . '%')
-            ->whereHas('experiences', function ($query) use ($searchedInput) {
-                    $query->where('license_no', 'LIKE', '%' . $searchedInput . '%');
-                })->get();
+        $searchResults = Doctor::with(['educations', 'experiences']);
 
-        // $outputData = Doctor::with(['educations', 'experiences'])
-        //     ->where(function ($query) use ($searchedInput) {
-        //         $query->where('first_name', 'LIKE', '%' . $searchedInput . '%')
-        //             ->orWhere('middle_name', 'LIKE', '%' . $searchedInput . '%')
-        //             ->orWhere('last_name', 'LIKE', '%' . $searchedInput . '%')
-        //             ->orWhere('email', 'LIKE', '%' . $searchedInput . '%');
-        //     })
-        //     ->whereHas('experiences', function ($query) use ($searchedInput) {
-        //         $query->where('license_no', 'LIKE', '%' . $searchedInput . '%');
-        //     })
-        //     ->get();
+        if (isset($request->department_id)) {
 
-        return response()->json(['searchOutput' => $outputData], 200);
+            if ($request->has('department_id')) {
+                $searchResults = $searchResults->where('department_id', $request->department_id);
+
+                // $searchResults = $searchResults->get();
+                // dd($searchResults);
+            }
+        }
+
+        if (isset($request->specialization)) {
+            if ($request->has('specialization')) {
+                $specialization = $request->specialization;
+
+                $searchResults = $searchResults->whereHas('educations', function ($q) use ($specialization) {
+                    $q->where('specialization', $specialization);
+                });
+
+                // $searchResults = $searchResults->get();
+                // dd($searchResults);
+            }
+        }
+
+        if (isset($request->input_search)) {
+
+            if ($request->has('input_search')) {
+                $inputSearch = $request->input_search;
+
+                $searchResults = $searchResults
+                    ->where('first_name', 'LIKE', '%' . $inputSearch . '%')
+                    ->orWhere('middle_name', 'LIKE', '%' . $inputSearch . '%')
+                    ->orWhere('last_name', 'LIKE', '%' . $inputSearch . '%')
+                    ->orWhere('email', 'LIKE', '%' . $inputSearch . '%');
+
+                // $searchResults = $searchResults->get();
+                // dd($searchResults);
+            }
+        }
+
+        $searchedDepartmentId = $request->input('department_id');
+        $searchedSpecialization = $request->input('specialization');
+        $searchedInput = $request->input('input_search');
+
+        $searchResults = $searchResults->get();
+        // dd($searchResults);
+
+        return view('admin_Panel.doctor.doctors', [
+            'doctors' => $searchResults,
+            'searchedDepartmentId' => $searchedDepartmentId,
+            'searchedSpecialization' => $searchedSpecialization,
+            'searchedInput' => $searchedInput,
+        ]);
     }
 }

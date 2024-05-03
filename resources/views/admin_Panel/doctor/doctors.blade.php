@@ -1,5 +1,7 @@
 @extends('admin_Panel.layout.main')
 @section('Main-container')
+@inject('department_helper','App\Helpers\DepartmentHelper')
+@inject('speciality_helper','App\Helpers\DoctorHelper')
 
     <div class="page-wrapper">
         <div class="content">
@@ -17,37 +19,54 @@
                 </div>
             </div>
 
-            <div class="row mb-3" id="searchbar">
-                <div class="col-md-4">
-                    <div class="input-group">
-                        <input
-                            type="text"
-                            class="form-control"
-                            placeholder="Search by name, email, or license no.."
-                            aria-label="Search"
-                            id="doctorSearchInput"
-                        />
-                        <div class="input-group-append">
-                            <button class="btn btn-primary" type="button" id="doctorSearchInput">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </button>
+            {!! Form::open(['route' => 'doctor.search', 'method' => 'POST']) !!}
+                @csrf
+
+                <div class="row" id="searchbar">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {!! Form::select('department_id', $department_helper->dropdown(),
+                                $searchedDepartmentId ?? null , [
+                                'class' => 'form-select form-control',
+                                'placeholder' => 'Search By Department',
+                                'id' => 'department_id'
+                            ]) !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            {!! Form::select('specialization', $speciality_helper->dropdown(),
+                                $searchedSpecialization ?? null, [
+                                'class' => 'form-select form-control',
+                                'placeholder' => 'Search By Speciality',
+                                'id' => 'specialization'
+                            ]) !!}
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="input-group">
+                            {!! Form::text('input_search', $searchedInput ?? null, [
+                                'class' => 'form-control',
+                                'placeholder' => 'Search by name, email, or license no...',
+                                'aria-label' => 'Search',
+                                'id' => 'doctorSearchInput'
+                            ]) !!}
+
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit" title="Click For Search">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+
+                                <a href="{{ route('doctor.index')}}" class="btn btn-danger ml-1" title="Click For Reset"><i class="fa fa-undo" aria-hidden="true"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <select class="form-control">
-                        <option value="" selected>Search By Department</option>
-                        <option value="cardiology">Cardiology</option>
-                    </select>
-                </div>
-                <div class="col-md-4">
-                    <select class="form-control">
-                        <option value="" selected>Search By Specialty</option>
-                        <option value="pediatrics">Pediatrics</option>
-                        <option value="orthopedics">Orthopedics</option>
-                    </select>
-                </div>
-            </div>
+
+            {!! Form::close() !!}
+
 
             @if(session('success_message'))
                 <div class="alert alert-success">{{ session('success_message')}}</div>
@@ -55,6 +74,9 @@
             @if(session('fail_message'))
                 <div class="alert alert-success">{{ session('fail_message')}}</div>
             @endif
+
+
+
 			<div class="row doctor-grid">
                 @foreach( $doctors as $doctor)
                 <div class="col-md-4 col-sm-4  col-lg-3">

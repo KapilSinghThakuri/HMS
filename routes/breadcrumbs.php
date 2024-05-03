@@ -34,6 +34,11 @@ Breadcrumbs::for('doctor.index', function ($trail) {
     $trail->parent('admin.dashboard');
     $trail->push('Doctors', route('doctor.index'));
 });
+Breadcrumbs::for('doctor.search', function ($trail) {
+    $trail->parent('admin.dashboard');
+    $trail->push('Doctor Search', route('doctor.search'));
+});
+
 Breadcrumbs::for('doctor.create', function ($trail) {
     $trail->parent('admin.dashboard');
     $trail->push('Doctors', route('doctor.index'));

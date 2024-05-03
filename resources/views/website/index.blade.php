@@ -1,5 +1,7 @@
-@extends('general_dashboard.layout.main')
+@extends('website.layout.main')
 @section('Main-container')
+@inject('faq_helper','App\Helpers\FAQHelper')
+
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
     <div class="container">
@@ -65,45 +67,86 @@
       <div class="container-fluid">
 
         <div class="row">
+          @foreach($pages as $page)
+          @if($page->slug == 'about-us')
           <div class="col-xl-5 col-lg-6 video-box d-flex justify-content-center align-items-stretch position-relative">
-            <img src="{{ asset( $pages->image )}}">
+            <img src="{{ asset( $page->image )}}">
             <!-- <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox play-btn mb-4"></a> -->
           </div>
 
           <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5">
             <!-- <h3>Enim quis est voluptatibus aliquid consequatur fugiat</h3> -->
             <!-- <p>Esse voluptas cumque vel exercitationem. Reiciendis est hic accusamus. Non ipsam et sed minima temporibus laudantium. Soluta voluptate sed facere corporis dolores excepturi. Libero laboriosam sint et id nulla tenetur. Suscipit aut voluptate.</p> -->
-            @if($langValue === 'en')
-              <h3>{{ $pages['title']['en'] }}</h3>
-            @elseif($langValue === 'np')
-                <h3>{{ $pages['title']['np'] }}</h3>
+
+              @if($langValue === 'en')
+                <h3>{{ $page['title']['en'] }}</h3>
+              @elseif($langValue === 'np')
+                  <h3>{{ $page['title']['np'] }}</h3>
+              @endif
+
+              @if($langValue === 'en')
+                <p>{!! $page['content']['en'] !!}</p>
+              @elseif($langValue === 'np')
+                <p>{!! $page['content']['np'] !!}</p>
+              @endif
             @endif
 
-            @if($langValue === 'en')
-              <p>{!! $pages['content']['en'] !!}</p>
-            @elseif($langValue === 'np')
-              <p>{!! $pages['content']['np'] !!}</p>
-            @endif
-
+            @if($page->slug == 'comprehensive-medical-services')
             <div class="icon-box">
-              <div class="icon"><i class="bx bx-fingerprint"></i></div>
-              <h4 class="title"><a href="">Lorem Ipsum</a></h4>
-              <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+                <div class="icon"><i class="bx bx-fingerprint"></i></div>
+                @if($langValue === 'en')
+                  <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
+                @elseif($langValue === 'np')
+                  <h4 class="title"><a href="">{{ $page['title']['np'] }}</a></h4>
+                @endif
+                @if($langValue === 'en')
+                  <p class="description">{!! $page['content']['en'] !!}</p>
+                @elseif($langValue === 'np')
+                  <p class="description">{!! $page['content']['np'] !!}</p>
+                @endif
+                <!-- <h4 class="title"><a href="">Lorem Ipsum</a></h4> -->
+                <!-- <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p> -->
             </div>
+            @endif
 
+           @if($page->slug == 'dedicated-and-compassionate-staff')
             <div class="icon-box">
               <div class="icon"><i class="bx bx-gift"></i></div>
-              <h4 class="title"><a href="">Nemo Enim</a></h4>
-              <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
-            </div>
+              @if($langValue === 'en')
+                <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
+              @elseif($langValue === 'np')
+                <h4 class="title"><a href="">{{ $page['title']['np'] }}</a></h4>
+              @endif
+              @if($langValue === 'en')
+                <p class="description">{!! $page['content']['en'] !!}</p>
+              @elseif($langValue === 'np')
+                <p class="description">{!! $page['content']['np'] !!}</p>
+              @endif
 
+              <!-- <h4 class="title"><a href="">Nemo Enim</a></h4> -->
+              <!-- <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p> -->
+            </div>
+            @endif
+
+            @if($page->slug == 'innovative-technology-and-equipment')
             <div class="icon-box">
               <div class="icon"><i class="bx bx-atom"></i></div>
-              <h4 class="title"><a href="">Dine Pad</a></h4>
-              <p class="description">Explicabo est voluptatum asperiores consequatur magnam. Et veritatis odit. Sunt aut deserunt minus aut eligendi omnis</p>
+                @if($langValue === 'en')
+                  <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
+                @elseif($langValue === 'np')
+                  <h4 class="title"><a href="">{{ $page['title']['np'] }}</a></h4>
+                @endif
+                @if($langValue === 'en')
+                  <p class="description">{!! $page['content']['en'] !!}</p>
+                @elseif($langValue === 'np')
+                  <p class="description">{!! $page['content']['np'] !!}</p>
+                @endif
+                <!-- <h4 class="title"><a href="">Dine Pad</a></h4> -->
+                <!-- <p class="description">Explicabo est voluptatum asperiores consequatur magnam. Et veritatis odit. Sunt aut deserunt minus aut eligendi omnis</p> -->
             </div>
-
           </div>
+          @endif
+          @endforeach
         </div>
 
       </div>
@@ -216,7 +259,7 @@
     </section><!-- End Services Section -->
 
     <!-- ======= Appointment Section ======= -->
-    <!-- <section id="appointment" class="appointment section-bg">
+     <!-- <section id="appointment" class="appointment section-bg">
       <div class="container">
 
         <div class="section-title">
@@ -277,15 +320,18 @@
         </form>
 
       </div>
-    </section> --><!-- End Appointment Section -->
+    </section> --> <!-- End Appointment Section -->
 
     <!-- ======= Departments Section ======= -->
     <section id="departments" class="departments">
       <div class="container">
 
         <div class="section-title">
-          <h2>Departments</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <h2>Make Your Appointment</h2>
+          <p>Our hospital offers a range of medical services with skilled doctors ready to assist you. Schedule an appointment with us and experience world-class healthcare services delivered with compassion and expertise.</p>
+        </div>
+        <div class="alert alert-info text-center" role="alert">
+          <strong>Important:</strong> Please select a department to find the right doctor for your appointment.
         </div>
 
         <div class="row gy-4">
@@ -408,18 +454,18 @@
 
         <div class="section-title">
           <h2>Our Main Doctors</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <p>Our team of doctors is dedicated to providing the highest quality care. Each member brings extensive experience and a commitment to your well-being. Learn more about our skilled professionals below.</p>
         </div>
 
         <div class="row">
-          @foreach($doctors as $doctor)
+          @foreach($doctors->take(4) as $doctor)
           <div class="col-lg-6">
             <div class="member d-flex align-items-start">
               <div class="pic"><img src="{{ asset($doctor->profile) }}" class="img-fluid" alt=""></div>
               <div class="member-info">
                 <h4>{{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}</h4>
                 <span>Chief Medical Officer</span>
-                <p>Explicabo voluptatem mollitia et repellat qui dolorum quasi</p>
+                <p>'An experienced and compassionate healthcare professional, committed to providing excellent care and ensuring patient satisfaction'</p>
                 <div class="social">
                   <a href=""><i class="ri-twitter-fill"></i></a>
                   <a href=""><i class="ri-facebook-fill"></i></a>
@@ -440,59 +486,28 @@
 
         <div class="section-title">
           <h2>Frequently Asked Questions</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <p>If you have questions about our hospital, services, or procedures, we've compiled a list of commonly asked questions to help you. If you can't find what you're looking for, please contact us for further assistance.</p>
         </div>
 
         <div class="faq-list">
           <ul>
-            <li data-aos="fade-up">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" class="collapse" data-bs-target="#faq-list-1">Non consectetur a erat nam at lectus urna duis? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-1" class="collapse show" data-bs-parent=".faq-list">
-                <p>
-                  Feugiat pretium nibh ipsum consequat. Tempus iaculis urna id volutpat lacus laoreet non curabitur gravida. Venenatis lectus magna fringilla urna porttitor rhoncus dolor purus non.
-                </p>
-              </div>
-            </li>
-
-            <li data-aos="fade-up" data-aos-delay="100">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-2" class="collapsed">Feugiat scelerisque varius morbi enim nunc? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-2" class="collapse" data-bs-parent=".faq-list">
-                <p>
-                  Dolor sit amet consectetur adipiscing elit pellentesque habitant morbi. Id interdum velit laoreet id donec ultrices. Fringilla phasellus faucibus scelerisque eleifend donec pretium. Est pellentesque elit ullamcorper dignissim. Mauris ultrices eros in cursus turpis massa tincidunt dui.
-                </p>
-              </div>
-            </li>
-
-            <li data-aos="fade-up" data-aos-delay="200">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-3" class="collapsed">Dolor sit amet consectetur adipiscing elit? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-3" class="collapse" data-bs-parent=".faq-list">
-                <p>
-                  Eleifend mi in nulla posuere sollicitudin aliquam ultrices sagittis orci. Faucibus pulvinar elementum integer enim. Sem nulla pharetra diam sit amet nisl suscipit. Rutrum tellus pellentesque eu tincidunt. Lectus urna duis convallis convallis tellus. Urna molestie at elementum eu facilisis sed odio morbi quis
-                </p>
-              </div>
-            </li>
-
-            <li data-aos="fade-up" data-aos-delay="300">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-4" class="collapsed">Tempus quam pellentesque nec nam aliquam sem et tortor consequat? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-4" class="collapse" data-bs-parent=".faq-list">
-                <p>
-                  Molestie a iaculis at erat pellentesque adipiscing commodo. Dignissim suspendisse in est ante in. Nunc vel risus commodo viverra maecenas accumsan. Sit amet nisl suscipit adipiscing bibendum est. Purus gravida quis blandit turpis cursus in.
-                </p>
-              </div>
-            </li>
-
-            <li data-aos="fade-up" data-aos-delay="400">
-              <i class="bx bx-help-circle icon-help"></i> <a data-bs-toggle="collapse" data-bs-target="#faq-list-5" class="collapsed">Tortor vitae purus faucibus ornare. Varius vel pharetra vel turpis nunc eget lorem dolor? <i class="bx bx-chevron-down icon-show"></i><i class="bx bx-chevron-up icon-close"></i></a>
-              <div id="faq-list-5" class="collapse" data-bs-parent=".faq-list">
-                <p>
-                  Laoreet sit amet cursus sit amet dictum sit amet justo. Mauris vitae ultricies leo integer malesuada nunc vel. Tincidunt eget nullam non nisi est sit amet. Turpis nunc eget lorem dolor sed. Ut venenatis tellus in metus vulputate eu scelerisque.
-                </p>
-              </div>
-            </li>
-
+            @foreach($faq_helper->getAllFaqs() as $index => $faq)  <!-- Using $index to check the position -->
+              <li data-aos="{{ $index == 0 ? 'fade-up' : '' }}">  <!-- Apply 'fade-up' only on the first item -->
+                <i class="bx bx-help-circle icon-help"></i>
+                <a data-bs-toggle="collapse" class="collapse" data-bs-target="#faq-list-{{ $index + 1 }}">
+                  {{ $faq->faq_question }}
+                  <i class="bx bx-chevron-down icon-show"></i>
+                  <i class="bx bx-chevron-up icon-close"></i>
+                </a>
+                <div id="faq-list-{{ $index + 1 }}" class="collapse {{ $index == 0 ? 'show' : '' }}" data-bs-parent=".faq-list">
+                  <p>
+                    {!! $faq->faq_answer !!}
+                  </p>
+                </div>
+              </li>
+            @endforeach
           </ul>
         </div>
-
       </div>
     </section><!-- End Frequently Asked Questions Section -->
 
@@ -591,7 +606,7 @@
 
         <div class="section-title">
           <h2>Gallery</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <p>Welcome to our hospital's photo gallery, where you can explore our state-of-the-art facilities, experienced medical teams, and patient-friendly environment. Browse through our images to get a glimpse of our dedication to providing the best healthcare experience.</p>
         </div>
       </div>
 
