@@ -21,4 +21,10 @@ class GalleryCategoryHelper
             ->pluck('album_title', 'id');
         return $albumCategories;
     }
+    public function getPatientCarePhotos()
+    {
+        $patientCareCategory = $this->categories->where('album_title', 'Patient Care')->first();
+        $patientCarePhotos = $patientCareCategory->photos;
+        return $patientCarePhotos;
+    }
 }

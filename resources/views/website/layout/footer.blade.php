@@ -87,6 +87,8 @@
   <!-- Template Main JS File -->
   <script src="{{ asset('general_Assets/js/main.js') }}"></script>
   <script src="{{ asset('general_Assets/js/userFeedback.js') }}"></script>
+  <script src="{{ asset('general_Assets/js/lang.js') }}"></script>
+
   <!-- toastr JS Link  -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

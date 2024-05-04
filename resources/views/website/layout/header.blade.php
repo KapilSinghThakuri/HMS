@@ -75,7 +75,7 @@
       </div>
 
       <!-- JavaScript function to toggle language -->
-      <script>
+      <!-- <script>
       function toggleLanguage() {
           const toggleSwitch = document.getElementById('language-toggle');
           const form = document.getElementById('language-form');
@@ -92,9 +92,7 @@
           // Submit the form
           form.submit();
       }
-      </script>
-
-      </div>
+      </script> -->
 
       <div class="d-none d-lg-flex social-links align-items-center">
         <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
@@ -114,8 +112,8 @@
         <ul>
           <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
           <li><a class="nav-link scrollto" href="#about">About</a></li>
-          <li><a class="nav-link scrollto" href="#services">Services</a></li>
-          <li><a class="nav-link scrollto" href="#departments">Departments</a></li>
+          <!-- <li><a class="nav-link scrollto" href="#services">Services</a></li> -->
+          <li><a class="nav-link scrollto" href="#services">Departments</a></li>
           <li><a class="nav-link scrollto" href="#doctors">Doctors</a></li>
           <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
             <ul>

@@ -101,6 +101,14 @@ class GalleryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $photo = $this->galleries->where('id', $id)->first();
+        if ($photo['file']) {
+            $previousImagePath = public_path($photo['file']);
+            if (file_exists($previousImagePath)) {
+                unlink($previousImagePath);
+            }
+        }
+        $photo->delete();
+        return redirect()->back()->with('message', "Phot Deleted Successfully!!!");
     }
 }

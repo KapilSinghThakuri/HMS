@@ -37,6 +37,7 @@ class GeneralDashboardController extends Controller
 
     public function index()
     {
+        // dd(session()->all());
         $langValue = session('locale');
 
         $departments = Department::all();
@@ -110,6 +111,7 @@ class GeneralDashboardController extends Controller
 
         session()->put('locale', $locale);
 
+        // return redirect()->back();
         return redirect()->route('general.dashboard',compact('locale'));
     }
 }

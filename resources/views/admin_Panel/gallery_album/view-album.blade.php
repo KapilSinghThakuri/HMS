@@ -19,7 +19,33 @@
                 <div class="col-md-3">
                     <div class="photo-card">
                         <img src="{{ asset( $photo->file ?? 'https://via.placeholder.com/150')}}" alt="photo_gallery">
-                        <p>Photo Description</p>
+                        <div class="delete-button text-center">
+                            <a href="#"
+                               data-id="{{ $photo->id }}"
+                               data-toggle="modal"
+                               data-target="#delete_photo_{{ $photo->id }}"
+                               style="font-size: 20px; color: red;"
+                               title="Click to Delete">
+                               <i class="fa fa-trash-o" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div id="delete_photo_{{ $photo->id }}" class="modal fade delete-modal" role="dialog">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body text-center">
+                                <img src="{{ asset('admin_Assets/img/sent.png')}}" alt="" width="50" height="46">
+                                <h3>Are you sure want to delete this Photo?</h3>
+                                <div class="m-t-20 d-flex justify-content-center"> <a href="#" class="btn btn-white mr-2" data-dismiss="modal">Cancel</a>
+                                    <form action="{{ route('gallery.destroy', ['gallery' => $photo->id]) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 @endforeach
@@ -97,14 +123,14 @@
                 $('#image').on("click", function (event) {
                     event.preventDefault();
                     console.log('Image');
-                    $('#image_input_field').removeClass('d-none').toggle();
+                    $('#image_input_field').removeClass('d-none').show();
                     $('#video_input_field').addClass('d-none').hide();
                     $('#file_type').val('image');
                 })
                 $('#video').on("click", function (event) {
                     event.preventDefault();
                     console.log('video');
-                    $('#video_input_field').removeClass('d-none').toggle();
+                    $('#video_input_field').removeClass('d-none').show();
                     $('#image_input_field').addClass('d-none').hide();
                     $('#file_type').val('video');
                 })

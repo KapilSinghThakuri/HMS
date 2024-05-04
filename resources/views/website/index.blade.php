@@ -1,12 +1,15 @@
 @extends('website.layout.main')
 @section('Main-container')
 @inject('faq_helper','App\Helpers\FAQHelper')
+@inject('department_helper','App\Helpers\DepartmentHelper')
+@inject('gallery_category_helper','App\Helpers\GalleryCategoryHelper')
+
 
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
     <div class="container">
       <h1>Welcome to Healwave</h1>
-      <h2>We are team of talented designers making websites with Bootstrap</h2>
+      <h2>Safe, Reliable, Compassionate Healthcare.</h2>
       <a href="#about" class="btn-get-started scrollto">Get Started</a>
     </div>
   </section>
@@ -22,8 +25,7 @@
             <div class="content">
               <h3>Why Choose Healwave?</h3>
               <p>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Duis aute irure dolor in reprehenderit
-                Asperiores dolores sed et. Tenetur quia eos. Autem tempore quibusdam vel necessitatibus optio ad corporis.
+                At Healwave, we prioritize your health and well-being. Our team of highly skilled healthcare professionals is dedicated to providing personalized care with compassion and excellence. We offer a wide range of services, from preventive care to advanced medical treatments, ensuring you receive the best possible care.
               </p>
               <div class="text-center">
                 <a href="#" class="more-btn">Learn More <i class="bx bx-chevron-right"></i></a>
@@ -36,22 +38,22 @@
                 <div class="col-xl-4 d-flex align-items-stretch">
                   <div class="icon-box mt-4 mt-xl-0">
                     <i class="bx bx-receipt"></i>
-                    <h4>Corporis voluptates sit</h4>
-                    <p>Consequuntur sunt aut quasi enim aliquam quae harum pariatur laboris nisi ut aliquip</p>
+                    <h4>Comprehensive Services</h4>
+                    <p>We offer healthcare services from check-ups to specialized treatments.</p>
                   </div>
                 </div>
                 <div class="col-xl-4 d-flex align-items-stretch">
                   <div class="icon-box mt-4 mt-xl-0">
                     <i class="bx bx-cube-alt"></i>
-                    <h4>Ullamco laboris ladore pan</h4>
-                    <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
+                    <h4>Advanced Technology</h4>
+                    <p>We use advanced medical technology for accurate diagnoses and effective treatments.</p>
                   </div>
                 </div>
                 <div class="col-xl-4 d-flex align-items-stretch">
                   <div class="icon-box mt-4 mt-xl-0">
                     <i class="bx bx-images"></i>
-                    <h4>Labore consequatur</h4>
-                    <p>Aut suscipit aut cum nemo deleniti aut omnis. Doloribus ut maiores omnis facere</p>
+                    <h4>Compassionate Care</h4>
+                    <p>Our team delivers compassionate and respectful patient care.</p>
                   </div>
                 </div>
               </div>
@@ -69,15 +71,12 @@
         <div class="row">
           @foreach($pages as $page)
           @if($page->slug == 'about-us')
-          <div class="col-xl-5 col-lg-6 video-box d-flex justify-content-center align-items-stretch position-relative">
-            <img src="{{ asset( $page->image )}}">
+          <div class="col-xl-5 col-lg-6 pb-4 pt-4 video-box d-flex justify-content-center align-items-stretch position-relative">
+            <img src="{{ asset( $page->image )}}" style="width: 100%; height: 100%;">
             <!-- <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox play-btn mb-4"></a> -->
           </div>
 
           <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5">
-            <!-- <h3>Enim quis est voluptatibus aliquid consequatur fugiat</h3> -->
-            <!-- <p>Esse voluptas cumque vel exercitationem. Reiciendis est hic accusamus. Non ipsam et sed minima temporibus laudantium. Soluta voluptate sed facere corporis dolores excepturi. Libero laboriosam sint et id nulla tenetur. Suscipit aut voluptate.</p> -->
-
               @if($langValue === 'en')
                 <h3>{{ $page['title']['en'] }}</h3>
               @elseif($langValue === 'np')
@@ -104,8 +103,6 @@
                 @elseif($langValue === 'np')
                   <p class="description">{!! $page['content']['np'] !!}</p>
                 @endif
-                <!-- <h4 class="title"><a href="">Lorem Ipsum</a></h4> -->
-                <!-- <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p> -->
             </div>
             @endif
 
@@ -122,9 +119,6 @@
               @elseif($langValue === 'np')
                 <p class="description">{!! $page['content']['np'] !!}</p>
               @endif
-
-              <!-- <h4 class="title"><a href="">Nemo Enim</a></h4> -->
-              <!-- <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p> -->
             </div>
             @endif
 
@@ -141,8 +135,6 @@
                 @elseif($langValue === 'np')
                   <p class="description">{!! $page['content']['np'] !!}</p>
                 @endif
-                <!-- <h4 class="title"><a href="">Dine Pad</a></h4> -->
-                <!-- <p class="description">Explicabo est voluptatum asperiores consequatur magnam. Et veritatis odit. Sunt aut deserunt minus aut eligendi omnis</p> -->
             </div>
           </div>
           @endif
@@ -195,68 +187,31 @@
       </div>
     </section><!-- End Counts Section -->
 
-    <!-- ======= Services Section ======= -->
+    <!-- ======= Departments Section ======= -->
     <section id="services" class="services">
       <div class="container">
 
         <div class="section-title">
-          <h2>Services</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <h2>Departments</h2>
+          <!-- <p>@lang('index.department')</p> -->
+          <p>{{ __('index.department') }}</p>
         </div>
 
         <div class="row">
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+          @foreach($department_helper->getAllDepartment() as $department)
+          <div class="col-lg-4 col-md-6 p-3">
             <div class="icon-box">
-              <div class="icon"><i class="fas fa-heartbeat"></i></div>
-              <h4><a href="">Lorem Ipsum</a></h4>
-              <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
+              <div class="icon">
+                 <i class="{{ $department_helper->getDepartmentIcon($department->department_name) }}"></i>
+              </div>
+              <h4><a href="">{{ $department->department_name }}</a></h4>
+              <p>{!! Str::limit($department->department_desc, 85, '...') !!}</p>
             </div>
           </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
-            <div class="icon-box">
-              <div class="icon"><i class="fas fa-pills"></i></div>
-              <h4><a href="">Sed ut perspiciatis</a></h4>
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
-            <div class="icon-box">
-              <div class="icon"><i class="fas fa-hospital-user"></i></div>
-              <h4><a href="">Magni Dolores</a></h4>
-              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
-            <div class="icon-box">
-              <div class="icon"><i class="fas fa-dna"></i></div>
-              <h4><a href="">Nemo Enim</a></h4>
-              <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
-            <div class="icon-box">
-              <div class="icon"><i class="fas fa-wheelchair"></i></div>
-              <h4><a href="">Dele cardo</a></h4>
-              <p>Quis consequatur saepe eligendi voluptatem consequatur dolor consequuntur</p>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4">
-            <div class="icon-box">
-              <div class="icon"><i class="fas fa-notes-medical"></i></div>
-              <h4><a href="">Divera don</a></h4>
-              <p>Modi nostrum vel laborum. Porro fugit error sit minus sapiente sit aspernatur</p>
-            </div>
-          </div>
-
+          @endforeach
         </div>
-
       </div>
-    </section><!-- End Services Section -->
+    </section><!-- End Departments Section -->
 
     <!-- ======= Appointment Section ======= -->
      <!-- <section id="appointment" class="appointment section-bg">
@@ -322,7 +277,7 @@
       </div>
     </section> --> <!-- End Appointment Section -->
 
-    <!-- ======= Departments Section ======= -->
+    <!-- ======= Appointment Section ======= -->
     <section id="departments" class="departments">
       <div class="container">
 
@@ -445,7 +400,7 @@
         </div>
       </div>
     </section>
-    <!-- End Departments Section -->
+    <!-- End Appointment Section -->
 
 
     <!-- ======= Doctors Section ======= -->
@@ -459,7 +414,7 @@
 
         <div class="row">
           @foreach($doctors->take(4) as $doctor)
-          <div class="col-lg-6">
+          <div class="col-lg-6 p-2">
             <div class="member d-flex align-items-start">
               <div class="pic"><img src="{{ asset($doctor->profile) }}" class="img-fluid" alt=""></div>
               <div class="member-info">
@@ -491,8 +446,8 @@
 
         <div class="faq-list">
           <ul>
-            @foreach($faq_helper->getAllFaqs() as $index => $faq)  <!-- Using $index to check the position -->
-              <li data-aos="{{ $index == 0 ? 'fade-up' : '' }}">  <!-- Apply 'fade-up' only on the first item -->
+            @foreach($faq_helper->getAllFaqs() as $index => $faq)
+              <li data-aos="{{ $index == 0 ? 'fade-up' : '' }}">
                 <i class="bx bx-help-circle icon-help"></i>
                 <a data-bs-toggle="collapse" class="collapse" data-bs-target="#faq-list-{{ $index + 1 }}">
                   {{ $faq->faq_question }}
@@ -612,73 +567,16 @@
 
       <div class="container-fluid">
         <div class="row g-0">
-
+          @foreach( $gallery_category_helper->getPatientCarePhotos() as $photo)
           <div class="col-lg-3 col-md-4">
             <div class="gallery-item">
-              <a href="{{ asset('general_Assets/img/gallery/gallery-1.jpg') }}" class="galelry-lightbox">
-                <img src="{{ asset('general_Assets/img/gallery/gallery-1.jpg') }}" alt="" class="img-fluid">
+              <a href="{{ asset( $photo->file ) }}" class="galelry-lightbox">
+                <img src="{{ asset( $photo->file ) }}" alt="" class="img-fluid">
               </a>
             </div>
           </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('general_Assets/img/gallery/gallery-2.jpg') }}" class="galelry-lightbox">
-                <img src="{{ asset('general_Assets/img/gallery/gallery-2.jpg') }}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('general_Assets/img/gallery/gallery-3.jpg') }}" class="galelry-lightbox">
-                <img src="{{ asset('general_Assets/img/gallery/gallery-3.jpg') }}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('general_Assets/img/gallery/gallery-4.jpg') }}" class="galelry-lightbox">
-                <img src="{{ asset('general_Assets/img/gallery/gallery-4.jpg') }}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('general_Assets/img/gallery/gallery-5.jpg') }}" class="galelry-lightbox">
-                <img src="{{ asset('general_Assets/img/gallery/gallery-5.jpg') }}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('general_Assets/img/gallery/gallery-6.jpg') }}" class="galelry-lightbox">
-                <img src="{{ asset('general_Assets/img/gallery/gallery-6.jpg') }}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('general_Assets/img/gallery/gallery-7.jpg') }}" class="galelry-lightbox">
-                <img src="{{ asset('general_Assets/img/gallery/gallery-7.jpg') }}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-4">
-            <div class="gallery-item">
-              <a href="{{ asset('general_Assets/img/gallery/gallery-8.jpg') }}" class="galelry-lightbox">
-                <img src="{{ asset('general_Assets/img/gallery/gallery-8.jpg') }}" alt="" class="img-fluid">
-              </a>
-            </div>
-          </div>
-
+          @endforeach
         </div>
-
       </div>
     </section><!-- End Gallery Section -->
 
@@ -779,53 +677,4 @@
       text-align: center;
       }
   </style>
-  <script type="text/javascript">
-    // $(document).ready(function() {
-    //     $('.nav-link').on('click', function(e) {
-    //         e.preventDefault();
-    //         var departmentId = $(this).data('department-id');
-    //         console.log(departmentId);
-    //         $.ajax({
-    //           url: '/Healwave/dashboard/get-doctors/' + departmentId,
-    //           type: 'GET',
-    //           success: function (response) {
-    //             console.log(response);
-    //             $('#available-doctors').html(response.html);
-    //           }
-    //         });
-    //     });
-    //     $(document).on('click', '.profile-img, .profile-name', function() {
-    //       $('#doctorModal').modal('show');
-    //       var doctorId = $(this).closest('.profile-card').data('doctor-id');
-    //       console.log(doctorId);
-    //       $.ajax({
-    //           url: '/Healwave/dashboard/get-schedules/' + doctorId,
-    //           type: 'GET',
-    //           beforeSend: function(){
-    //             var loadSchedule = '<p>Schedules are loading...</p>';
-    //             $('#doctorSchedule').html(loadSchedule);
-    //           },
-    //           success: function(response) {
-    //             console.log(response);
-    //             var schedules = response.schedules;
-    //             var appointments = response.appointments;
-    //             var scheduleList = '<ul>';
-    //             $.each(schedules, function(index, schedule) {
-    //               // Finding the appointments that matches with current schedule
-    //                 var appointment = appointments.find(appointment => appointment.schedule_id === schedule.id);
-    //                 if (appointment && appointment.status === 'approved') {
-    //                     scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + ' ' + '<span class="custom-badge status-green">Booked</span>' + '</li>';
-    //                 }else if(appointment && appointment.status === 'pending'){
-    //                     scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + ' ' + '<span class="custom-badge status-blue">Pending</span>' + '</li>';
-    //                 } else {
-    //                     scheduleList += '<li>' + schedule.in + ' - ' + schedule.from + ' - ' + schedule.to + ' ' + '<a href="/Healwave/dashboard/appointment-form/' + schedule.id + '/' + schedule.doctor_id + '" class="btn btn-sm btn-primary"> Make Appointment </a>' + '</li>';
-    //                 }
-    //             });
-    //             scheduleList += '</ul>';
-    //             $('#doctorSchedule').html(scheduleList);
-    //           }
-    //       });
-    //     });
-    // });
-  </script>
 @endsection
