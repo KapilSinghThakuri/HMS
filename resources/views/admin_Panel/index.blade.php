@@ -6,37 +6,70 @@
             <div class="row">
                 <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                     <div class="dash-widget">
-						<span class="dash-widget-bg1"><i class="fa fa-stethoscope" aria-hidden="true"></i></span>
+						<span class="dash-widget-bg1">
+							<a href="{{ route('doctor.index')}}" style="color: white;">
+								<i class="fa fa-user-md" aria-hidden="true"></i>
+							</a>
+						</span>
 						<div class="dash-widget-info text-right">
 							<h3>{{ $doctors->count() }}</h3>
-							<span class="widget-title1">Doctors <i class="fa fa-check" aria-hidden="true"></i></span>
+
+							<span class="widget-title1">
+								<a href="{{ route('doctor.index')}}" style="color: white;">
+									Doctors<i class="fa fa-check" aria-hidden="true"></i>
+								</a>
+							</span>
 						</div>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                     <div class="dash-widget">
-                        <span class="dash-widget-bg2"><i class="fa fa-user-o"></i></span>
+                        <span class="dash-widget-bg2">
+                        	<a href="{{ route('patient.index')}}" style="color: white;">
+	                        	<i class="fa fa-heartbeat" aria-hidden="true"></i>
+	                        </a>
+	                    </span>
                         <div class="dash-widget-info text-right">
                             <h3>{{ $patients->count() }}</h3>
-                            <span class="widget-title2">Patients <i class="fa fa-check" aria-hidden="true"></i></span>
+                            <span class="widget-title2">
+                            	<a href="{{ route('patient.index')}}" style="color: white;">
+	                            	Patients <i class="fa fa-check" aria-hidden="true"></i>
+	                            </a>
+                           	</span>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                     <div class="dash-widget">
-                        <span class="dash-widget-bg3"><i class="fa fa-user-md" aria-hidden="true"></i></span>
+                        <span class="dash-widget-bg3">
+                        	<a href="{{ route('appointment.index')}}" style="color: white;">
+                        		<i class="fa fa-stethoscope" aria-hidden="true"></i>
+	                        </a>
+                        </span>
                         <div class="dash-widget-info text-right">
                             <h3>{{ $appointments->count() }}</h3>
-                            <span class="widget-title3">Appointment <i class="fa fa-check" aria-hidden="true"></i></span>
+                            <span class="widget-title3">
+                            	<a href="{{ route('appointment.index')}}" style="color: white;">
+	                            	Appointment <i class="fa fa-check" aria-hidden="true"></i>
+                            	</a>
+                            </span>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-6 col-sm-6 col-lg-6 col-xl-3">
                     <div class="dash-widget">
-                        <span class="dash-widget-bg4"><i class="fa fa-heartbeat" aria-hidden="true"></i></span>
+                        <span class="dash-widget-bg4">
+                        	<a href="{{ route('department.index')}}" style="color: white;">
+                        		<i class="fa fa-building" aria-hidden="true"></i>
+	                        </a>
+                        </span>
                         <div class="dash-widget-info text-right">
                             <h3>{{ $departments->count() }}</h3>
-                            <span class="widget-title4">Department <i class="fa fa-check" aria-hidden="true"></i></span>
+                            <span class="widget-title4">
+                            	<a href="{{ route('department.index')}}" style="color: white;">
+	                            	Department <i class="fa fa-check" aria-hidden="true"></i>
+	                            </a>
+                            </span>
                         </div>
                     </div>
                 </div>
