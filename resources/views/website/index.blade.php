@@ -76,84 +76,34 @@
           </div>
 
           <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5">
-              @if(session('locale') === 'en')
-                <h3>{{ $page['title'][app()->getLocale()] }}</h3>
-              @elseif(session('locale') === 'np')
-                  <h3>{{ $page['title']['np'] }}</h3>
-              @else
-                  <h3>{{ $page['title']['en'] }}</h3>
-              @endif
-
-              @if(session('locale') === 'en')
-                <p>{!! $page['content']['en'] !!}</p>
-              @elseif(session('locale') === 'np')
-                <p>{!! $page['content']['np'] !!}</p>
-              @else
-                  <p>{!! $page['content']['en'] !!}</p>
-              @endif
-            @endif
+            <h3>{{ $page['title'][$current_locale] }}</h3>
+            <p>{!! $page['content'][$current_locale] !!}</p>
+          @endif
 
             @if($page->slug == 'comprehensive-medical-services')
             <div class="icon-box">
                 <div class="icon"><i class="bx bx-fingerprint"></i></div>
-                @if(session('locale') === 'en')
-                  <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
-                @elseif(session('locale') === 'np')
-                  <h4 class="title"><a href="">{{ $page['title']['np'] }}</a></h4>
-                @else
-                  <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
-                @endif
-                @if(session('locale') === 'en')
-                  <p class="description">{!! $page['content']['en'] !!}</p>
-                @elseif(session('locale') === 'np')
-                  <p class="description">{!! $page['content']['np'] !!}</p>
-                @else
-                  <p class="description">{!! $page['content']['en'] !!}</p>
-                @endif
+                <h4 class="title"><a href="">{{ $page['title'][$current_locale] }}</a></h4>
+                <p class="description">{!! $page['content'][$current_locale] !!}</p>
             </div>
             @endif
 
            @if($page->slug == 'dedicated-and-compassionate-staff')
             <div class="icon-box">
               <div class="icon"><i class="bx bx-gift"></i></div>
-              @if(session('locale') === 'en')
-                <h4 class="title"><a href="">{{ $page['title'][app()->getLocale()] }}</a></h4>
-              @elseif(session('locale') === 'np')
-                <h4 class="title"><a href="">{{ $page['title']['np'] }}</a></h4>
-              @else
-                <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
-              @endif
-              @if(session('locale') === 'en')
-                <p class="description">{!! $page['content']['en'] !!}</p>
-              @elseif(session('locale') === 'np')
-                <p class="description">{!! $page['content']['np'] !!}</p>
-              @else
-                <p class="description">{!! $page['content']['en'] !!}</p>
-              @endif
+                <h4 class="title"><a href="">{{ $page['title'][$current_locale] }}</a></h4>
+                <p class="description">{!! $page['content'][$current_locale] !!}</p>
             </div>
             @endif
 
             @if($page->slug == 'innovative-technology-and-equipment')
             <div class="icon-box">
               <div class="icon"><i class="bx bx-atom"></i></div>
-                @if(session('locale') === 'en')
-                  <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
-                @elseif(session('locale') === 'np')
-                  <h4 class="title"><a href="">{{ $page['title']['np'] }}</a></h4>
-                @else
-                  <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
-                @endif
-
-                @if(session('locale') === 'en')
-                  <p class="description">{!! $page['content']['en'] !!}</p>
-                @elseif(session('locale') === 'np')
-                  <p class="description">{!! $page['content']['np'] !!}</p>
-                @else
-                  <p class="description">{!! $page['content']['en'] !!}</p>
-                @endif
+                <h4 class="title"><a href="">{{ $page['title'][$current_locale] }}</a></h4>
+                <p class="description">{!! $page['content'][$current_locale] !!}</p>
+              </div>
             </div>
-          </div>
-          @endif
+            @endif
           @endforeach
         </div>
 

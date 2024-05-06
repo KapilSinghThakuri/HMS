@@ -14,9 +14,13 @@ class PageHelper
    {
       return $this->page = $page;
    }
-   public function dropdown()
+   public function engPageTitledropdown()
    {
-      $pages = $this->page->pluck('title','slug');
-      return $pages;
+      $pages = $this->page->all();
+      $pageList = $pages->mapWithKeys( function ($page) {
+         $enPageName = isset($page['title']['en']) ? $page['title']['en'] : '';
+         return [$page->id => $enPageName];
+      });
+      return $pageList;
    }
 }

@@ -22,8 +22,20 @@ class MenuController extends Controller
      */
     public function index()
     {
-        $menus = $this->menu->get();
+        $menus = $this->menu->orderBy('display_order', 'asc')->get();
         return view('admin_Panel.menu.index',compact('menus'));
+    }
+
+    public function MenuStatusUpdate(Request $request, $menuId)
+    {
+        $status = $request->input('status');
+        $menuItem = $this->menu->where('id', $menuId)->first();
+
+        if ($menuItem) {
+            $menuItem->update(['status' => $status]);
+        }
+
+        return redirect()->route('menu.index');
     }
 
     /**
@@ -45,27 +57,13 @@ class MenuController extends Controller
     public function store(MenuRequest $request)
     {
         $validatedData = $request->validated();
-        // dd($validatedData);
 
         $validatedData['menu_name'] = [
             'en' => $validatedData['menu_name']['en'],
             'np' => $validatedData['menu_name']['np'],
         ];
 
-        $parentMenu = $this->menu->create([
-            'display_order' => $validatedData['display_order'],
-            'menu_type_id' => $validatedData['menu_type_id'],
-            'model_id' => $validatedData['model_id'],
-            'page_id' => $validatedData['page_id'],
-            'external_link' => $validatedData['external_link'],
-            'menu_name' => $validatedData['menu_name'],
-            'status' => $validatedData['status'],
-        ]);
-
-        // $validatedData['parent_id'] = $parentMenu->id;
-        // $childMenu = $this->menu->create([
-        //     'parent_id' => $validatedData['parent_id'],
-        // ]);
+        $parentMenu = $this->menu->create($validatedData);
 
         return redirect()->route('menu.index')->with('message','New Manu Item Added Successfully!!');
     }
@@ -113,10 +111,11 @@ class MenuController extends Controller
         $menu = $this->menu->where('id', $id)->first();
         $menu->update($validatedData);
 
-        // $validatedData['parent_id'] = $parentMenu->id;
-        // $childMenu = $menu->update([
-        //     'parent_id' => $validatedData['parent_id'],
-        // ]);
+        if ($validatedData['parent_id'] !== null) {
+            $menu->update([
+                'parent_id' => $validatedData['parent_id']]);
+        }
+
         return redirect()->route('menu.index')->with('message','The Manu Updated Successfully!!');
     }
 

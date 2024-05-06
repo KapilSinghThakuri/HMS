@@ -78,6 +78,8 @@ Route::prefix('Healwave/admin')->group(function(){
                     'banner' => BannerController::class,
                     'menu' => MenuController::class,
                 ]);
+            Route::PATCH('StatusUpdate/{menuId}', [MenuController::class,'MenuStatusUpdate'])->name('menu.StatusUpdate');
+
             Route::resource('feedback', FeedbackController::class)->only(['index','store', 'show']);
 
             Route::get('/trash',[DoctorController::class,'doctorTrash'])->name('doctor.trash');

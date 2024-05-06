@@ -25,7 +25,12 @@ class LocalizationServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('*', function ($view) {
-            $view->with('current_locale', app()->getLocale());
+            $locale = app()->getLocale();
+            if ($locale !== null) {
+                $view->with('current_locale', $locale);
+            }else{
+                $view->with('current_locale', 'en');
+            }
         });
     }
 }
