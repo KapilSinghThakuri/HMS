@@ -144,10 +144,9 @@ Route::prefix('Healwave')->group(function(){
     // Website Routing
     Route::controller(GeneralDashboardController::class)->group(function ()
     {
-        Route::get('dashboard','index')->name('general.dashboard');
+        Route::get('dashboard/{locale?}','index')->name('general.dashboard');
         Route::get('dashboard/appointment-form/{schedule}/{interval}','appointment')->name('appointment.create');
         Route::post('dashboard/appointment-form/store/{scheduleId}','appointmentStore')->name('appointment.store');
-        Route::get('dashboard/{locale}', 'setLocale')->name('set-locale');
     });
 
     Route::get('department',[WebsiteDepartmentController::class,'index'])->name('website.department');

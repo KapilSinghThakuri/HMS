@@ -4,7 +4,6 @@
 @inject('department_helper','App\Helpers\DepartmentHelper')
 @inject('gallery_category_helper','App\Helpers\GalleryCategoryHelper')
 
-
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
     <div class="container">
@@ -77,31 +76,39 @@
           </div>
 
           <div class="col-xl-7 col-lg-6 icon-boxes d-flex flex-column align-items-stretch justify-content-center py-5 px-lg-5">
-              @if($langValue === 'en')
-                <h3>{{ $page['title']['en'] }}</h3>
-              @elseif($langValue === 'np')
+              @if(session('locale') === 'en')
+                <h3>{{ $page['title'][app()->getLocale()] }}</h3>
+              @elseif(session('locale') === 'np')
                   <h3>{{ $page['title']['np'] }}</h3>
+              @else
+                  <h3>{{ $page['title']['en'] }}</h3>
               @endif
 
-              @if($langValue === 'en')
+              @if(session('locale') === 'en')
                 <p>{!! $page['content']['en'] !!}</p>
-              @elseif($langValue === 'np')
+              @elseif(session('locale') === 'np')
                 <p>{!! $page['content']['np'] !!}</p>
+              @else
+                  <p>{!! $page['content']['en'] !!}</p>
               @endif
             @endif
 
             @if($page->slug == 'comprehensive-medical-services')
             <div class="icon-box">
                 <div class="icon"><i class="bx bx-fingerprint"></i></div>
-                @if($langValue === 'en')
+                @if(session('locale') === 'en')
                   <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
-                @elseif($langValue === 'np')
+                @elseif(session('locale') === 'np')
                   <h4 class="title"><a href="">{{ $page['title']['np'] }}</a></h4>
+                @else
+                  <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
                 @endif
-                @if($langValue === 'en')
+                @if(session('locale') === 'en')
                   <p class="description">{!! $page['content']['en'] !!}</p>
-                @elseif($langValue === 'np')
+                @elseif(session('locale') === 'np')
                   <p class="description">{!! $page['content']['np'] !!}</p>
+                @else
+                  <p class="description">{!! $page['content']['en'] !!}</p>
                 @endif
             </div>
             @endif
@@ -109,15 +116,19 @@
            @if($page->slug == 'dedicated-and-compassionate-staff')
             <div class="icon-box">
               <div class="icon"><i class="bx bx-gift"></i></div>
-              @if($langValue === 'en')
-                <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
-              @elseif($langValue === 'np')
+              @if(session('locale') === 'en')
+                <h4 class="title"><a href="">{{ $page['title'][app()->getLocale()] }}</a></h4>
+              @elseif(session('locale') === 'np')
                 <h4 class="title"><a href="">{{ $page['title']['np'] }}</a></h4>
+              @else
+                <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
               @endif
-              @if($langValue === 'en')
+              @if(session('locale') === 'en')
                 <p class="description">{!! $page['content']['en'] !!}</p>
-              @elseif($langValue === 'np')
+              @elseif(session('locale') === 'np')
                 <p class="description">{!! $page['content']['np'] !!}</p>
+              @else
+                <p class="description">{!! $page['content']['en'] !!}</p>
               @endif
             </div>
             @endif
@@ -125,15 +136,20 @@
             @if($page->slug == 'innovative-technology-and-equipment')
             <div class="icon-box">
               <div class="icon"><i class="bx bx-atom"></i></div>
-                @if($langValue === 'en')
+                @if(session('locale') === 'en')
                   <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
-                @elseif($langValue === 'np')
+                @elseif(session('locale') === 'np')
                   <h4 class="title"><a href="">{{ $page['title']['np'] }}</a></h4>
+                @else
+                  <h4 class="title"><a href="">{{ $page['title']['en'] }}</a></h4>
                 @endif
-                @if($langValue === 'en')
+
+                @if(session('locale') === 'en')
                   <p class="description">{!! $page['content']['en'] !!}</p>
-                @elseif($langValue === 'np')
+                @elseif(session('locale') === 'np')
                   <p class="description">{!! $page['content']['np'] !!}</p>
+                @else
+                  <p class="description">{!! $page['content']['en'] !!}</p>
                 @endif
             </div>
           </div>
@@ -192,9 +208,8 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Departments</h2>
-          <!-- <p>@lang('index.department')</p> -->
-          <p>{{ __('index.department') }}</p>
+          <h2>@lang('index.department_title')</h2>
+          <p>{{ __('index.department')}}</p>
         </div>
 
         <div class="row">
@@ -214,79 +229,15 @@
     </section><!-- End Departments Section -->
 
     <!-- ======= Appointment Section ======= -->
-     <!-- <section id="appointment" class="appointment section-bg">
-      <div class="container">
-
-        <div class="section-title">
-          <h2>Make an Appointment</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
-        </div>
-
-        <form action="forms/appointment.php" method="post" role="form" class="php-email-form">
-          <div class="row">
-            <div class="col-md-4 form-group">
-              <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group mt-3 mt-md-0">
-              <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" data-rule="email" data-msg="Please enter a valid email">
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group mt-3 mt-md-0">
-              <input type="tel" class="form-control" name="phone" id="phone" placeholder="Your Phone" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-              <div class="validate"></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-4 form-group mt-3">
-              <input type="datetime" name="date" class="form-control datepicker" id="date" placeholder="Appointment Date" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group mt-3">
-              <select name="department" id="department" class="form-select">
-                <option value="">Select Department</option>
-                <option value="Department 1">Department 1</option>
-                <option value="Department 2">Department 2</option>
-                <option value="Department 3">Department 3</option>
-              </select>
-              <div class="validate"></div>
-            </div>
-            <div class="col-md-4 form-group mt-3">
-              <select name="doctor" id="doctor" class="form-select">
-                <option value="">Select Doctor</option>
-                <option value="Doctor 1">Doctor 1</option>
-                <option value="Doctor 2">Doctor 2</option>
-                <option value="Doctor 3">Doctor 3</option>
-              </select>
-              <div class="validate"></div>
-            </div>
-          </div>
-
-          <div class="form-group mt-3">
-            <textarea class="form-control" name="message" rows="5" placeholder="Message (Optional)"></textarea>
-            <div class="validate"></div>
-          </div>
-          <div class="mb-3">
-            <div class="loading">Loading</div>
-            <div class="error-message"></div>
-            <div class="sent-message">Your appointment request has been sent successfully. Thank you!</div>
-          </div>
-          <div class="text-center"><button type="submit">Make an Appointment</button></div>
-        </form>
-
-      </div>
-    </section> --> <!-- End Appointment Section -->
-
-    <!-- ======= Appointment Section ======= -->
     <section id="departments" class="departments">
       <div class="container">
 
         <div class="section-title">
-          <h2>Make Your Appointment</h2>
-          <p>Our hospital offers a range of medical services with skilled doctors ready to assist you. Schedule an appointment with us and experience world-class healthcare services delivered with compassion and expertise.</p>
+          <h2>{{ __('index.appointment_title')}}</h2>
+          <p>{{ __('index.appointment')}}</p>
         </div>
         <div class="alert alert-info text-center" role="alert">
-          <strong>Important:</strong> Please select a department to find the right doctor for your appointment.
+          {!! __('index.appointment_note')!!}
         </div>
 
         <div class="row gy-4">
@@ -320,26 +271,6 @@
                           </div>
                         </div>
 
-                        <!-- Schedule Modal -->
-                        <style type="text/css">
-                          .custom-badge {
-                              display: inline-block;
-                              padding: 5px 10px;
-                              margin-right: 10px;
-                              margin-bottom: 10px;
-                              background-color: #007bff;
-                              color: #fff;
-                              border-radius: 20px;
-                              transition: all 0.3s ease-in-out;
-                          }
-
-                          .custom-badge:hover {
-                              transform: scale(1.1);
-                              color: #fff;
-                              background-color: #0056b3;
-                              cursor: pointer;
-                          }
-                        </style>
                         <div class="modal fade" id="scheduleModal-{{ $doctor->id }}" tabindex="-1" aria-labelledby="scheduleModalLabel-{{ $doctor->id }}" aria-hidden="true">
                           <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
@@ -408,8 +339,8 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Our Main Doctors</h2>
-          <p>Our team of doctors is dedicated to providing the highest quality care. Each member brings extensive experience and a commitment to your well-being. Learn more about our skilled professionals below.</p>
+          <h2>{{ __('index.doctor_title')}}</h2>
+          <p>{{ __('index.doctor')}}</p>
         </div>
 
         <div class="row">
@@ -440,8 +371,8 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Frequently Asked Questions</h2>
-          <p>If you have questions about our hospital, services, or procedures, we've compiled a list of commonly asked questions to help you. If you can't find what you're looking for, please contact us for further assistance.</p>
+          <h2>{{ __('index.faq_title')}}</h2>
+          <p>{{ __('index.faq')}}</p>
         </div>
 
         <div class="faq-list">
@@ -560,8 +491,8 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Gallery</h2>
-          <p>Welcome to our hospital's photo gallery, where you can explore our state-of-the-art facilities, experienced medical teams, and patient-friendly environment. Browse through our images to get a glimpse of our dedication to providing the best healthcare experience.</p>
+          <h2>{{ __('index.gallery_title')}}</h2>
+          <p>{{ __('index.gallery')}}</p>
         </div>
       </div>
 
@@ -585,8 +516,8 @@
       <div class="container">
 
         <div class="section-title">
-          <h2>Contact</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          <h2>{{ __('index.contact_title')}}</h2>
+          <p>{{ __('index.contact')}}</p>
         </div>
       </div>
 
@@ -655,26 +586,6 @@
         </div>
 
       </div>
-    </section><!-- End Contact Section -->
+    </section>
   </main><!-- End #main -->
-  <style type="text/css">
-    .status-green, a.status-green {
-      background-color: #e5faf3;
-      border: 1px solid #00ce7c;
-      color: #00ce7c;
-      }
-    .status-blue, a.status-blue {
-        background-color: #e5f0fa;
-        border: 1px solid #0080ff;
-        color: #0080ff;
-      }
-    .custom-badge {
-      border-radius: 4px;
-      display: inline-block;
-      font-size: 12px;
-      min-width: 95px;
-      padding: 1px 10px;
-      text-align: center;
-      }
-  </style>
 @endsection

@@ -15,7 +15,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-hover custom-table mb-0 datatable departmentTable">
+                        <table class="table table-bordered table-hover custom-table mb-0 datatable departmentTable">
                             <thead>
                                 <tr>
                                     <th>SNo</th>

@@ -6,12 +6,9 @@
             <div class="col-lg-12">
                 <form method="POST" action="{{ route('appointment.store',[ 'scheduleId'=>$scheduleId ])}}" enctype="multipart/form-data">
                     @csrf
-                    <div class="row mb-3">
-                        <div class="col-lg-6">
-                            <h2 class="page-title border-bottom">Appointment Form</h2>
-                        </div>
-                        <div class="col-lg-6">
-                            <a class="btn btn-danger btn-rounded float-end" href="{{ route('general.dashboard')}}"><i class="fa fa-ban" aria-hidden="true"></i> Cancel</a>
+                    <div class="row mb-5">
+                        <div class="col-lg-8 offset-md-2">
+                            <h3 class="page-title text-center border-bottom">Appointment Form</h3>
                         </div>
                     </div>
                     <div class="row">
@@ -121,7 +118,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="m-t-20 text-center mt-3">
+                    <div class="d-flex justify-content-between mt-3">
+                        <a class="btn btn-danger btn-rounded float-end" href="{{ route('general.dashboard')}}">Cancel Appointment</a>
                         <button type="submit" class="btn btn-primary">Create Appointment</button>
                     </div>
                 </form>

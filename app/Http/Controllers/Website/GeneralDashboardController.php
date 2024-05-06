@@ -35,13 +35,13 @@ class GeneralDashboardController extends Controller
         $this->pages = $pages;
     }
 
-    public function index()
+    public function index($locale = null)
     {
         // dd(session()->all());
-        $langValue = session('locale');
+        App::setLocale($locale);
+        session()->put('locale', $locale);
 
         $departments = Department::all();
-        // dd(Doctor::findOrFail(49)->educations[0]);
         $dept_related_doctor = Department::with('doctors')->first();
         $first_dept_doctors = $dept_related_doctor->doctors;
         $doctors = Doctor::with('appointments')->get();
@@ -57,7 +57,6 @@ class GeneralDashboardController extends Controller
                 'first_dept_doctors',
                 'schedules',
                 'appointments',
-                'langValue',
                 'pages'
             ));
     }
@@ -102,16 +101,5 @@ class GeneralDashboardController extends Controller
             DB::rollback();
             return $e->getMessage();
         }
-    }
-
-    public function setLocale($locale)
-    {
-
-        App::setLocale($locale);
-
-        session()->put('locale', $locale);
-
-        // return redirect()->back();
-        return redirect()->route('general.dashboard',compact('locale'));
     }
 }

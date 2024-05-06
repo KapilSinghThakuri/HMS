@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ session('locale') }}">
 
 <head>
   <meta charset="utf-8">
@@ -53,7 +53,6 @@
         <i class="bi bi-envelope"></i> <a href="">info@healwave.com</a>
         <i class="bi bi-phone"></i> +1 5589 55488 55
       </div>
-
       <div>
         <div class="d-flex align-items-center">
             <p class="language">English</p>
@@ -64,7 +63,9 @@
                         type="checkbox"
                         id="language-toggle"
                         onchange="toggleLanguage()"
-                        {{ $langValue === 'np' ? 'checked' : '' }}
+                        @if(session('locale'))
+                        {{ session('locale') === 'np' ? 'checked' : '' }}
+                        @endif
                     >
                     <label for="language-toggle"></label>
                 </div>
@@ -73,26 +74,6 @@
             <p class="language">नेपाली</p>
         </div>
       </div>
-
-      <!-- JavaScript function to toggle language -->
-      <!-- <script>
-      function toggleLanguage() {
-          const toggleSwitch = document.getElementById('language-toggle');
-          const form = document.getElementById('language-form');
-
-          // Set route based on the toggle state
-          if (toggleSwitch.checked) {
-              // If checked, set to Nepali route
-              form.action = "{{ route('set-locale', ['locale' => 'np']) }}";
-          } else {
-              // If not checked, set to English route
-              form.action = "{{ route('set-locale', ['locale' => 'en']) }}";
-          }
-
-          // Submit the form
-          form.submit();
-      }
-      </script> -->
 
       <div class="d-none d-lg-flex social-links align-items-center">
         <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>

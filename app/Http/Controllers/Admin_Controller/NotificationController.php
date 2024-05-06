@@ -23,6 +23,10 @@ class NotificationController extends Controller
     public function markAsRead($notificationId)
     {
         $users = User::role(['Super Admin', 'Administrator'])->get();
+
+        // $user = User::role('Administrator')->first();
+        // $user->notifications()->where('id', $notificationId)->first()->markAsRead();
+
         foreach ($users as $user) {
             $user->notifications()->where('id', $notificationId)->first()->markAsRead();
         }

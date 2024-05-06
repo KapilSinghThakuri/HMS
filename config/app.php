@@ -179,6 +179,7 @@ return [
 
         // For redering the notifications for every view page
         App\Providers\NotificationsServiceProvider::class,
+        App\Providers\LocalizationServiceProvider::class,
 
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
