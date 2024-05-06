@@ -2,16 +2,16 @@
 @extends('admin_Panel.layout.main')
 @section('Main-container')
 
+@section('title_link', route('banner.index'))
+@section('title', 'Banners')
+@section('action', 'Create Banner')
+@section('button')
+    <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
+@endsection
+@section("button_link", route('banner.index'))
     <div class="page-wrapper">
         <div class="content">
-            <div class="row align-items-center justify-content-between mb-4 breadcrumbs-div">
-                <div class="col-sm-6">
-                  Breadcrumbs...
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a class="btn btn-danger btn-rounded" href="{{ route('banner.index')}}"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
-                </div>
-            </div>
+            @include('admin_Panel.layout.breadcrumbs')
 
             {!! Form::open(['route' => 'banner.store', 'method' => 'POST', 'enctype' => 'multipart/form-data']) !!}
                 @csrf

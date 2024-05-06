@@ -1,24 +1,23 @@
 @extends('admin_Panel.layout.main')
 @section('Main-container')
 
+@section('title_link', route('page.index'))
+@section('title', 'Page')
+@section('button')
+    <i class="fa fa-plus"></i> Add Page
+@endsection
+@section("button_link", route('page.create'))
+
     <div class="page-wrapper">
         <div class="content">
-            <div class="row align-items-center justify-content-between mb-4 breadcrumbs-div">
-                <div class="col-sm-6">
-                  Breadcrumbs...
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a href="{{ route('page.create')}}" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Add Pages</a>
-                </div>
-            </div>
-
+            @include('admin_Panel.layout.breadcrumbs')
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-bordered table-hover custom-table mb-0 datatable departmentTable">
+                        <table class="table table-hover custom-table mb-0 datatable departmentTable">
                             <thead>
                                 <tr>
-                                    <th>SNo</th>
+                                    <th>Sn</th>
                                     <th>Slug</th>
                                     <th>Title</th>
                                     <th>Content</th>

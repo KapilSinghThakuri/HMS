@@ -2,16 +2,15 @@
 @extends('admin_Panel.layout.main')
 @section('Main-container')
 
+@section('title_link', route('feedback.index'))
+@section('title', 'Feedback')
+@section('button')
+    <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
+@endsection
+@section("button_link", route('admin.dashboard'))
     <div class="page-wrapper">
         <div class="content">
-            <div class="row align-items-center justify-content-between mb-4 breadcrumbs-div">
-                <div class="col-sm-6">
-                  Breadcrumbs...
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a href="#" class="btn btn-danger btn-rounded">Back</a>
-                </div>
-            </div>
+            @include('admin_Panel.layout.breadcrumbs')
 
             <div class="row">
                 <div class="col-md-12">

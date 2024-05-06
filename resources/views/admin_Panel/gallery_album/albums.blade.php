@@ -2,16 +2,15 @@
 @extends('admin_Panel.layout.main')
 @section('Main-container')
 
+@section('title_link', route('album.index'))
+@section('title', 'Albums')
+@section('button')
+    <i class="fa fa-plus"></i> Add Album
+@endsection
+@section("button_link", route('album.create'))
     <div class="page-wrapper">
         <div class="content">
-            <div class="row align-items-center justify-content-between mb-4 breadcrumbs-div">
-                <div class="col-sm-6">
-                  Breadcrumbs...
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a href="{{ route('album.create')}}" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Add Album</a>
-                </div>
-            </div>
+            @include('admin_Panel.layout.breadcrumbs')
 
             <div class="row">
                 @foreach($categories as $album)

@@ -5,6 +5,9 @@
 @inject('page_helper','App\Helpers\PageHelper')
 @inject('menu_helper','App\Helpers\MenuHelper')
 
+@section('title_link', route('menu.index'))
+@section('title', 'Menu')
+@section('action', 'Create Menu')
 @section('button')
     <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
 @endsection

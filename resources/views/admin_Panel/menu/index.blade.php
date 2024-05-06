@@ -2,6 +2,8 @@
 @extends('admin_Panel.layout.main')
 @section('Main-container')
 
+@section('title_link', route('menu.index'))
+@section('title', 'Menu')
 @section('button')
     <i class="fa fa-plus"></i> Add Menu
 @endsection

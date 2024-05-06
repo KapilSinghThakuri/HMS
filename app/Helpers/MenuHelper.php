@@ -14,6 +14,7 @@ class MenuHelper
     {
         $this->menu = $menu;
     }
+
     public function engMenudropdown()
     {
         $menuData = $this->menu->all();
@@ -25,5 +26,10 @@ class MenuHelper
             return [$menu->id => $enValue];
         });
         return $menuList;
+    }
+
+    public function menus()
+    {
+        return $this->menu->orderBy('display_order','asc')->get();
     }
 }

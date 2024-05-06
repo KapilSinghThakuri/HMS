@@ -3,16 +3,16 @@
 @section('Main-container')
 @inject('album_category_helper', 'App\Helpers\GalleryCategoryHelper')
 
+@section('title_link', route('album.index'))
+@section('title', 'Album')
+@section('action', 'Gallery')
+@section('button')
+    <i class="fa fa-chevron-left" aria-hidden="true"></i> Back
+@endsection
+@section("button_link", route('album.index'))
     <div class="page-wrapper">
         <div class="content">
-            <div class="row align-items-center justify-content-between mb-4 breadcrumbs-div">
-                <div class="col-sm-6">
-                  Breadcrumbs...
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a href="{{ route('album.index')}}" class="btn btn-danger btn-rounded"><i class="fa fa-chevron-left" aria-hidden="true"></i> Back</a>
-                </div>
-            </div>
+            @include('admin_Panel.layout.breadcrumbs')
 
             <div class="row">
                 @foreach($photos as $photo)
@@ -101,8 +101,8 @@
                     </div>
                     <div class="col-md-4 d-none" id="video_input_field">
                         <div class="form-group">
-                            {{ Form::label('video link', 'Put Video Link') }} <span class="text-danger">*</span>
-                            {{ Form::text('file', null, ['class' => 'form-control', 'placeholder' => 'Put Video Link']) }}
+                            {{ Form::label('video link', 'Put Video URL') }} <span class="text-danger">*</span>
+                            {{ Form::text('file', null, ['class' => 'form-control', 'placeholder' => 'Put Video URL']) }}
                             @error('file')<span class="text-danger">{{ $message }}</span> @enderror
                             <div class="float-right mt-1">
                                 {{ Form::submit('Submit', ['class' => 'btn btn-success btn-md']) }}

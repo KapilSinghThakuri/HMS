@@ -1,17 +1,15 @@
 @extends('admin_Panel.layout.main')
 @section('Main-container')
 
+@section('title_link', route('faq.index'))
+@section('title', 'FAQ')
+@section('button')
+    <i class="fa fa-plus"></i> Add FAQ
+@endsection
+@section("button_link", route('faq.create'))
     <div class="page-wrapper">
         <div class="content">
-            <div class="row align-items-center justify-content-between mb-4 breadcrumbs-div">
-                <div class="col-sm-6">
-                  Breadcrumbs...
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a href="{{ route('faq.create')}}" class="btn btn-primary btn-rounded"><i class="fa fa-plus"></i> Add FAQ</a>
-                </div>
-            </div>
-
+            @include('admin_Panel.layout.breadcrumbs')
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">

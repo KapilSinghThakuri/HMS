@@ -35,7 +35,7 @@ class MenuController extends Controller
             $menuItem->update(['status' => $status]);
         }
 
-        return redirect()->route('menu.index');
+        return redirect()->route('menu.index')->with('message','Status Updated Successfully!');
     }
 
     /**
