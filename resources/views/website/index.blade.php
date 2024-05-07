@@ -70,8 +70,7 @@
         <div class="row">
           @foreach($pages as $page)
           @if($page->slug == 'about-us')
-          <div class="col-xl-5 col-lg-6 pb-4 pt-4 video-box d-flex justify-content-center align-items-stretch position-relative">
-            <img src="{{ asset( $page->image )}}" style="width: 100%; height: 100%;">
+          <div class="col-xl-5 col-lg-6 pb-4 pt-4 video-box d-flex justify-content-center align-items-stretch position-relative" style="background: url({{ asset( $page->image )}}) center center no-repeat; background-size: cover;">
             <!-- <a href="https://www.youtube.com/watch?v=jDDaplaOz7Q" class="glightbox play-btn mb-4"></a> -->
           </div>
 

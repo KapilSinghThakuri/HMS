@@ -93,14 +93,42 @@
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           @foreach($menu_helper->menus() as $menu)
-          <li><a class="nav-link scrollto" href="#">{{ $menu['menu_name'][$current_locale]}}</a></li>
+          <li class="dropdown">
+            <a class="nav-link scrollto"
+              href="
+                  @if($menu->menu_type_id == 1)
+                    {{ $menu->models->first()->model_link }}
+                  @elseif ($menu->menu_type_id == 2)
+                    {{ $menu->pages->first()->slug }}
+                  @else
+                    {{ $menu->external_link }}
+                  @endif
+                ">
+                {{ $menu['menu_name'][$current_locale]}}
+            </a>
+            @if($menu->child_menus()->exists())
+            <ul>
+              @foreach($menu->child_menus as $child_menu)
+              <li>
+                <a href="
+                  @if($child_menu->menu_type_id == 1)
+                    {{ $child_menu->models->first()->model_link }}
+                  @elseif ($child_menu->menu_type_id == 2)
+                    {{ $child_menu->pages->first()->slug }}
+                  @else
+                    {{ $child_menu->external_link }}
+                  @endif
+                ">
+                  {{ $child_menu['menu_name'][$current_locale] }}
+                </a>
+              </li>
+              @endforeach
+            </ul>
+            @endif
+          </li>
+
           @endforeach
 
-          <!-- <li><a class="nav-link scrollto active" href="#hero">Home</a></li> -->
-          <!-- <li><a class="nav-link scrollto" href="#about">About</a></li> -->
-          <!-- <li><a class="nav-link scrollto" href="#services">Services</a></li> -->
-          <!-- <li><a class="nav-link scrollto" href="#services">Departments</a></li> -->
-          <!-- <li><a class="nav-link scrollto" href="#doctors">Doctors</a></li> -->
           <!-- <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>
             <ul>
               <li><a href="#">Drop Down 1</a></li>
@@ -118,7 +146,6 @@
               <li><a href="#">Drop Down 4</a></li>
             </ul>
           </li> -->
-          <!-- <li><a class="nav-link scrollto" href="#contact">Contact</a></li> -->
         </ul>
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav>

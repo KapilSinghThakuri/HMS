@@ -181,6 +181,9 @@ return [
         App\Providers\NotificationsServiceProvider::class,
         App\Providers\LocalizationServiceProvider::class,
 
+        // Google Recaptcha
+        Anhskohbo\NoCaptcha\NoCaptchaServiceProvider::class,
+
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
     ],
@@ -238,6 +241,9 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Debugbar' => Barryvdh\Debugbar\Facades\Debugbar::class,
+
+        // Google Recaptcha
+        'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
     ],
 
 ];

@@ -3287,9 +3287,9 @@ html.menu-opened body {
 }
 .status-red,
 a.status-red {
-	background-color: #ffe5e6;
+	background-color: #ffe5e6 !important;
 	border: 1px solid #fe0000;
-	color: #fe0000;
+	color: #fe0000 !important;
 }
 .status-green,
 a.status-green {

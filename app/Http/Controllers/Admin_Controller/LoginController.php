@@ -12,8 +12,6 @@ use Illuminate\Support\Str;
 use App\Notifications\PasswordResetNotification;
 use App\Http\Requests\LoginCredentialRequest;
 
-
-
 class LoginController extends Controller
 {
     public function index()
@@ -25,6 +23,7 @@ class LoginController extends Controller
         $credentials = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
+            'g-recaptcha-response' => ['required', 'captcha'],
         ]);
         $remember = $request->filled('remember');
 

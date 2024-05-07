@@ -21,14 +21,20 @@
                         </div>
 
                         <div class="form-group">
-                            <label>Username or Email</label>
+                            <label>Username or Email :</label>
                             <input type="text" name="email" placeholder="{{ uppercase('hello user!')}}" autofocus="" class="form-control">
                             @error('email')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                         <div class="form-group">
-                            <label>Password</label>
+                            <label>Password :</label>
                             <input type="password" name="password" placeholder="{{ uppercase('password')}}" class="form-control">
                             @error('password')<span class="text-danger">{{ $message }}</span>@enderror
+                        </div>
+                        <div class="form-group">
+                            <label>Re-Captcha :</label>
+                             {!! NoCaptcha::renderJs() !!}
+                             {!! NoCaptcha::display() !!}
+                            @error('g-recaptcha-response')<span class="text-danger">{{ $message }}</span>@enderror
                         </div>
                         <div class="form-group d-flex justify-content-between align-items-center">
                             <div class="custom-control custom-checkbox">

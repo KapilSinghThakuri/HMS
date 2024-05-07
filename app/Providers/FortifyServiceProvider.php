@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Laravel\Fortify\Fortify;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -35,6 +37,22 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::resetPasswordView('admin_Panel.registration.new-password');
         Fortify::confirmPasswordView('admin_Panel.setting.2faConfirmPassword');
         Fortify::twoFactorChallengeView('admin_Panel.setting.2faChallengeView');
+
+        Fortify::authenticateUsing(function (Request $request) {
+            $request->validate([
+                'email' => ['required', 'email'],
+                'password' => ['required'],
+                'g-recaptcha-response' => ['required','captcha'],
+            ]);
+
+            $user = User::where('email', $request->email)->first();
+
+            if ($user && Hash::check($request->password, $user->password)) {
+                return $user;
+            }
+
+            return null;
+        });
 
         Fortify::createUsersUsing(CreateNewUser::class);
         Fortify::updateUserProfileInformationUsing(UpdateUserProfileInformation::class);

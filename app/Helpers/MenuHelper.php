@@ -30,6 +30,9 @@ class MenuHelper
 
     public function menus()
     {
-        return $this->menu->orderBy('display_order','asc')->get();
+        return $this->menu->with(['child_menus' => function ($query) {
+            $query->orderBy('display_order', 'asc');
+        }])->where('parent_id', Null)
+            ->orderBy('display_order','asc')->get();
     }
 }

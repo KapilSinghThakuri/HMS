@@ -2,6 +2,7 @@
     <script src="{{ asset('admin_Assets/js/popper.min.js') }}"></script>
     <script src="{{ asset('admin_Assets/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('admin_Assets/js/app.js') }}"></script>
+
 </body>
 
 

@@ -25,4 +25,21 @@ class Menu extends Model
     protected $casts = [
         'menu_name' => 'json',
     ];
+
+    public function models()
+    {
+        return $this->hasMany(Module::class,'id', 'model_id');
+    }
+    public function pages()
+    {
+        return $this->hasMany(DynamicPage::class, 'id', 'page_id');
+    }
+    public function child_menus()
+    {
+        return $this->hasMany(Menu::class, 'parent_id');
+    }
+    public function parent_menu()
+    {
+        return $this->belongsTo(Menu::class, 'id', 'parent_id');
+    }
 }
