@@ -235,7 +235,7 @@
                             <input type="hidden" id="hasTemporaryAddress" value="{{ $doctor_basic->temp_district_id }}">
 
                             <div id="doctor_temporary_address">
-                                <!-- here newly added temporary address ia placed... -->
+                                <!-- here newly added temporary address is placed... -->
                             </div>
                             <div class="m-t-20 d-flex justify-content-between">
                                 <button type="button" class="btn btn-outline-primary mr-auto btn-lg prevBtn" style="width: 130px; letter-spacing: 2px; font-size: 1.15rem;">Previous</button>

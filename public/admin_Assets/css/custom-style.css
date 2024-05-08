@@ -344,3 +344,18 @@ opacity: 0.6;
 .menu_table{
     text-align: center;
 }
+/* Full event calender styles */
+.fc-view {
+    margin-top: 0px;
+}
+.fc-header-toolbar{
+    color: #155724;
+    background-color: #d4edda;
+    border-color: #c3e6cb;
+
+    position: relative;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid transparent;
+    border-radius: .25rem;
+}

@@ -703,6 +703,21 @@
                 .create(document.querySelector(`#${uniqueId}`))
                 .then(editor => {
                     console.log('Editor reinitialized:', editor);
+
+                    var divsWithClass = document.querySelectorAll('div.ck.ck-reset.ck-editor.ck-rounded-corners');
+
+                    var firstAriaLabelledBy = null;
+
+                    divsWithClass.forEach(function (div) {
+                        if (div.hasAttribute('aria-labelledby')) {
+                            var currentAriaLabelledBy = div.getAttribute('aria-labelledby');
+                            if (firstAriaLabelledBy === null) {
+                                firstAriaLabelledBy = currentAriaLabelledBy;
+                            } else if (currentAriaLabelledBy === firstAriaLabelledBy) {
+                                div.parentNode.removeChild(div);
+                            }
+                        }
+                    });
                 })
                 .catch(error => {
                     console.error('Error initializing CKEditor:', error);

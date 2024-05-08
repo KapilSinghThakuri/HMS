@@ -65,7 +65,7 @@ class MenuController extends Controller
 
         $parentMenu = $this->menu->create($validatedData);
 
-        return redirect()->route('menu.index')->with('message','New Manu Item Added Successfully!!');
+        return redirect()->route('menu.index')->with('message','New Menu Item Added Successfully!!');
     }
 
     /**
@@ -116,7 +116,7 @@ class MenuController extends Controller
                 'parent_id' => $validatedData['parent_id']]);
         }
 
-        return redirect()->route('menu.index')->with('message','The Manu Updated Successfully!!');
+        return redirect()->route('menu.index')->with('message','Selected Menu Updated Successfully!!');
     }
 
     /**
@@ -129,6 +129,6 @@ class MenuController extends Controller
     {
         $menu = $this->menu->where('id', $id)->first();
         $menu->delete();
-        return redirect()->route('menu.index')->with('message','The Manu Deleted Successfully!!');
+        return redirect()->route('menu.index')->with('message','Selected Menu Deleted Successfully!!');
     }
 }

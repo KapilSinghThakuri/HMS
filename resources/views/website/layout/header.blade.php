@@ -105,6 +105,9 @@
                   @endif
                 ">
                 {{ $menu['menu_name'][$current_locale]}}
+                @if($menu->child_menus()->exists())
+                  <i class="bi bi-chevron-down"></i>
+                @endif
             </a>
             @if($menu->child_menus()->exists())
             <ul>

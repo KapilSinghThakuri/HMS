@@ -216,6 +216,50 @@
 					</div>
 				</div>
 			</div> -->
+
+			<div class="row">
+				<div class="col-md-12">
+					<!-- <div class="alert alert-success">
+						<h2>Doctor Schedules</h2>
+				        <p>This calendar shows the schedule for all doctors. Click on an event for more details.</p>
+					</div> -->
+
+					<div id="fullcalendar"></div>
+				</div>
+			</div>
+
+			@push('scripts')
+
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.11/index.global.min.js" integrity="sha512-WPqMaM2rVif8hal2KZZSvINefPKQa8et3Q9GOK02jzNL51nt48n+d3RYeBCfU/pfYpb62BeeDf/kybRY4SJyyw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.11/index.min.js" integrity="sha512-xCMh+IX6X2jqIgak2DBvsP6DNPne/t52lMbAUJSjr3+trFn14zlaryZlBcXbHKw8SbrpS0n3zlqSVmZPITRDSQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+			<script type="text/javascript">
+				$(document).ready(function () {
+					$.ajaxSetup({
+					    headers: {
+					        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					    }
+					});
+					var fullcalendar = $('#fullcalendar')[0];
+					var events = [];
+				    var calendar = new FullCalendar.Calendar(fullcalendar, {
+				        initialView: 'dayGridMonth',
+				        locale: 'ne',
+				    	height: 600,
+				        eventBackgroundColor: '#00ce7c',
+				        editable: true,
+
+				        headerToolbar:
+				        {
+			            	left: 'today prev,next',
+				            center: 'title',
+				            right: 'dayGridMonth timeGridWeek timeGridDay',
+				        },
+				        events: '/Healwave/admin/event',
+				    });
+				    calendar.render();
+				});
+			</script>
+			@endpush
         </div>
     </div>
 </div>

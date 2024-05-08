@@ -17,6 +17,7 @@ use App\Models\Country;
 use App\Models\District;
 use App\Models\Province;
 use App\Models\Municipality;
+use App\Models\Schedule;
 use App\Notifications\DoctorCreatedNotification;
 
 class DoctorController extends Controller
@@ -446,5 +447,16 @@ class DoctorController extends Controller
             'searchedSpecialization' => $searchedSpecialization,
             'searchedInput' => $searchedInput,
         ]);
+    }
+
+    public function doctorScheduleEvent()
+    {
+        $schedules = Schedule::with('doctor')->get()->map(function($schedule) {
+            return [
+                'title' => $schedule->doctor->first_name.' '.$schedule->doctor->middle_name.' '.$schedule->doctor->last_name,
+                'start' => date('Y-m-d', strtotime($schedule->in)),
+            ];
+        });
+        return response()->json($schedules);
     }
 }

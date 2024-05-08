@@ -102,6 +102,7 @@ Route::prefix('Healwave/admin')->group(function(){
             Route::get('doctor/edit/municipality/{districtId}',[DoctorController::class,'getMunicipalityByDistrictEdit'])->name('district.edit');
 
             Route::post('/doctor-search',[DoctorController::class,'searchDoctor'])->name('doctor.search');
+            Route::get('/event', [DoctorController::class, 'doctorScheduleEvent']);
 
             Route::get('patient',[PatientController::class,'index'])->name('patient.index');
             Route::get('patient/search',[PatientController::class,'searchPatient'])->name('patient.search');
