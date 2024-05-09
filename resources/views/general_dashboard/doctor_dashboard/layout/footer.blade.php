@@ -11,6 +11,7 @@
     <!-- Nepali Date Picker -->
     <script src="https://nepalidatepicker.sajanmaharjan.com.np/nepali.datepicker/js/nepali.datepicker.v4.0.1.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    @stack('scripts')
     <script>
         @if (Session::has('message'))
             toastr.options = {

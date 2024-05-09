@@ -62,6 +62,7 @@ Route::prefix('Healwave/admin')->group(function(){
         // Route::group(['middleware' => ['role:Super Admin|Administrator']], function () {
             Route::controller(DashboardController::class)->group(function(){
                 Route::get('dashboard','index')->name('admin.dashboard');
+                Route::post('dashboard/chart','doctorBarChart')->name('doctor.chart');
             });
 
             Route::resources([

@@ -27,4 +27,16 @@ class GalleryCategoryHelper
         $patientCarePhotos = $patientCareCategory->photos;
         return $patientCarePhotos;
     }
+    public function getStaffTeamsPhotos()
+    {
+        $StaffTeamsCategory = $this->categories->where('album_title', 'Staff & Teams')->first();
+        $StaffTeamsPhotos = $StaffTeamsCategory->photos;
+        return $StaffTeamsPhotos;
+    }
+    public function getHospitalHistoryPhotos()
+    {
+        $HospitalHistoryCategory = $this->categories->where('album_title', 'Hospital History')->first();
+        $HospitalHistoryPhotos = $HospitalHistoryCategory->photos;
+        return $HospitalHistoryPhotos;
+    }
 }

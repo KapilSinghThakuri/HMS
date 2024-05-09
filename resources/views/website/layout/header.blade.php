@@ -93,17 +93,22 @@
       <nav id="navbar" class="navbar order-last order-lg-0">
         <ul>
           @foreach($menu_helper->menus() as $menu)
+          @php
+            $link = '';
+
+            if ($menu->menu_type_id == 1) {
+                $link = $menu->models->first()->model_link;
+            } elseif ($menu->menu_type_id == 2) {
+                $link = $menu->pages->first()->slug;
+            } else {
+                $link = $menu->external_link;
+            }
+
+            // Determine if this is the active menu based on the route
+            $is_active = request()->url() == url($link);
+          @endphp
           <li class="dropdown">
-            <a class="nav-link scrollto"
-              href="
-                  @if($menu->menu_type_id == 1)
-                    {{ $menu->models->first()->model_link }}
-                  @elseif ($menu->menu_type_id == 2)
-                    {{ $menu->pages->first()->slug }}
-                  @else
-                    {{ $menu->external_link }}
-                  @endif
-                ">
+            <a class="nav-link scrollto {{ $is_active ? 'active' : '' }}" href="{{ $link }}">
                 {{ $menu['menu_name'][$current_locale]}}
                 @if($menu->child_menus()->exists())
                   <i class="bi bi-chevron-down"></i>

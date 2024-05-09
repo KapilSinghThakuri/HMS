@@ -139,59 +139,71 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="row">
-                <div class="col-12 col-md-6 col-lg-8 col-xl-8">
+
+            <div class="row mb-5">
+                <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title d-inline-block">New Patients </h4> <a href="patients.html" class="btn btn-primary float-right">View all</a>
+                            <div class="card-title text-center border-bottom">Patient Assigned Bar-Cart</div>
                         </div>
-                        <div class="card-block">
-                            <div class="table-responsive">
-                                <table class="table mb-0 new-patient-table">
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <img width="28" height="28" class="rounded-circle" src="assets/img/user.jpg" alt="">
-                                                <h2>John Doe</h2>
-                                            </td>
-                                            <td>Johndoe21@gmail.com</td>
-                                            <td>+1-202-555-0125</td>
-                                            <td><button class="btn btn-primary btn-primary-one float-right">Fever</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img width="28" height="28" class="rounded-circle" src="assets/img/user.jpg" alt="">
-                                                <h2>Richard</h2>
-                                            </td>
-                                            <td>Richard123@yahoo.com</td>
-                                            <td>202-555-0127</td>
-                                            <td><button class="btn btn-primary btn-primary-two float-right">Cancer</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img width="28" height="28" class="rounded-circle" src="assets/img/user.jpg" alt="">
-                                                <h2>Villiam</h2>
-                                            </td>
-                                            <td>Richard123@yahoo.com</td>
-                                            <td>+1-202-555-0106</td>
-                                            <td><button class="btn btn-primary btn-primary-three float-right">Eye</button></td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <img width="28" height="28" class="rounded-circle" src="assets/img/user.jpg" alt="">
-                                                <h2>Martin</h2>
-                                            </td>
-                                            <td>Richard123@yahoo.com</td>
-                                            <td>776-2323 89562015</td>
-                                            <td><button class="btn btn-primary btn-primary-four float-right">Fever</button></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <div class="card-body">
+                            <canvas id="barChart"></canvas>
                         </div>
                     </div>
                 </div>
-            </div> -->
+            </div>
+            @push('scripts')
+            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+            <script type="text/javascript">
+                const ctx = document.getElementById('barChart');
+
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: @json($labels),
+                        datasets: [{
+                        label: 'Total Patients Count',
+                        data: @json($patientCounts),
+                        backgroundColor: [
+                          'rgba(255, 99, 132, 0.2)',
+                          'rgba(255, 159, 64, 0.2)',
+                          'rgba(255, 205, 86, 0.2)',
+                          'rgba(75, 192, 192, 0.2)',
+                          'rgba(54, 162, 235, 0.2)',
+                          'rgba(153, 102, 255, 0.2)',
+                          'rgba(201, 203, 207, 0.2)',
+                          'rgba(255, 87, 34, 0.2)',
+                          'rgba(139, 195, 74, 0.2)',
+                          'rgba(244, 67, 54, 0.2)',
+                          'rgba(33, 150, 243, 0.2)',
+                          'rgba(255, 235, 59, 0.2)'
+                        ],
+                        borderColor: [
+                          'rgb(255, 99, 132)',
+                          'rgb(255, 159, 64)',
+                          'rgb(255, 205, 86)',
+                          'rgb(75, 192, 192)',
+                          'rgb(54, 162, 235)',
+                          'rgb(153, 102, 255)',
+                          'rgb(201, 203, 207)'
+                        ],
+                        borderWidth: 1
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10,
+                            ticks: {
+                                stepSize: 2,
+                            },
+                        },
+                      }
+                    }
+                });
+            </script>
+            @endpush
         </div>
     </div>
 </div>

@@ -41,6 +41,20 @@ class Doctor extends Model
     {
         return $this->hasMany(Appointment::class,'doctor_id','id');
     }
+
+    public function patients()
+    {
+        return $this->hasManyThrough(
+            Patient::class,
+            Appointment::class,
+            'doctor_id', // Foreign key on the Appointment table
+            'id', // Foreign key on the Patient table
+            'id', // Local key on the Doctor table
+            'patient_id' // Local key on the Appointment table
+        );
+    }
+
+
     public function departments()
     {
         return $this->belongsTo(Department::class,'department_id','id');

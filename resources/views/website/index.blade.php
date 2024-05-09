@@ -162,7 +162,7 @@
         </div>
 
         <div class="row">
-          @foreach($department_helper->getAllDepartment() as $department)
+          @foreach($department_helper->getAllDepartment()->take(6) as $department)
           <div class="col-lg-4 col-md-6 p-3">
             <div class="icon-box">
               <div class="icon">

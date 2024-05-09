@@ -20,7 +20,7 @@ class DepartmentHelper
     }
     public function getAllDepartment()
     {
-        $departments = $this->department->limit(6)->get();
+        $departments = $this->department->get();
         return $departments;
     }
     public function getDepartmentIcon($departmentName)

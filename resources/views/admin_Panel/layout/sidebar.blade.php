@@ -32,7 +32,9 @@
                 <li class="{{ request()->routeIs('menu.*') ? 'active' : '' }} ">
                     <a href="{{ route('menu.index')}}"><i class="fa fa-bars" aria-hidden="true"></i><span>Menu</span></a>
                 </li>
-
+                <li class="{{ request()->routeIs('album.*') ? 'active' : '' }}">
+                    <a href="{{ route('album.index')}}"><i class="fa fa-file-image-o" aria-hidden="true"></i> <span> Gallery </span></a>
+                </li>
                 <li class="dropdown {{ request()->routeIs('page.*') || request()->routeIs('faq.*') || request()->routeIs('album.*') || request()->routeIs('gallery.*') || request()->routeIs('feedback.*') || request()->routeIs('banner.*') ? 'active' : '' }}">
                     <a href="#" class="dropdown-toggle" data-toggle="collapse" data-target="#pages-dropdown">
                         <i class="fa fa-list-alt" aria-hidden="true"></i><span>Pages</span>
@@ -43,9 +45,6 @@
                         </li>
                         <li class="{{ request()->routeIs('faq.*') ? 'active' : '' }} ">
                             <a href="{{ route('faq.index')}}"><i class="fa fa-question-circle-o" aria-hidden="true"></i><span> FAQ </span></a>
-                        </li>
-                        <li class="{{ request()->routeIs('album.*') ? 'active' : '' }}">
-                            <a href="{{ route('album.index')}}"><i class="fa fa-file-image-o" aria-hidden="true"></i> <span> Gallery </span></a>
                         </li>
                         <li class="{{ request()->routeIs('feedback.*') ? 'active' : '' }} ">
                             <a href="{{ route('feedback.index')}}"><i class="fa fa-comments" aria-hidden="true"></i><span> Feedback </span></a>

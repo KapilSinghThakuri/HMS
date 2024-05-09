@@ -1,5 +1,6 @@
 @extends('admin_Panel.layout.main')
 @section('Main-container')
+@inject('doctor_helper','App\Helpers\DoctorHelper')
 
     <div class="page-wrapper">
         <div class="content">
@@ -150,86 +151,106 @@
 				    </div>
 				</div>
 			</div>
-			<!-- <div class="row">
-				<div class="col-12 col-md-6 col-lg-4 col-xl-4">
-					<div class="hospital-barchart">
-						<h4 class="card-title d-inline-block">Departments</h4>
-					</div>
-					<div class="bar-chart">
-						<div class="legend">
-							<div class="item">
-								<h4>Level1</h4>
-							</div>
 
-							<div class="item">
-								<h4>Level2</h4>
-							</div>
-							<div class="item text-right">
-								<h4>Level3</h4>
-							</div>
-							<div class="item text-right">
-								<h4>Level4</h4>
-							</div>
-						</div>
-						<div class="chart clearfix">
-							<div class="item">
-								<div class="bar">
-									<span class="percent">16%</span>
-									<div class="item-progress" data-percent="16">
-										<span class="title">OPD Patient</span>
-									</div>
-								</div>
-							</div>
-							<div class="item">
-								<div class="bar">
-									<span class="percent">71%</span>
-									<div class="item-progress" data-percent="71">
-										<span class="title">New Patient</span>
-									</div>
-								</div>
-							</div>
-							<div class="item">
-								<div class="bar">
-									<span class="percent">82%</span>
-									<div class="item-progress" data-percent="82">
-										<span class="title">Laboratory Test</span>
-									</div>
-								</div>
-							</div>
-							<div class="item">
-								<div class="bar">
-									<span class="percent">67%</span>
-									<div class="item-progress" data-percent="67">
-										<span class="title">Treatment</span>
-									</div>
-								</div>
-							</div>
-							<div class="item">
-								<div class="bar">
-									<span class="percent">30%</span>
-									<div class="item-progress" data-percent="30">
-										<span class="title">Discharge</span>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div> -->
-
-			<div class="row">
+			<!-- Bar Chart-->
+			<div class="row mb-5">
 				<div class="col-md-12">
-					<!-- <div class="alert alert-success">
-						<h2>Doctor Schedules</h2>
-				        <p>This calendar shows the schedule for all doctors. Click on an event for more details.</p>
-					</div> -->
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title text-center">
+								Bar-Chart
+							</div>
+							<form method="POST" action="{{ route('doctor.chart')}}">
+								@csrf
+								<div class="form-group d-flex justify-content-between align-items-center">
+							        <select name="doctor_id" class="form-control flex-grow-1">
+							            <option disabled>Select doctor to view doctor's bar chart</option>
+							            @foreach($doctor_helper->doctorDropdown() as $doctor)
+							                <option value="{{ $doctor->id }}" {{ session('doctorId') == $doctor->id ? 'selected' : '' }}>{{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}</option>
+							            @endforeach
+							        </select>
 
-					<div id="fullcalendar"></div>
+							        <button type="submit" class="btn btn-outline-primary btn-lg ml-3">Submit</button>
+							    </div>
+							</form>
+						</div>
+						<div class="card-body">
+							<canvas id="barChart"></canvas>
+						</div>
+					</div>
 				</div>
 			</div>
+			<!-- Event Calender -->
+			<div class="row">
+				<div class="col-md-12">
+					<div class="card p-2">
+						<!-- <div class="alert alert-success">
+							<h2>Doctor Schedules</h2>
+					        <p>This calendar shows the schedule for all doctors. Click on an event for more details.</p>
+						</div> -->
+
+						<div id="fullcalendar"></div>
+					</div>
+				</div>
+			</div>
+			@php
+				$labels = session('labels');
+				$patientCount = session('patientCounts');
+			@endphp
 
 			@push('scripts')
+			<!-- Bar-Chart -->
+			<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+			<script type="text/javascript">
+				const ctx = document.getElementById('barChart');
 
+				new Chart(ctx, {
+				    type: 'bar',
+				    data: {
+				      labels: @json($labels),
+				      datasets: [{
+				        label: 'Total Patients Count',
+				        data: @json($patientCount),
+				        backgroundColor: [
+					      'rgba(255, 99, 132, 0.2)',
+						  'rgba(255, 159, 64, 0.2)',
+						  'rgba(255, 205, 86, 0.2)',
+						  'rgba(75, 192, 192, 0.2)',
+						  'rgba(54, 162, 235, 0.2)',
+						  'rgba(153, 102, 255, 0.2)',
+						  'rgba(201, 203, 207, 0.2)',
+						  'rgba(255, 87, 34, 0.2)',
+						  'rgba(139, 195, 74, 0.2)',
+						  'rgba(244, 67, 54, 0.2)',
+						  'rgba(33, 150, 243, 0.2)',
+						  'rgba(255, 235, 59, 0.2)'
+					    ],
+					    borderColor: [
+					      'rgb(255, 99, 132)',
+					      'rgb(255, 159, 64)',
+					      'rgb(255, 205, 86)',
+					      'rgb(75, 192, 192)',
+					      'rgb(54, 162, 235)',
+					      'rgb(153, 102, 255)',
+					      'rgb(201, 203, 207)'
+					    ],
+				        borderWidth: 1,
+				      }]
+				    },
+				    options: {
+				      scales: {
+				        y: {
+				         	beginAtZero: true,
+				         	max: 10,
+				         	ticks: {
+                                stepSize: 2,
+                            },
+				        }
+				      }
+				    }
+				});
+			</script>
+			<!-- Event Calender -->
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.11/index.global.min.js" integrity="sha512-WPqMaM2rVif8hal2KZZSvINefPKQa8et3Q9GOK02jzNL51nt48n+d3RYeBCfU/pfYpb62BeeDf/kybRY4SJyyw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/6.1.11/index.min.js" integrity="sha512-xCMh+IX6X2jqIgak2DBvsP6DNPne/t52lMbAUJSjr3+trFn14zlaryZlBcXbHKw8SbrpS0n3zlqSVmZPITRDSQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 			<script type="text/javascript">
