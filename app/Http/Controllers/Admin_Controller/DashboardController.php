@@ -15,18 +15,14 @@ use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
+    public function __construct(Department $department)
+    {
+        $this->department = $department;
+    }
+
     public function index()
     {
         $doctors = Doctor::with('educations')->orderBy('created_at','desc')->get();
-        // whereBetween('column', [$start, $end]) use for Date, Numeric, Alphabetic Ranges
-        foreach ($doctors as $doctor) {
-            $patientCount = $doctor->patients
-                ->whereBetween('created_at', ['2024-04-20 10:04:24','2024-05-09 03:06:49'])
-                ->count();
-            // dd($patientCount);
-        }
-
-
         $patients = Patient::with('appointment')->orderBy('created_at','desc')->get();
         $appointments = Appointment::all();
         $departments = Department::all();
@@ -35,59 +31,86 @@ class DashboardController extends Controller
 
     public function doctorBarChart(Request $request)
     {
-        $currentYear = Carbon::now()->year;
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
+        $departmentId = $request->input('department_id');
 
-        if (isset($request->department_id)) {
-            $department = Department::find($request->department_id);
-            $doctorIds = $department->doctors()->pluck('id');
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'department_id' => 'required|integer'
+        ],
+        [
+            'end_date.after_or_equal' => 'Please ensure the end date is the same date or later than the start date.',
+        ]);
 
-            $deptWisePatient = Appointment::selectRaw('MONTH(created_at) as month, COUNT(*) as depts_patient_count') // Group by month and count department wise patients
-                ->whereIn('doctor_id', $doctorIds) // Filter by list of doctors in the specific department
-                ->whereYear('created_at', $currentYear) // Filter by the current year
-                ->groupBy('month') // Group by month
-                ->orderBy('month', 'asc') // Sort by month
-                ->get()
-                ->keyBy('month');
+        $department = Department::find($request->department_id);
+        $doctorsWithAppointments = $department->doctors()
+            ->with(['appointments' => function($query) use ($startDate, $endDate) {
+                $query->whereBetween('created_at', [$startDate, $endDate]);
+            }])
+            ->get();
 
-            // dd($deptWisePatient);
+        $doctorLabels = [];
+        $appointmentCount = [];
+        foreach ($doctorsWithAppointments as $doctor) {
+            $doctorLabels[] = $doctor->first_name;
+            $appointmentCount[] = $doctor->appointments->count();
         }
 
-
-        if (isset($request->doctor_id)) {
-            $doctorId = $request->doctor_id;
-            $doctorWisePatient = Appointment::selectRaw('MONTH(created_at) as month, COUNT(DISTINCT patient_id) as doctors_patient_count') // Group by month and count doctor wise distinct patients
-                ->where('doctor_id', $doctorId) // Filter by doctor ID
-                ->whereYear('created_at', $currentYear)
-                ->groupBy('month')
-                ->orderBy('month', 'asc')
-                ->get()
-                ->keyBy('month');
-            // dd($doctorWisePatient);
-        }
-
-        $monthNames = [
-            1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April', 5 => 'May', 6 => 'June',
-            7 => 'July', 8 => 'August', 9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'
-        ];
-
-        $labels = [];
-        $doctorPatientCounts = [];
-        $deptWisePatientCounts = [];
-        for ($i = 1; $i <= 12; $i++) {
-            // dd($doctorWisePatient[$i]);
-            $labels[] = $monthNames[$i];
-            $doctorPatientCounts[] = isset($doctorWisePatient[$i]) ? $doctorWisePatient[$i]->doctors_patient_count : 0;
-            $deptPatientCounts[] = isset($deptWisePatient[$i]) ? $deptWisePatient[$i]->depts_patient_count : 0;
-        }
-        // dd($deptPatientCounts);
+        // dd($doctorLabels, $appointmentCount);
 
         session([
-            'labels' => $labels,
-            'doctorId' => $doctorId,
-            'doctorPatientCounts' => $doctorPatientCounts,
             'departmentId' => $department,
-            'deptPatientCounts' => $deptPatientCounts,
+            'startDate' => $startDate,
+            'endDate' => $endDate,
+            'labels' => $doctorLabels,
+            'patientCountDatasets' => $appointmentCount,
         ]);
+
+        return redirect()->route('admin.dashboard');
+    }
+
+    public function departmentChart(Request $request)
+    {
+        $startDate = $request->input('search_start_date');
+        $endDate = $request->input('search_end_date');
+
+        $request->validate([
+            'search_start_date' => 'required|date',
+            'search_end_date' => 'required|date|after_or_equal:search_start_date',
+        ],
+        [
+            'search_end_date.after_or_equal' => 'Please ensure the end date is the same date or later than the start date.',
+        ]);
+
+        // Get all departments with their doctors and filtered appointment count by given time interval
+        $departments = Department::with(['doctors' => function ($query) use ($startDate, $endDate) {
+            $query->with(['appointments' => function ($subQuery) use ($startDate, $endDate) {
+                $subQuery->whereBetween('created_at', [$startDate, $endDate]);
+            }]);
+        }])->get();
+
+        $department_appointment_counts = [];
+        $department_name = [];
+        foreach ($departments as $department) {
+            $total_appointments = 0;
+            foreach ($department->doctors as $doctor) {
+                $total_appointments += $doctor->appointments->count();
+            }
+
+            $department_appointment_counts[] = $total_appointments;
+            $department_name[] = $department->department_name;
+        }
+        // dd($department_appointment_counts, $department_name);
+
+        session([
+            'deptStartDate' => $startDate,
+            'deptEndDate' => $endDate,
+            'departmentLabels' => $department_name,
+            'deptAppointmentCountDatasets' => $department_appointment_counts,
+        ]);
+
         return redirect()->route('admin.dashboard');
     }
 }

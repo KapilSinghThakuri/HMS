@@ -359,3 +359,8 @@ opacity: 0.6;
     border: 1px solid transparent;
     border-radius: .25rem;
 }
+/* bar chart styles */
+.flex-equal {
+    flex: 1;
+    margin-right: 10px;
+}

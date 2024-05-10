@@ -189,7 +189,7 @@
                                         <select id="province" class="form-control select" name="province_id">
                                             <option disabled selected> Select your Province </option>
                                             @foreach($provinces as $province)
-                                            <option value="{{ $province->id }}" {{ $province->id == $related_province->id ? 'selected' : '' }} >{{ $province -> province_name_nep }}</option>
+                                            <option value="{{ $province->id }}" {{ $province->id == $related_province->id ? 'selected' : '' }}>{{ $province -> province_name_nep }}</option>
                                             @endforeach
                                         </select>
                                     </div>

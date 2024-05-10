@@ -159,43 +159,43 @@
 					<div class="card">
 						<div class="card-header">
 							<div class="card-title text-center">
-								Bar-Chart
+								Doctor's Bar-Chart
 							</div>
-
+							@if ($errors->any())
+							    <div class="alert alert-danger">
+							        <ul class="m-0">
+							            @foreach ($errors->all() as $error)
+							                <li>{{ $error }}</li>
+							            @endforeach
+							        </ul>
+							    </div>
+							@endif
 							{!! Form::open(['route' => 'doctor.chart', 'method' => 'POST']) !!}
 	                        @csrf
-								<div class="row">
-									<div class="col-md-12">
-										<div class="form-group d-flex align-items-center">
-									        <select name="doctor_id" class="form-control flex-grow-1">
-									            <option>Select Doctor for Bar-Chart</option>
-									            @foreach($doctor_helper->doctorDropdown() as $doctor)
-									                <option value="{{ $doctor->id }}" {{ session('doctorId') == $doctor->id ? 'selected' : '' }}>{{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}</option>
-									            @endforeach
-									        </select>
-                                            {!! Form::select('department_id', $department_helper->dropdown(), session('departmentId')->id, ['class'=>'form-select form-control','placeholder' => 'Select Department for Bar-Chart','id' => 'department_id']) !!}
-
-									    	{{ Form::submit('Submit',['class' => 'btn btn-outline-primary btn-lg ml-3']) }}
-									    </div>
-
-									    <!-- <div class="row">
-									    	<div class="col-md-6">
-									    		<div class="form-group">
-										    		<label>Start Date</label>
-											    	<input type="date" name="start_date" class="form-control">
-										    	</div>
-									    	</div>
-									    	<div class="col-md-6">
-									    		<div class="form-group">
-										    		<label>End Date</label>
-											    	<input type="date" name="end_date" class="form-control">
-										    	</div>
-									    	</div>
-									    	<div>
-										    	{{ Form::submit('Submit',['class' => 'btn btn-outline-primary btn-lg ml-3']) }}
-									    	</div>
-									    </div> -->
+								<div class="d-flex align-items-center justify-content-between mb-3">
+								    <div class="flex-equal">
+								        {!! Form::select('department_id', $department_helper->dropdown(), session('departmentId') ? session('departmentId')->id : '', [
+								            'class' => 'form-select form-control',
+								            'placeholder' => 'Select Department for Bar-Chart',
+								            'id' => 'department_id',
+								        ]) !!}
+								    </div>
+								    <div class="flex-equal">
+									    {!! Form::date('start_date', session('startDate') ?: '', [
+									        'class' => 'form-control start_date',
+									        'placeholder' => 'Start Date'
+									    ]) !!}
 									</div>
+
+									<div class="flex-equal">
+									    {!! Form::date('end_date', session('endDate') ?: '', [
+									        'class' => 'form-control end_date',
+									        'placeholder' => 'End Date'
+									    ]) !!}
+									</div>
+								    <div>
+								        {{ Form::submit('Submit', ['class' => 'btn btn-outline-primary btn-lg']) }}
+								    </div>
 								</div>
 							{!! Form::close() !!}
 						</div>
@@ -204,32 +204,72 @@
 						</div>
 					</div>
 				</div>
+				<div class="col-md-12">
+					<div class="card">
+						<div class="card-header">
+							<div class="card-title text-center">
+								Department's Bar-Chart
+							</div>
+							@if ($errors->any())
+							    <div class="alert alert-danger">
+							        <ul class="m-0">
+							            @foreach ($errors->all() as $error)
+							                <li>{{ $error }}</li>
+							            @endforeach
+							        </ul>
+							    </div>
+							@endif
+							{!! Form::open(['route' => 'department.chart', 'method' => 'POST']) !!}
+	                        @csrf
+								<div class="d-flex align-items-center justify-content-between mb-3">
+								    <div class="flex-equal">
+									    {!! Form::date('search_start_date', session('deptStartDate') ?: null, [
+									        'class' => 'form-control start_date',
+									        'placeholder' => 'Start Date'
+									    ]) !!}
+									</div>
+
+									<div class="flex-equal">
+									    {!! Form::date('search_end_date', session('deptEndDate') ?: null, [
+									        'class' => 'form-control end_date',
+									        'placeholder' => 'End Date'
+									    ]) !!}
+									</div>
+								    <div>
+								        {{ Form::submit('Submit', ['class' => 'btn btn-outline-primary btn-lg']) }}
+								    </div>
+								</div>
+							{!! Form::close() !!}
+						</div>
+						<div class="card-body">
+							<canvas id="deptBarChart"></canvas>
+						</div>
+					</div>
+				</div>
 			</div>
 			<!-- Event Calender -->
 			<div class="row">
 				<div class="col-md-12">
 					<div class="card p-2">
-						<!-- <div class="alert alert-success">
-							<h2>Doctor Schedules</h2>
-					        <p>This calendar shows the schedule for all doctors. Click on an event for more details.</p>
-						</div> -->
-
+						<div class="card-title text-center">
+							Event Calender
+						</div>
 						<div id="fullcalendar"></div>
 					</div>
 				</div>
 			</div>
 			@php
 				$labels = session('labels');
-				$doctorPatientCounts = session('doctorPatientCounts');
-				$deptPatientCounts = session('deptPatientCounts');
+				$patientCountDatasets = session('patientCountDatasets');
+				$departmentLabels = session('departmentLabels');
+				$deptAppointmentCountDatasets = session('deptAppointmentCountDatasets');
 			@endphp
 
 			@push('scripts')
-			<!-- Bar-Chart -->
+			<!-- Charts -->
 			<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 			<script type="text/javascript">
 				const ctx = document.getElementById('barChart');
-
 				new Chart(ctx, {
 				    type: 'bar',
 				    data: {
@@ -237,18 +277,42 @@
 				      datasets: [
 					      {
 					        label: 'Doctor Patients Count',
-					        data: @json($doctorPatientCounts),
+					        data: @json($patientCountDatasets),
 					        backgroundColor: 'rgba(255, 99, 132, 0.2)',
 						    borderColor: 'rgba(255, 99, 132, 1)',
 					        borderWidth: 1,
 					      },
+					    ]
+				    },
+				    options: {
+				      scales: {
+				        y: {
+				         	beginAtZero: true,
+				         	max: 10,
+				         	ticks: {
+                                stepSize: 2,
+                            },
+				        }
+				      }
+				    }
+				});
+
+				const deptBarChart = document.getElementById('deptBarChart');
+				new Chart(deptBarChart, {
+				    type: 'line',
+				    data: {
+				      labels: @json($departmentLabels),
+				      datasets: [
 					      {
-					      	label: 'Department Patients Count',
-					      	data: @json($deptPatientCounts),
-					      	backgroundColor: 'rgba(54, 162, 235, 0.2)',
-					        borderColor: 'rgba(54, 162, 235, 1)',
-					        borderWidth: 1,
-					      }
+					        label: 'Department Patients Count',
+					        data: @json($deptAppointmentCountDatasets),
+			                borderColor: [
+			                    'rgba(75, 192, 192, 1)',
+			                    'rgba(255, 159, 64, 1)',
+			                ],
+			                fill: false,
+			                tension: 0.1,
+					      },
 					    ]
 				    },
 				    options: {
