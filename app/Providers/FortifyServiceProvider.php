@@ -43,6 +43,11 @@ class FortifyServiceProvider extends ServiceProvider
                 'email' => ['required', 'email'],
                 'password' => ['required'],
                 'g-recaptcha-response' => ['required','captcha'],
+            ],
+            [
+                'email.required' => 'Please enter your email address.',
+                'password.required' => 'Please enter your password.',
+                'g-recaptcha-response.required' => 'Please verify the Captcha.',
             ]);
 
             $user = User::where('email', $request->email)->first();

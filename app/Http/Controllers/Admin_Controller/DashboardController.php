@@ -35,31 +35,59 @@ class DashboardController extends Controller
 
     public function doctorBarChart(Request $request)
     {
-        $doctorId = $request->doctor_id;
         $currentYear = Carbon::now()->year;
-        $data = DB::table('appointments') // Use the correct table name
-            ->selectRaw('MONTH(created_at) as month, COUNT(DISTINCT patient_id) as patient_count') // Group by month and count distinct patients
-            ->where('doctor_id', $doctorId) // Filter by doctor ID
-            ->whereYear('created_at', $currentYear) // Filter by the current year
-            ->groupBy('month') // Group by month
-            ->orderBy('month', 'asc') // Sort by month
-            ->get()
-            ->keyBy('month');
+
+        if (isset($request->department_id)) {
+            $department = Department::find($request->department_id);
+            $doctorIds = $department->doctors()->pluck('id');
+
+            $deptWisePatient = Appointment::selectRaw('MONTH(created_at) as month, COUNT(*) as depts_patient_count') // Group by month and count department wise patients
+                ->whereIn('doctor_id', $doctorIds) // Filter by list of doctors in the specific department
+                ->whereYear('created_at', $currentYear) // Filter by the current year
+                ->groupBy('month') // Group by month
+                ->orderBy('month', 'asc') // Sort by month
+                ->get()
+                ->keyBy('month');
+
+            // dd($deptWisePatient);
+        }
+
+
+        if (isset($request->doctor_id)) {
+            $doctorId = $request->doctor_id;
+            $doctorWisePatient = Appointment::selectRaw('MONTH(created_at) as month, COUNT(DISTINCT patient_id) as doctors_patient_count') // Group by month and count doctor wise distinct patients
+                ->where('doctor_id', $doctorId) // Filter by doctor ID
+                ->whereYear('created_at', $currentYear)
+                ->groupBy('month')
+                ->orderBy('month', 'asc')
+                ->get()
+                ->keyBy('month');
+            // dd($doctorWisePatient);
+        }
 
         $monthNames = [
             1 => 'January', 2 => 'February', 3 => 'March', 4 => 'April', 5 => 'May', 6 => 'June',
             7 => 'July', 8 => 'August', 9 => 'September', 10 => 'October', 11 => 'November', 12 => 'December'
         ];
-        // Prepare labels and patient counts with default 0 if no data
-        $labels = [];
-        $patientCounts = [];
 
+        $labels = [];
+        $doctorPatientCounts = [];
+        $deptWisePatientCounts = [];
         for ($i = 1; $i <= 12; $i++) {
-            // dd($data[$i]);
+            // dd($doctorWisePatient[$i]);
             $labels[] = $monthNames[$i];
-            $patientCounts[] = isset($data[$i]) ? $data[$i]->patient_count : 0;
+            $doctorPatientCounts[] = isset($doctorWisePatient[$i]) ? $doctorWisePatient[$i]->doctors_patient_count : 0;
+            $deptPatientCounts[] = isset($deptWisePatient[$i]) ? $deptWisePatient[$i]->depts_patient_count : 0;
         }
-        session(['doctorId' => $doctorId, 'labels' => $labels, 'patientCounts'=> $patientCounts]);
+        // dd($deptPatientCounts);
+
+        session([
+            'labels' => $labels,
+            'doctorId' => $doctorId,
+            'doctorPatientCounts' => $doctorPatientCounts,
+            'departmentId' => $department,
+            'deptPatientCounts' => $deptPatientCounts,
+        ]);
         return redirect()->route('admin.dashboard');
     }
 }

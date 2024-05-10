@@ -1,6 +1,7 @@
 @extends('admin_Panel.layout.main')
 @section('Main-container')
 @inject('doctor_helper','App\Helpers\DoctorHelper')
+@inject('department_helper','App\Helpers\DepartmentHelper')
 
     <div class="page-wrapper">
         <div class="content">
@@ -160,19 +161,43 @@
 							<div class="card-title text-center">
 								Bar-Chart
 							</div>
-							<form method="POST" action="{{ route('doctor.chart')}}">
-								@csrf
-								<div class="form-group d-flex justify-content-between align-items-center">
-							        <select name="doctor_id" class="form-control flex-grow-1">
-							            <option disabled>Select doctor to view doctor's bar chart</option>
-							            @foreach($doctor_helper->doctorDropdown() as $doctor)
-							                <option value="{{ $doctor->id }}" {{ session('doctorId') == $doctor->id ? 'selected' : '' }}>{{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}</option>
-							            @endforeach
-							        </select>
 
-							        <button type="submit" class="btn btn-outline-primary btn-lg ml-3">Submit</button>
-							    </div>
-							</form>
+							{!! Form::open(['route' => 'doctor.chart', 'method' => 'POST']) !!}
+	                        @csrf
+								<div class="row">
+									<div class="col-md-12">
+										<div class="form-group d-flex align-items-center">
+									        <select name="doctor_id" class="form-control flex-grow-1">
+									            <option>Select Doctor for Bar-Chart</option>
+									            @foreach($doctor_helper->doctorDropdown() as $doctor)
+									                <option value="{{ $doctor->id }}" {{ session('doctorId') == $doctor->id ? 'selected' : '' }}>{{ $doctor->first_name }} {{ $doctor->middle_name }} {{ $doctor->last_name }}</option>
+									            @endforeach
+									        </select>
+                                            {!! Form::select('department_id', $department_helper->dropdown(), session('departmentId')->id, ['class'=>'form-select form-control','placeholder' => 'Select Department for Bar-Chart','id' => 'department_id']) !!}
+
+									    	{{ Form::submit('Submit',['class' => 'btn btn-outline-primary btn-lg ml-3']) }}
+									    </div>
+
+									    <!-- <div class="row">
+									    	<div class="col-md-6">
+									    		<div class="form-group">
+										    		<label>Start Date</label>
+											    	<input type="date" name="start_date" class="form-control">
+										    	</div>
+									    	</div>
+									    	<div class="col-md-6">
+									    		<div class="form-group">
+										    		<label>End Date</label>
+											    	<input type="date" name="end_date" class="form-control">
+										    	</div>
+									    	</div>
+									    	<div>
+										    	{{ Form::submit('Submit',['class' => 'btn btn-outline-primary btn-lg ml-3']) }}
+									    	</div>
+									    </div> -->
+									</div>
+								</div>
+							{!! Form::close() !!}
 						</div>
 						<div class="card-body">
 							<canvas id="barChart"></canvas>
@@ -195,7 +220,8 @@
 			</div>
 			@php
 				$labels = session('labels');
-				$patientCount = session('patientCounts');
+				$doctorPatientCounts = session('doctorPatientCounts');
+				$deptPatientCounts = session('deptPatientCounts');
 			@endphp
 
 			@push('scripts')
@@ -208,34 +234,22 @@
 				    type: 'bar',
 				    data: {
 				      labels: @json($labels),
-				      datasets: [{
-				        label: 'Total Patients Count',
-				        data: @json($patientCount),
-				        backgroundColor: [
-					      'rgba(255, 99, 132, 0.2)',
-						  'rgba(255, 159, 64, 0.2)',
-						  'rgba(255, 205, 86, 0.2)',
-						  'rgba(75, 192, 192, 0.2)',
-						  'rgba(54, 162, 235, 0.2)',
-						  'rgba(153, 102, 255, 0.2)',
-						  'rgba(201, 203, 207, 0.2)',
-						  'rgba(255, 87, 34, 0.2)',
-						  'rgba(139, 195, 74, 0.2)',
-						  'rgba(244, 67, 54, 0.2)',
-						  'rgba(33, 150, 243, 0.2)',
-						  'rgba(255, 235, 59, 0.2)'
-					    ],
-					    borderColor: [
-					      'rgb(255, 99, 132)',
-					      'rgb(255, 159, 64)',
-					      'rgb(255, 205, 86)',
-					      'rgb(75, 192, 192)',
-					      'rgb(54, 162, 235)',
-					      'rgb(153, 102, 255)',
-					      'rgb(201, 203, 207)'
-					    ],
-				        borderWidth: 1,
-				      }]
+				      datasets: [
+					      {
+					        label: 'Doctor Patients Count',
+					        data: @json($doctorPatientCounts),
+					        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+						    borderColor: 'rgba(255, 99, 132, 1)',
+					        borderWidth: 1,
+					      },
+					      {
+					      	label: 'Department Patients Count',
+					      	data: @json($deptPatientCounts),
+					      	backgroundColor: 'rgba(54, 162, 235, 0.2)',
+					        borderColor: 'rgba(54, 162, 235, 1)',
+					        borderWidth: 1,
+					      }
+					    ]
 				    },
 				    options: {
 				      scales: {
