@@ -208,7 +208,7 @@
 					<div class="card">
 						<div class="card-header">
 							<div class="card-title text-center">
-								Department's Bar-Chart
+								Department's Line-Chart
 							</div>
 							@if ($errors->any())
 							    <div class="alert alert-danger">

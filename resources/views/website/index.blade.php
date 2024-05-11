@@ -3,6 +3,7 @@
 @inject('faq_helper','App\Helpers\FAQHelper')
 @inject('department_helper','App\Helpers\DepartmentHelper')
 @inject('gallery_category_helper','App\Helpers\GalleryCategoryHelper')
+@inject('siteinfo_helper','App\Helpers\WebsiteInfoHelper')
 
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex align-items-center">
@@ -479,24 +480,21 @@
 
           <div class="col-lg-4">
             <div class="info">
-              <div class="address">
+              <div class="address mb-4">
                 <i class="bi bi-geo-alt"></i>
                 <h4>Location:</h4>
-                <p>A108 Adam Street, New York, NY 535022</p>
+                @foreach($siteinfo_helper->getSiteAddress() as $siteAddress)
+                <p>{{ $siteAddress->value }}</p>
+                @endforeach
               </div>
 
-              <div class="email">
-                <i class="bi bi-envelope"></i>
-                <h4>Email:</h4>
-                <p>info@example.com</p>
+              @foreach($siteinfo_helper->getSiteContact() as $siteContact)
+              <div class="mb-4">
+                {!! $siteContact->icon !!}
+                <h4>{{ $siteContact->label }}:</h4>
+                <p>{{ $siteContact->value }}</p>
               </div>
-
-              <div class="phone">
-                <i class="bi bi-phone"></i>
-                <h4>Call:</h4>
-                <p>+1 5589 55488 55s</p>
-              </div>
-
+              @endforeach
             </div>
 
           </div>

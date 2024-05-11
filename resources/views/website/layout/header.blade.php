@@ -1,4 +1,5 @@
 @inject('menu_helper','App\Helpers\MenuHelper')
+@inject('siteinfo_helper','App\Helpers\WebsiteInfoHelper')
 <!DOCTYPE html>
 <html lang="{{ session('locale') }}">
 
@@ -51,8 +52,9 @@
   <div id="topbar" class="d-flex align-items-center fixed-top">
     <div class="container d-flex justify-content-between">
       <div class="contact-info d-flex align-items-center mr-3">
-        <i class="bi bi-envelope"></i> <a href="">info@healwave.com</a>
-        <i class="bi bi-phone"></i> +1 5589 55488 55
+        @foreach($siteinfo_helper->getSiteContact() as $siteContact)
+          {!! $siteContact->icon !!} {{ $siteContact->value }}
+        @endforeach
       </div>
       <div>
         <div class="d-flex align-items-center">
@@ -75,12 +77,10 @@
             <p class="language">नेपाली</p>
         </div>
       </div>
-
       <div class="d-none d-lg-flex social-links align-items-center">
-        <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-        <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-        <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-        <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></i></a>
+        @foreach($siteinfo_helper->getSiteSocailMedia() as $siteInfo)
+        <a href="{{ $siteInfo->value }}">{!! $siteInfo->icon !!}</a>
+        @endforeach
       </div>
     </div>
   </div>

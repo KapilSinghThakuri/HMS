@@ -15,7 +15,11 @@ class CreateSiteInfoSettingsTable extends Migration
     {
         Schema::create('site_info_settings', function (Blueprint $table) {
             $table->id();
-            $table->string('');
+            $table->string('info_type')->nullable();
+            $table->string('label');
+            $table->string('value')->nullable();
+            $table->string('icon')->nullable();
+            $table->integer('display_order');
             $table->timestamps();
         });
     }

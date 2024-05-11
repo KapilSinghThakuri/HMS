@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin_Controller\AlbumsController;
 use App\Http\Controllers\Admin_Controller\GalleryController;
 use App\Http\Controllers\Admin_Controller\BannerController;
 use App\Http\Controllers\Admin_Controller\MenuController;
+use App\Http\Controllers\Admin_Controller\WebsiteInfoController;
 
 use App\Http\Controllers\General_Controller\DoctorDashboardController;
 use App\Http\Controllers\General_Controller\ProfileController;
@@ -79,6 +80,7 @@ Route::prefix('Healwave/admin')->group(function(){
                     'gallery' => GalleryController::class,
                     'banner' => BannerController::class,
                     'menu' => MenuController::class,
+                    'websiteinfo' => WebsiteInfoController::class,
                 ]);
             Route::PATCH('StatusUpdate/{menuId}', [MenuController::class,'MenuStatusUpdate'])->name('menu.StatusUpdate');
 

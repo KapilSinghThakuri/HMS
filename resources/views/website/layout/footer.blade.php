@@ -54,7 +54,7 @@
 
       <div class="me-md-auto text-center text-md-start">
         <div class="copyright">
-          &copy; Copyright <strong><span>Healwave</span></strong>. All Rights Reserved
+          {!! $siteinfo_helper->getGeneralInfo()->first()->value !!}
         </div>
         <div class="credits">
           <!-- All the links in the footer should remain intact. -->

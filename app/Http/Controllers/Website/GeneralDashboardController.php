@@ -37,7 +37,6 @@ class GeneralDashboardController extends Controller
 
     public function index($locale = null)
     {
-        // dd(session()->all());
         App::setLocale($locale);
         session()->put('locale', $locale);
 
@@ -49,7 +48,6 @@ class GeneralDashboardController extends Controller
         $appointments = Appointment::get();
 
         $pages = $this->pages->get();
-        // dd($pages);
         return view('website.index',
             compact(
                 'departments',
