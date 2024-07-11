@@ -15,11 +15,11 @@ class AlbumSeeder extends Seeder
     public function run()
     {
         DB::table('gallery_categories')->insert([
-            ['album_title' => 'Staff and Teams'],
-            ['album_title' => 'Patient Care'],
-            ['album_title' => 'Technology'],
-            ['album_title' => 'Hospital History'],
-            ['album_title' => 'Facilities'],
+            ['album_title' => 'Staff and Teams', 'display_order' => 1],
+            ['album_title' => 'Patient Care', 'display_order' => 2],
+            ['album_title' => 'Technology', 'display_order' => 3],
+            ['album_title' => 'Hospital History', 'display_order' => 4],
+            ['album_title' => 'Facilities', 'display_order' => 5],
         ]);
     }
 }

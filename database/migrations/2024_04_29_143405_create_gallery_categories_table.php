@@ -15,7 +15,7 @@ class CreateGalleryCategoriesTable extends Migration
     {
         Schema::create('gallery_categories', function (Blueprint $table) {
             $table->id();
-            $table->string('album title');
+            $table->string('album_title');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -19,7 +19,7 @@ class CreateMunicipalitiesTable extends Migration
             $table->foreignId('district_id')->constrained('districts');
             $table->string('municipality_code')->nullable();
             $table->string('municipality_name[nep]');
-            $table->string('municipality_name[eng]');
+            $table->string('municipality_name[eng]')->nullable();
             $table->timestamps();
         });
     }
