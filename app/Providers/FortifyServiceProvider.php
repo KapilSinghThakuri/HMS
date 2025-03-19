@@ -39,23 +39,24 @@ class FortifyServiceProvider extends ServiceProvider
         Fortify::twoFactorChallengeView('admin_Panel.setting.2faChallengeView');
 
         Fortify::authenticateUsing(function (Request $request) {
-            $request->validate([
-                'email' => ['required', 'email'],
-                'password' => ['required'],
-                'g-recaptcha-response' => ['required','captcha'],
-            ],
-            [
-                'email.required' => 'Please enter your email address.',
-                'password.required' => 'Please enter your password.',
-                'g-recaptcha-response.required' => 'Please verify the Captcha.',
-            ]);
+            $request->validate(
+                [
+                    'email' => ['required', 'email'],
+                    'password' => ['required'],
+                    'g-recaptcha-response' => ['required', 'captcha'],
+                ],
+                [
+                    'email.required' => 'Please enter your email address.',
+                    'password.required' => 'Please enter your password.',
+                    'g-recaptcha-response.required' => 'Please verify the Captcha.',
+                ]
+            );
 
             $user = User::where('email', $request->email)->first();
 
             if ($user && Hash::check($request->password, $user->password)) {
                 return $user;
             }
-
             return null;
         });
 
@@ -66,7 +67,7 @@ class FortifyServiceProvider extends ServiceProvider
 
 
         RateLimiter::for('login', function (Request $request) {
-            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())).'|'.$request->ip());
+            $throttleKey = Str::transliterate(Str::lower($request->input(Fortify::username())) . '|' . $request->ip());
 
             return Limit::perMinute(5)->by($throttleKey);
         });
