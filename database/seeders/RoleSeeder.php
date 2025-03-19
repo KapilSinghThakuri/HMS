@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class RoleSeeder extends Seeder
 {
@@ -14,15 +15,16 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $name = [
-            'admin',
-            'doctor',
+        $names = [
+            'Administrator',
+            'Doctor',
             'staff',
             'patient'
         ];
-        foreach ($name as $value) {
-            DB::table('roles')->insert([
+        foreach ($names as $value) {
+            Role::create([
                 'name' => $value,
+                'guard_name' => 'web',
             ]);
         }
     }

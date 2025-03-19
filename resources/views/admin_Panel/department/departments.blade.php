@@ -50,18 +50,7 @@
                                         @endcan
                                         @can('delete department')
                                         <a href="#" data-id="{{ $department->id }}" data-toggle="modal" data-target="#delete_department" style="font-size: 25px; color: red;" title="Click For Delete"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-                                        @endcan
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-	<div id="delete_department" class="modal fade delete-modal" role="dialog">
+                                        	<div id="delete_department" class="modal fade delete-modal" role="dialog">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-body text-center">
@@ -78,5 +67,16 @@
 			</div>
 		</div>
 	</div>
+                                        @endcan
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @endsection

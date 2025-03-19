@@ -50,5 +50,13 @@ class PermissionSeeder extends Seeder
             ['name' => 'view appointment', 'guard_name' => 'web'],
             ['name' => 'delete appointment', 'guard_name' => 'web'],
         ]);
+
+        $permissions = DB::table('permissions')->get();
+        foreach ($permissions as $permission) {
+            DB::table('role_has_permissions')->insert([
+                'permission_id' => $permission->id,
+                'role_id' => 1,
+            ]);
+        }
     }
 }
