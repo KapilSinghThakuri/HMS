@@ -26,20 +26,20 @@ class DoctorRequest extends FormRequest
     {
         $rules = [
             'first_name' => ['required', 'alpha'],
-            'middle_name' => ['nullable', 'alpha'],
+            'middle_name' => ['nullable'],
             'last_name' => ['required', 'alpha'],
             'gender' => ['required', 'string'],
             'date_of_birth_BS' => ['required', 'date'],
             'date_of_birth_AD' => ['required', 'date'],
             'phone' => ['required', 'numeric', 'digits:10'],
-            'license_no' => ['required','alpha_dash'],
+            'license_no' => ['required', 'alpha_dash'],
             'department_id' => ['required'],
-            'profile' => ['nullable','image','mimes:jpeg,png,jpg,gif','max:3072'],
+            'profile' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:3072'],
 
             'country_id' => ['required', 'string'],
             'province_id' => ['required', 'string'],
             'district_id' => ['required', 'string'],
-            'municipality_id' => ['required','string'],
+            'municipality_id' => ['required', 'string'],
             'street' => ['nullable', 'string'],
 
             'temp_country_id' => ['nullable', 'string', 'max:255'],
@@ -68,27 +68,27 @@ class DoctorRequest extends FormRequest
                 'min:6',
                 'confirmed',
                 // Requires at least one uppercase letter, one lowercase letter, one number, and one special character
-                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]+$/',
+                // 'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]+$/',
                 // Using Closure Method for checking if password contain user information like username, email
-                function ($attribute, $value, $fails) use ($request)
-                {
-                    $first_name = $request->input('first_name');
-                    $middle_name = $request->input('middle_name');
-                    $last_name = $request->input('last_name');
-                    $email = $request->input('email');
-                    // stripos(string $haystack, string $needle) methods finds the position of the first occurrence of a case-insensitive substring within a string
-                    if (stripos($value, $first_name) !== false ||
-                        stripos($value, $middle_name) !== false ||
-                        stripos($value, $last_name) !== false ||
-                        stripos($value, $email) !== false ) {
-                        $fails('The password cannot contain your username, email address.');
-                    }
-                }
+                // function ($attribute, $value, $fails) use ($request)
+                // {
+                //     $first_name = $request->input('first_name');
+                //     $middle_name = $request->input('middle_name');
+                //     $last_name = $request->input('last_name');
+                //     $email = $request->input('email');
+                //     // stripos(string $haystack, string $needle) methods finds the position of the first occurrence of a case-insensitive substring within a string
+                //     if (stripos($value, $first_name) !== false ||
+                //         stripos($value, $middle_name) !== false ||
+                //         stripos($value, $last_name) !== false ||
+                //         stripos($value, $email) !== false ) {
+                //         $fails('The password cannot contain your username, email address.');
+                //     }
+                // }
             ]
         ];
         if ($this->isMethod('PUT') || $this->isMethod('PATCH')) {
             $rules['email'] = ['nullable', 'email'];
-            $rules['password'] = ['nullable','min:6','confirmed',];
+            $rules['password'] = ['nullable', 'min:6', 'confirmed',];
         }
 
         return $rules;

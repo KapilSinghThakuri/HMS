@@ -2,32 +2,33 @@
 
 namespace App\Http\Controllers\Admin_Controller;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Http\Requests\DoctorRequest;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use App\Models\Department;
-use App\Models\Doctor;
-use App\Models\Education;
-use App\Models\Experience;
+use Exception;
 use App\Models\User;
+use App\Models\Doctor;
 use App\Models\Address;
 use App\Models\Country;
 use App\Models\District;
 use App\Models\Province;
-use App\Models\Municipality;
 use App\Models\Schedule;
+use App\Models\Education;
+use App\Models\Department;
+use App\Models\Experience;
+use App\Models\Municipality;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\DoctorRequest;
+use Illuminate\Support\Facades\Hash;
 use App\Notifications\DoctorCreatedNotification;
 
 class DoctorController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:view doctor', ['only' => ['index','show','doctorTrash']]);
-        $this->middleware('permission:create doctor', ['only' => ['create','store']]);
-        $this->middleware('permission:edit doctor', ['only' => ['edit','update']]);
-        $this->middleware('permission:delete doctor', ['only' => ['destroy','doctorRestore','permanentDelete','emptyDoctor']]);
+        $this->middleware('permission:view doctor', ['only' => ['index', 'show', 'doctorTrash']]);
+        $this->middleware('permission:create doctor', ['only' => ['create', 'store']]);
+        $this->middleware('permission:edit doctor', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:delete doctor', ['only' => ['destroy', 'doctorRestore', 'permanentDelete', 'emptyDoctor']]);
     }
 
     /**
@@ -37,9 +38,11 @@ class DoctorController extends Controller
      */
     public function index()
     {
-        $doctors = Doctor::with('educations','experiences')->get();
-        return view('admin_Panel.doctor.doctors',
-            compact('doctors'));
+        $doctors = Doctor::with('educations', 'experiences')->get();
+        return view(
+            'admin_Panel.doctor.doctors',
+            compact('doctors')
+        );
     }
 
     /**
@@ -51,13 +54,15 @@ class DoctorController extends Controller
     {
         $countries = Country::get();
         $provinces = Province::get();
-        return view('admin_Panel.doctor.add-doctor',
-            compact('countries','provinces'));
+        return view(
+            'admin_Panel.doctor.add-doctor',
+            compact('countries', 'provinces')
+        );
     }
 
     public function getDistrictByProvince($provinceId)
     {
-        $districts = District::where('province_id',$provinceId)->get();
+        $districts = District::where('province_id', $provinceId)->get();
         return response()->json($districts);
     }
     public function getMunicipalityByDistrict($districtId)
@@ -77,8 +82,8 @@ class DoctorController extends Controller
         $validatedData = $request->validated();
         DB::beginTransaction();
         try {
-            $username = $validatedData['first_name'] .' '. $validatedData['middle_name'] .' '. $validatedData['last_name'];
-            $user_address = $validatedData['province_id'] .'-'. $validatedData['district_id'] .'-'. $validatedData['municipality_id'] .'-'. $validatedData['street'];
+            $username = $validatedData['first_name'] . ' ' . $validatedData['middle_name'] . ' ' . $validatedData['last_name'];
+            $user_address = $validatedData['province_id'] . '-' . $validatedData['district_id'] . '-' . $validatedData['municipality_id'] . '-' . $validatedData['street'];
 
             $validatedData['role_id'] = 2;
             $validatedData['username'] = $username;
@@ -86,21 +91,21 @@ class DoctorController extends Controller
             $user = User::create($validatedData);
 
             $user_id = $user->id;
-            if ($request->hasFile('profile')) {
-                $file = $request->file('profile');
-                $fileName = time().'.'.$file->getClientOriginalExtension();
-                $file->move(public_path('admin_Assets/img/doctors'), $fileName);
-            } else {
-                return back()->with('fail_message', 'Please upload a profile picture!!!');
-            }
+            // if ($request->hasFile('profile')) {
+            //     $file = $request->file('profile');
+            //     $fileName = time() . '.' . $file->getClientOriginalExtension();
+            //     $file->move(public_path('admin_Assets/img/doctors'), $fileName);
+            // } else {
+            //     return back()->with('fail_message', 'Please upload a profile picture!!!');
+            // }
             $validatedData['user_id'] = $user_id;
-            $validatedData['profile'] = '/admin_Assets/img/doctors'.'/'.$fileName;
+            // $validatedData['profile'] = '/admin_Assets/img/doctors' . '/' . $fileName;
             $doctor = Doctor::create($validatedData);
 
             $doctor_id = $doctor->id;
             $validatedData['doctor_id'] = $doctor_id;
 
-            if(isset($validatedData['institute_name'])) {
+            if (isset($validatedData['institute_name'])) {
                 foreach ($validatedData['institute_name'] as $key => $value) {
                     Education::create([
                         'doctor_id' => $doctor_id,
@@ -113,7 +118,7 @@ class DoctorController extends Controller
                 }
             }
 
-            if(isset($validatedData['org_name'])) {
+            if (isset($validatedData['org_name'])) {
                 foreach ($validatedData['org_name'] as $key => $value) {
                     Experience::create([
                         'doctor_id' => $doctor_id,
@@ -127,15 +132,16 @@ class DoctorController extends Controller
                     ]);
                 }
             }
+
             // For sending the doctor created notifications to Admin
-            $admin = User::where('role_id', 1)->first();
-            $admin->notify(new DoctorCreatedNotification($doctor, 'doctor_create'));
+            // $admin = User::where('role_id', 1)->first();
+            // $admin->notify(new DoctorCreatedNotification($doctor, 'doctor_create'));
 
             DB::commit();
-            return redirect()->route('doctor.index')->with('message','Doctor Added Successfully !!!');
+            return redirect()->route('doctor.index')->with('message', 'Doctor Added Successfully !!!');
         } catch (Exception $e) {
             DB::rollback();
-            return redirect()->route('doctor.index')->with('message','Error: '. $e->getMessage());
+            return redirect()->route('doctor.index')->with('message', 'Error: ' . $e->getMessage());
         }
     }
 
@@ -148,13 +154,15 @@ class DoctorController extends Controller
     public function show($id)
     {
         $doctor_basic = Doctor::findOrFail($id);
-        $doctor_edu = Education::where('doctor_id',$id)->get();
-        $doctor_exp = Experience::where('doctor_id',$id)->get();
+        $doctor_edu = Education::where('doctor_id', $id)->get();
+        $doctor_exp = Experience::where('doctor_id', $id)->get();
         $temp_province = Province::where('id', $doctor_basic->temp_province_id)->first();
         $temp_district = District::where('id', $doctor_basic->temp_district_id)->first();
         $temp_municipality = Municipality::where('id', $doctor_basic->temp_municipality_id)->first();
-        return view('admin_Panel.doctor.profile',
-            compact('doctor_basic','doctor_exp','doctor_edu','temp_province','temp_district','temp_municipality'));
+        return view(
+            'admin_Panel.doctor.profile',
+            compact('doctor_basic', 'doctor_exp', 'doctor_edu', 'temp_province', 'temp_district', 'temp_municipality')
+        );
     }
 
     /**
@@ -182,18 +190,32 @@ class DoctorController extends Controller
         $related_district = $doctor_basic->district;
         $related_province = $doctor_basic->province;
 
-        $doctor_edu = Education::where('doctor_id',$id)->first();
-        $doctor_exp = Experience::where('doctor_id',$id)->first();
-        $doctor_addr = Address::where('doctor_id',$id)->first();
+        $doctor_edu = Education::where('doctor_id', $id)->first();
+        $doctor_exp = Experience::where('doctor_id', $id)->first();
+        $doctor_addr = Address::where('doctor_id', $id)->first();
 
-        return view('admin_Panel.doctor.edit-doctor',
-        compact('doctor_basic','doctor_exp','doctor_addr','doctor_edu','related_department',
-            'related_municipality','related_district','related_province',
-            'departments','countries','provinces','doctor_districts','doctor_municipalities'));
+        return view(
+            'admin_Panel.doctor.edit-doctor',
+            compact(
+                'doctor_basic',
+                'doctor_exp',
+                'doctor_addr',
+                'doctor_edu',
+                'related_department',
+                'related_municipality',
+                'related_district',
+                'related_province',
+                'departments',
+                'countries',
+                'provinces',
+                'doctor_districts',
+                'doctor_municipalities'
+            )
+        );
     }
     public function getDistrictByProvinceEdit($provinceId)
     {
-        $districts = District::where('province_id',$provinceId)->get();
+        $districts = District::where('province_id', $provinceId)->get();
         return response()->json($districts);
     }
     public function getMunicipalityByDistrictEdit($districtId)
@@ -216,8 +238,8 @@ class DoctorController extends Controller
         try {
             $doctor = Doctor::findOrFail($id);
             $doctor_user = User::findOrFail($doctor->user_id);
-            $username = $validatedData['first_name'] .' '. $validatedData['middle_name'] .' '. $validatedData['last_name'];
-            $user_address = $validatedData['province_id'] .'-'. $validatedData['district_id'] .'-'. $validatedData['street'];
+            $username = $validatedData['first_name'] . ' ' . $validatedData['middle_name'] . ' ' . $validatedData['last_name'];
+            $user_address = $validatedData['province_id'] . '-' . $validatedData['district_id'] . '-' . $validatedData['street'];
             $validatedData['username'] = $username;
             $validatedData['address'] = $user_address;
 
@@ -225,7 +247,7 @@ class DoctorController extends Controller
 
             if ($request->hasFile('profile')) {
                 $file = $request->file('profile');
-                $fileName = time().'.'.$file->getClientOriginalExtension();
+                $fileName = time() . '.' . $file->getClientOriginalExtension();
 
                 // Delete the previous image if it exists
                 if ($doctor->profile) {
@@ -236,7 +258,7 @@ class DoctorController extends Controller
                 }
 
                 $file->move(public_path('admin_Assets/img/doctors'), $fileName);
-                $validatedData['profile'] = '/admin_Assets/img/doctors'.'/'.$fileName;
+                $validatedData['profile'] = '/admin_Assets/img/doctors' . '/' . $fileName;
             }
             $doctor->update($validatedData);
 
@@ -302,7 +324,7 @@ class DoctorController extends Controller
                 $doctor->delete();
             }
         }
-        return redirect()->route('doctor.index')->with('message','Doctor deleted Successfully !!!');
+        return redirect()->route('doctor.index')->with('message', 'Doctor deleted Successfully !!!');
     }
 
     public function doctorTrash()
@@ -336,7 +358,7 @@ class DoctorController extends Controller
             Education::onlyTrashed()->where('doctor_id', $doctorId)->restore();
             Experience::onlyTrashed()->where('doctor_id', $doctorId)->restore();
         }
-        return redirect()->route('doctor.index')->with('message','Doctor Restored Successfully!!!');
+        return redirect()->route('doctor.index')->with('message', 'Doctor Restored Successfully!!!');
     }
 
     public function permanentDelete($doctorId)
@@ -363,11 +385,11 @@ class DoctorController extends Controller
 
                 DB::commit();
 
-                return redirect()->route('doctor.trash')->with('message','Doctor has been permanently deleted Successfully!!!');
+                return redirect()->route('doctor.trash')->with('message', 'Doctor has been permanently deleted Successfully!!!');
             }
-        }catch (Exception $e) {
-        DB::rollback();
-        return $e->getMessage();
+        } catch (Exception $e) {
+            DB::rollback();
+            return $e->getMessage();
         }
     }
 
@@ -388,7 +410,7 @@ class DoctorController extends Controller
             }
         }
         User::onlyTrashed()->forceDelete();
-        return redirect()->route('doctor.index')->with('message','Doctors has been permanently deleted Successfully!!!');
+        return redirect()->route('doctor.index')->with('message', 'Doctors has been permanently deleted Successfully!!!');
     }
 
     public function searchDoctor(Request $request)
@@ -451,9 +473,9 @@ class DoctorController extends Controller
 
     public function doctorScheduleEvent()
     {
-        $schedules = Schedule::with('doctor')->get()->map(function($schedule) {
+        $schedules = Schedule::with('doctor')->get()->map(function ($schedule) {
             return [
-                'title' => $schedule->doctor->first_name.' '.$schedule->doctor->middle_name.' '.$schedule->doctor->last_name,
+                'title' => $schedule->doctor->first_name . ' ' . $schedule->doctor->middle_name . ' ' . $schedule->doctor->last_name,
                 'start' => date('Y-m-d', strtotime($schedule->in)),
             ];
         });
